@@ -24,7 +24,7 @@ jobs:
             target_repo: "wp-iconography"
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
