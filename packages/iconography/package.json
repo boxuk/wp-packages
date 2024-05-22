@@ -1,0 +1,31 @@
+{
+	"name": "iconography",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"directories": {
+		"test": "tests"
+	},
+	"scripts": {
+		"build": "wp-scripts build",
+		"format": "wp-scripts format",
+		"lint": "wp-scripts lint-js",
+		"lint:fix": "wp-scripts lint-js --fix",
+		"test": "wp-scripts test-unit-js",
+		"test:snapshots": "wp-scripts test-unit-js --updateSnapshot",
+		"packages-update": "wp-scripts packages-update",
+		"start": "wp-scripts start"
+	},
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@jest/globals": "^29.7.0",
+		"@testing-library/react": "^14.2.1",
+		"@wordpress/dom-ready": "^3.52.0",
+		"@wordpress/editor": "^13.30.0",
+		"@wordpress/icons": "^9.44.0",
+		"@wordpress/interface": "^5.30.0",
+		"@wordpress/scripts": "^27.4.0",
+		"react": "^18.2.0"
+	}
+}

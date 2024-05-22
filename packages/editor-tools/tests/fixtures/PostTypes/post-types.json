@@ -1,0 +1,20 @@
+{
+	"post_types": {
+		"foo": {
+			"labels": {
+				"name": "TestName",
+				"singular_name": "TestName"
+			},
+			"menu_icon": "dashicons-admin-post",
+			"taxonomies": [ "category", "post_tag" ]
+		},
+		"bar": {
+			"labels": {
+				"name": "TestName",
+				"singular_name": "TestName"
+			},
+			"menu_icon": "dashicons-admin-post",
+			"taxonomies": [ "category", "post_tag" ]
+		}
+	}
+}

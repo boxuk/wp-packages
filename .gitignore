@@ -1,0 +1,8 @@
+vendor
+node_modules
+/coverage/
+/coverage.xml
+/.phpcs-cache
+/.phpunit.result.cache
+/packages/**/build
+.turbo

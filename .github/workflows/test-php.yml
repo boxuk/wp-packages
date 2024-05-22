@@ -1,0 +1,42 @@
+name: PHP Quality Tests
+
+on: 
+  pull_request: 
+    branches: 
+      - main
+  
+permissions:
+  contents: write
+  pull-requests: write
+  checks: write
+  issues: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [8.1, 8.2, 8.3]
+    name: Test PHP ${{ matrix.php }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up PHP
+        uses: setup-php/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: pcov
+      - name: Install dependencies
+        run: composer install
+      - name: Run lint
+        run: composer run phpcs
+      - name: Run tests
+        run: composer run phpunit
+      - name: Run coverage-check
+        run: composer run coverage-check
+      - name: Run static analysis
+        run: composer run phpstan

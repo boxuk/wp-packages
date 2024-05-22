@@ -1,0 +1,28 @@
+version: 2
+updates:
+    - package-ecosystem: composer
+      directory: "/"
+      registries: "*"
+      schedule:
+          interval: daily
+    - package-ecosystem: npm
+      directory: "/"
+      registries: "*"
+      schedule:
+          interval: daily
+
+    # Github Actions
+    - package-ecosystem: "github-actions"
+      directory: "/"
+      schedule:
+          interval: daily
+      open-pull-requests-limit: 10
+      commit-message:
+          prefix: "[DEPS][GHA]"
+
+    # Docker PHP image
+    - package-ecosystem: docker
+      directory: "/docker"
+      registries: "*"
+      schedule:
+          interval: daily

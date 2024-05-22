@@ -1,0 +1,33 @@
+{
+  "name": "wp-packages",
+  "version": "1.0.0",
+  "description": "![Box UK Logo](https://www.boxuk.com/wp-content/themes/BoxUK/assets/images/boxuk-logo.png)",
+  "author": "BoxUK <developers@boxuk.com>",
+  "license": "GPL-2.0-or-later",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "start": "turbo run start",
+    "build": "turbo run build",
+    "format": "turbo run format",
+    "packages-update": "turbo run packages-update",
+    "precommit": "turbo run precommit",
+    "lint": "turbo run lint",
+    "lint:css": "turbo run lint:css",
+    "lint:js": "turbo run lint:js",
+    "lint:fix": "turbo run lint:fix",
+    "lint:css:fix": "turbo run lint:css:fix",
+    "lint:js:fix": "turbo run lint:js:fix",
+    "test": "turbo run test",
+    "test:unit": "turbo run test:unit",
+    "test:snapshots": "turbo run test:snapshots"
+  },
+  "devDependencies": {
+    "turbo": "^1.13.3"
+  }
+}
