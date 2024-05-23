@@ -4,5 +4,6 @@ node_modules
 /coverage.xml
 /.phpcs-cache
 /.phpunit.result.cache
-/packages/**/build
+/packages/*/build
 .turbo
+/composer.lock

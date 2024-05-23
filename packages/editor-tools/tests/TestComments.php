@@ -24,6 +24,10 @@ class TestComments extends TestCase {
 	public function testInit(): void {
 		$comments = new Comments();
 
+		\WP_Mock::onFilter( 'boxuk_disable_comments' )
+			->with( true )
+			->reply( true );
+
 		\WP_Mock::expectFilterAdded( 'comments_open', '__return_false', 20 );
 		\WP_Mock::expectFilterAdded( 'pings_open', '__return_false', 20 );
 		\WP_Mock::expectFilterAdded( 'comments_array', '__return_empty_array', 10 );
@@ -138,6 +142,34 @@ class TestComments extends TestCase {
 
 		$comments = new Comments();
 		$comments->remove_menu_bar_options();
+
+		$this->assertConditionsMet();
+	}
+
+	/**
+	 * Test Disabled Comment Remover
+	 * 
+	 * @return void
+	 */
+	public function testDisabledCommentRemover(): void {
+		$comments = new Comments();
+		
+		\WP_Mock::onFilter( 'boxuk_disable_comments' )
+			->with( true )
+			->reply( false );
+
+		\WP_Mock::expectFilterNotAdded( 'comments_open', '__return_false', 20 );
+
+		\WP_Mock::expectFilterNotAdded( 'comments_open', '__return_false', 20 );
+		\WP_Mock::expectFilterNotAdded( 'pings_open', '__return_false', 20 );
+		\WP_Mock::expectFilterNotAdded( 'comments_array', '__return_empty_array', 10 );
+		\WP_Mock::expectActionNotAdded( 'admin_init', array( $comments, 'disable_comments_post_types_support' ) );
+		\WP_Mock::expectActionNotAdded( 'admin_init', array( $comments, 'remove_dashboard_meta' ) );
+		\WP_Mock::expectActionNotAdded( 'admin_init', array( $comments, 'prevent_access_to_edit_page' ) );
+		\WP_Mock::expectActionNotAdded( 'admin_menu', array( $comments, 'remove_menu_options' ) );
+		\WP_Mock::expectActionNotAdded( 'init', array( $comments, 'remove_menu_bar_options' ) );
+		
+		$comments->init();
 
 		$this->assertConditionsMet();
 	}

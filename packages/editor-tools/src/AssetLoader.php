@@ -25,9 +25,14 @@ class AssetLoader {
 	 * A new instance of an asset loader with the given handle and type.
 	 *
 	 * @param string $base_path The base path to the assets.
+	 * @param string $base_url The base URL to the assets.
 	 * @param string $prefix The prefix to use for the asset.
 	 */
-	public function __construct( private string $base_path = '', private string $prefix = 'box-' ) {}
+	public function __construct( 
+		private string $base_path = '', 
+		private string $base_url = '',
+		private string $prefix = 'box-'
+	) {}
 
 	/**
 	 * Load the asset.
@@ -38,7 +43,7 @@ class AssetLoader {
 	 */
 	public function load( string $handle ): void {
 		if ( ! file_exists( $this->get_asset_path( $handle ) ) ) {
-			if ( \WP_DEBUG ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 				wp_die(
 					sprintf(
 						'Could not load asset %s from %s. Please ensure assets have been compiled.',
@@ -53,7 +58,7 @@ class AssetLoader {
 		$asset = require $this->get_asset_path( $handle ); // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable -- This is required.
 
 		if ( ! is_array( $asset ) ) {
-			if ( \WP_DEBUG ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 				wp_die( sprintf( 'Asset %s is not valid. Please ensure assets have been compiled.', esc_html( $handle ) ) );
 			}
 			return;
@@ -129,10 +134,10 @@ class AssetLoader {
 	 * @return string
 	 */
 	protected function get_base_url(): string {
-		return str_replace(
-			WP_CONTENT_DIR,
-			WP_CONTENT_URL,
-			$this->get_base_path()
-		);
+		if ( empty( $this->base_url ) ) {
+			$this->base_url = get_template_directory_uri() . '/build/';
+		}
+
+		return $this->base_url;
 	}
 }

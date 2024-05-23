@@ -43,19 +43,6 @@ You will also need to define a JSON file which configures your post-types. This 
 The schema file will help your IDE populate any fields you think you need. After parsing, the file is passed to `register_post_type()` so the [WordPress documentation](https://developer.wordpress.org/reference/functions/register_post_type/) should be useful!
 
 
-
-## Specifying the path to the file. 
-You can provide the path in the constructor for the class. 
-```php
-add_ation(
-    'plugins_loaded', 
-    function() { 
-        $post_types_file_path = plugin_dir_path( __FILE__ ) . '/post-types.json';
-        ( new Boxuk\BoxWpEditorTools\PostTypes( $post_types_file_path ) )->init();
-    }
-);
-```
-
 ## Registering templates for new posts
 The block-editor allows you to specify a template of which blocks should be automatically inserted for all new posts created. This shouldn't be confused with the also-named 'Templates', which are the the templates in which the content of the post is within. 
 

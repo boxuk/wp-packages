@@ -17,23 +17,39 @@ use WP_Mock\Tools\TestCase;
 class TestAssetLoader extends TestCase {
 
 	/**
+	 * Fixtures Dir
+	 * 
+	 * @var string
+	 */
+	private $fixtures_dir = __DIR__ . '/fixtures/AssetLoader/';
+
+	/** 
+	 * Base URL
+	 * 
+	 * @var string
+	 */
+	private $base_url = 'http://localhost/packages/editor-tools/tests/fixtures/AssetLoader';
+
+	/**
 	 * Test the asset loader.
 	 *
 	 * @return void
 	 */
 	public function testLoad(): void {
-
 		\WP_Mock::userFunction( 'get_template_directory' )
 			->once()
-			->andReturn( __DIR__ . '/fixtures/AssetLoader' );
+			->andReturn( $this->fixtures_dir );
+
+		\WP_Mock::userFunction( 'get_template_directory_uri' )
+			->andReturn( $this->base_url );
 
 		\WP_Mock::userFunction( 'wp_enqueue_script' )
 			->once()
-			->with( 'box-test', 'http://example.org/wp-content/packages/editor-tools/tests/fixtures/AssetLoader/build/test.js', array(), '1', true );
+			->with( 'box-test', $this->base_url . '/build/test.js', array(), '1', true );
 
 		\WP_Mock::userFunction( 'wp_enqueue_style' )
 			->once()
-			->with( 'box-test', 'http://example.org/wp-content/packages/editor-tools/tests/fixtures/AssetLoader/build/test.css', array(), '1' );
+			->with( 'box-test', $this->base_url . '/build/test.css', array(), '1' );
 
 		\WP_Mock::expectFilter( 'localize_test_data_object_name', 'testData' );
 		\WP_Mock::onFilter( 'localize_test_data' )
@@ -70,9 +86,10 @@ class TestAssetLoader extends TestCase {
 	 * @return void
 	 */
 	public function testLoadInvalidFile(): void {
+		
 		\WP_Mock::userFunction( 'get_template_directory' )
 			->once()
-			->andReturn( __DIR__ . '/fixtures/AssetLoader' );
+			->andReturn( $this->fixtures_dir );
 
 		\WP_Mock::userFunction( 'wp_die' )
 			->once();

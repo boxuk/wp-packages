@@ -20,6 +20,10 @@ class TemplatePersistence {
 	 * @return void
 	 */
 	public function init(): void {
+		if ( apply_filters( 'boxuk_disable_template_persistence', false ) ) {
+			return;
+		}
+		
 		add_action( 'save_post', array( $this, 'persist_template' ), 10, 2 );
 	}
 

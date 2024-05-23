@@ -15,13 +15,6 @@ namespace Boxuk\BoxWpEditorTools;
 class BlockLoader {
 
 	/**
-	 * Constructor
-	 *
-	 * @param string $base_path The base path to the assets.
-	 */
-	public function __construct( private string $base_path = '' ) {}
-
-	/**
 	 * Init Hooks
 	 *
 	 * @return void
@@ -56,10 +49,6 @@ class BlockLoader {
 	 * @return string
 	 */
 	private function get_base_path(): string {
-		if ( empty( $this->base_path ) ) {
-			$this->base_path = get_template_directory() . '/build';
-		}
-
-		return $this->base_path;
+		return apply_filters( 'boxuk_block_loader_base_path', get_template_directory() . '/build' );
 	}
 }

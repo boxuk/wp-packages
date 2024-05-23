@@ -13,12 +13,3 @@ add_action(
     }
 );
 ```
-
-## Arguments
-Block loader accepts a base-path in it's constructor: 
-```php
-$base_path = plugin_dir_path( __FILE__ ) . '/build';
-$block_loader = new \Boxuk\BoxWpEditorTools\BlockLoader( $base_path );
-$block_loader->init();
-```
-The base-path defaults to `get_template_directory() . '/build'`. 

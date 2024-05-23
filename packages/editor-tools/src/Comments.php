@@ -20,6 +20,11 @@ class Comments {
 	 * @return void
 	 */
 	public function init(): void {
+
+		if ( ! apply_filters( 'boxuk_disable_comments', true ) ) {
+			return;
+		}
+
 		add_filter( 'comments_open', '__return_false', 20 );
 		add_filter( 'pings_open', '__return_false', 20 );
 		add_filter( 'comments_array', '__return_empty_array', 10 );

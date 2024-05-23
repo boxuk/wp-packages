@@ -24,23 +24,23 @@ jobs:
             target_repo: "wp-iconography"
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
       - name: Install Dependencies
         run: npm install
       - name: Build Packages
         run: npm run build
-      - name: Remove `build` from gitignore
-        run: sed -i '/build/d' .gitignore
+      - name: Remove `/packages/*/build` from gitignore
+        run: |
+          sed -i '/\/packages\/\*\/build/d' .gitignore
       
-
       # no tag
       - name: Split Monorepo
         if: "!startsWith(github.ref, 'refs/tags/')"
-        uses: "danharrin/monorepo-split-github-action@2.3"
+        uses: "symplify/monorepo-split-github-action@2.3"
         with:
           package_directory: "packages/${{ matrix.packages.local_path }}"
           repository_organization: "boxuk"
@@ -51,7 +51,7 @@ jobs:
       # with tag
       - name: Split Monorepo with Tag
         if: "startsWith(github.ref, 'refs/tags/')"
-        uses: "danharrin/monorepo-split-github-action@2.3"
+        uses: "symplify/monorepo-split-github-action@2.3"
         with:
           tag: ${GITHUB_REF#refs/tags/}
           package_directory: "packages/${{ matrix.packages.local_path }}"
