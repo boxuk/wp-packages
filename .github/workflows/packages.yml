@@ -7,9 +7,6 @@ on:
     tags:
       - "*"
 
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 permissions:
   contents: write
   pull-requests: write
@@ -19,6 +16,7 @@ permissions:
 jobs:
   packages_split:
     runs-on: ubuntu-latest
+    name: Publish Package ${{ matrix.packages.local_path }}
 
     strategy:
       fail-fast: false
@@ -47,6 +45,8 @@ jobs:
       - name: Split Monorepo
         if: "!startsWith(github.ref, 'refs/tags/')"
         uses: "symplify/monorepo-split-github-action@v2.3.0"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           package_directory: "packages/${{ matrix.packages.local_path }}"
           repository_organization: "boxuk"
@@ -58,6 +58,8 @@ jobs:
       - name: Split Monorepo with Tag
         if: "startsWith(github.ref, 'refs/tags/')"
         uses: "symplify/monorepo-split-github-action@v2.3.0"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag: ${GITHUB_REF#refs/tags/}
           package_directory: "packages/${{ matrix.packages.local_path }}"
