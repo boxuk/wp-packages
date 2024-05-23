@@ -46,7 +46,7 @@ jobs:
         if: "!startsWith(github.ref, 'refs/tags/')"
         uses: "symplify/monorepo-split-github-action@v2.3.0"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BOXUK_WP_ROBOT_ACCESS_TOKEN }}
         with:
           package_directory: "packages/${{ matrix.packages.local_path }}"
           repository_organization: "boxuk"
@@ -59,7 +59,7 @@ jobs:
         if: "startsWith(github.ref, 'refs/tags/')"
         uses: "symplify/monorepo-split-github-action@v2.3.0"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BOXUK_WP_ROBOT_ACCESS_TOKEN }}
         with:
           tag: ${GITHUB_REF#refs/tags/}
           package_directory: "packages/${{ matrix.packages.local_path }}"
