@@ -40,7 +40,7 @@ jobs:
       # no tag
       - name: Split Monorepo
         if: "!startsWith(github.ref, 'refs/tags/')"
-        uses: "symplify/monorepo-split-github-action@2.3"
+        uses: "symplify/monorepo-split-github-action@v2.3.0"
         with:
           package_directory: "packages/${{ matrix.packages.local_path }}"
           repository_organization: "boxuk"
@@ -51,7 +51,7 @@ jobs:
       # with tag
       - name: Split Monorepo with Tag
         if: "startsWith(github.ref, 'refs/tags/')"
-        uses: "symplify/monorepo-split-github-action@2.3"
+        uses: "symplify/monorepo-split-github-action@v2.3.0"
         with:
           tag: ${GITHUB_REF#refs/tags/}
           package_directory: "packages/${{ matrix.packages.local_path }}"
