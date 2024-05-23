@@ -7,7 +7,7 @@
         }
     ],
     "require": {
-        "symfony/validator": "^7.0"
+        "symfony/validator": "^7.0 || ^6.0"
     },
     "scripts": {
         "phpunit": "phpunit",

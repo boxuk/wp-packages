@@ -17,11 +17,12 @@ You should typically use these methods in a function tied to `wp_enqueue_scripts
 
 ## Advanced Usage
 
-### Base Path
+### Base Path & URL
 You can specify the base path for the asset loader to load from. 
 ```php
 $base_path = WP_CONTENT_DIR . '/plugins/my-plugin/assets'; 
-$loader = new Boxuk\BoxWpEditorTools\AssetLoader( $base_path );
+$base_url = WP_CONTENT_URL . '/plugins/my-plugin/build';
+$loader = new Boxuk\BoxWpEditorTools\AssetLoader( $base_path, $base_url );
 
 $loader->load( 'index' ); // loads wp-content/plugins/my-plugin/assets/index.js
 $loader->load( 'admin' ); // loads wp-content/plugins/my-plugin/assets/admin.js
@@ -33,7 +34,8 @@ and the name passed to `::load()`. You can modify the prefix:
 ```php
 $prefix = 'my_plugin_asset_';
 $base_path = WP_CONTENT_DIR . '/plugins/my-plugin/assets'; 
-$loader = new Boxuk\BoxWpEditorTools\AssetLoader( $base_path, $prefix ); 
+$base_url = WP_CONTENT_URL . '/plugins/my-plugin/build';
+$loader = new Boxuk\BoxWpEditorTools\AssetLoader( $base_path, $base_url, $prefix ); 
 $loader->load( 'index' ); // handle will be `my_plugin_asset_index`
 ```
 

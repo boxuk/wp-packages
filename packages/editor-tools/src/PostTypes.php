@@ -15,13 +15,6 @@ namespace Boxuk\BoxWpEditorTools;
 class PostTypes {
 
 	/**
-	 * Constructor
-	 *
-	 * @param string $path The path to the post types file.
-	 */
-	public function __construct( private string $path = '' ) {}
-
-	/**
 	 * Init Hooks
 	 */
 	public function init(): void {
@@ -35,7 +28,7 @@ class PostTypes {
 	 */
 	public function register_post_types(): void {
 
-		$path = ! empty( $this->path ) ? $this->path : get_template_directory() . '/post-types.json';
+		$path = get_template_directory() . '/post-types.json';
 		if ( ! file_exists( $path ) ) {
 			return;
 		}

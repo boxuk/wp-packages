@@ -8,6 +8,9 @@
     beStrictAboutTestsThatDoNotTestAnything="true"
     beStrictAboutOutputDuringTests="true"
 >
+    <php>
+        <const name="WP_DEBUG" value="true" />
+    </php>
     <testsuites>
         <testsuite name="Tests">
             <directory prefix="Test" suffix=".php">./packages/**/tests</directory>

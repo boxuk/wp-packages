@@ -46,6 +46,21 @@ class TestTemplatePersistence extends TestCase {
 	}
 
 	/**
+	 * Test init with disabled filter
+	 * 
+	 * @return void
+	 */
+	public function test_init_with_disabled_filter(): void {
+		\WP_Mock::onFilter( 'boxuk_disable_template_persistence' )
+			->with( false )
+			->reply( true );
+
+		\WP_Mock::expectActionNotAdded( 'save_post', array( $this->class_in_test, 'persist_template' ), 10, 2 );
+		$this->class_in_test->init();
+		$this->assertConditionsMet();
+	}
+
+	/**
 	 * Test persist template
 	 * 
 	 * @param \WP_Post     $post                  The post to work with.
@@ -114,7 +129,11 @@ class TestTemplatePersistence extends TestCase {
 	 * @return \WP_Post
 	 */
 	private function getMockPost( string $post_type ): \WP_Post { 
-
+		/**
+		 * Post (Mocked)
+		 * 
+		 * @var \WP_Post $post Post (Mocked) 
+		 */
 		$post               = Mockery::mock( 'WP_Post' );
 		$post->ID           = 0; 
 		$post->post_type    = $post_type; 
