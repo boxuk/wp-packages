@@ -10,6 +10,12 @@ on:
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+permissions:
+  contents: write
+  pull-requests: write
+  checks: write
+  issues: write
+
 jobs:
   packages_split:
     runs-on: ubuntu-latest
