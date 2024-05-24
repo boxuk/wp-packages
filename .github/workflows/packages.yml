@@ -43,12 +43,10 @@ jobs:
 
       - name: Install Splitsh
         shell: bash
-        run: |
-          apt-get update && apt-get install -y libgit2 golang-go
-          go build -o splitsh-lite github.com/splitsh/lite
+        run: go build -o ./splitsh-lite github.com/splitsh/lite
       - name: Split MonoRepo
         shell: bash
         run: |
           git remote add ${{ matrix.packages.target_repo }} git@github.com:boxuk/${{ matrix.packages.target_repo }}.git || true
-          SHA1=`splitsh-lite --prefix=pacakges/${{ matrix.packages.local_path }}`
+          SHA1=`./splitsh-lite --prefix=pacakges/${{ matrix.packages.local_path }}`
           git push ${{ matrix.packages.target_repo }} "$SHA1:refs/heads/main" -f
