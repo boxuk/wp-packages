@@ -43,7 +43,7 @@ jobs:
 
       - name: Install Splitsh
         shell: bash
-        run: go install github.com/splitsh/lite
+        run: go install github.com/splitsh/lite@latest
       - name: Split MonoRepo
         shell: bash
         run: |
