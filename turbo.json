@@ -23,6 +23,7 @@
         },
         "test": {},
         "test:unit": {},
-        "test:snapshots": {}
+        "test:snapshots": {},
+        "type-coverage": {}
     }
 }

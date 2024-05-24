@@ -25,7 +25,7 @@ describe( 'Should generate a rich-text format from icon', () => {
 				text: 'zoom_out',
 				formats: new Array( 8 ).fill( [
 					{ type: 'content-only/ms-outlined' },
-				] ),
+				] ) as { type: 'content-only/ms-outlined' }[],
 				start: 0,
 				end: 8,
 				replacements: [],
@@ -43,7 +43,7 @@ describe( 'Should generate a rich-text format from icon', () => {
 				text: 'something_else',
 				formats: new Array( 14 ).fill( [
 					{ type: 'content-only/ms-outlined' },
-				] ),
+				] ) as { type: 'content-only/ms-outlined' }[],
 				start: 0,
 				end: 14,
 				replacements: [],
