@@ -7,12 +7,10 @@ on:
     tags:
       - "*"
 
-env:
-  GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-
 jobs:
   packages_split:
     runs-on: ubuntu-latest
+    name: "Publish changes to ${{ matrix.packages.target_repo }}"
 
     strategy:
       fail-fast: false
@@ -25,6 +23,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with: 
+          fetch-depth: 0
+          token: ${{ secrets.BOXUK_WP_ROBOT_ACCESS_TOKEN }}
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -33,29 +34,31 @@ jobs:
         run: npm install
       - name: Build Packages
         run: npm run build
-      - name: Remove `/packages/*/build` from gitignore
-        run: |
-          sed -i '/\/packages\/\*\/build/d' .gitignore
-      
-      # no tag
+      - name: Rename all `.deployignore` files to `.gitignore` in package
+        working-directory: packages/${{ matrix.packages.local_path }}
+        run: mv .deployignore .gitignore
+
       - name: Split Monorepo
         if: "!startsWith(github.ref, 'refs/tags/')"
-        uses: "symplify/monorepo-split-github-action@2.3"
+        uses: "symplify/monorepo-split-github-action@v2.3.0"
+        env:
+          GITHUB_TOKEN: ${{ secrets.BOXUK_WP_ROBOT_ACCESS_TOKEN }}
         with:
           package_directory: "packages/${{ matrix.packages.local_path }}"
           repository_organization: "boxuk"
           repository_name: "${{ matrix.packages.target_repo }}"
-          user_name: "BoxUK Automated Package Management"
+          user_name: "boxuk-wp-robot"
           user_email: "developers@boxuk.com"
 
-      # with tag
       - name: Split Monorepo with Tag
         if: "startsWith(github.ref, 'refs/tags/')"
-        uses: "symplify/monorepo-split-github-action@2.3"
+        uses: "symplify/monorepo-split-github-action@v2.3.0"
+        env:
+          GITHUB_TOKEN: ${{ secrets.BOXUK_WP_ROBOT_ACCESS_TOKEN }}
         with:
           tag: ${GITHUB_REF#refs/tags/}
           package_directory: "packages/${{ matrix.packages.local_path }}"
           repository_organization: "boxuk"
           repository_name: "${{ matrix.packages.target_repo }}"
-          user_name: "BoxUK Automated Package Management"
+          user_name: "boxuk-wp-robot"
           user_email: "developers@boxuk.com"

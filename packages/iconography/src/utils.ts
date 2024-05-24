@@ -37,11 +37,11 @@ export function generateRichTextFormat(
  * @return {IconGroupIcon[]} Array of { name, value } objects.
  */
 export const getIconOptions = ( suffix: string ): IconGroupIcon[] => {
-	const iconNames = IconData.filter( ( iconName ) =>
+	const iconNames = IconData.filter( ( iconName: string ) =>
 		iconName.endsWith( suffix )
 	);
 
-	return iconNames.map( ( name ) => {
+	return iconNames.map( ( name: string ) => {
 		const value = snakeCase( name.replace( suffix, '' ) );
 		return { name, value };
 	} );
