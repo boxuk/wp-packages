@@ -25,7 +25,8 @@
     "lint:js:fix": "turbo run lint:js:fix",
     "test": "turbo run test",
     "test:unit": "turbo run test:unit",
-    "test:snapshots": "turbo run test:snapshots"
+    "test:snapshots": "turbo run test:snapshots",
+    "type-coverage": "turbo run type-coverage"
   },
   "devDependencies": {
     "turbo": "^1.13.3"

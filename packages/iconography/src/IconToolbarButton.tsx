@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ComponentProps } from 'react';
 
 /* WordPress Dependencies */
 import { __ } from '@wordpress/i18n';
