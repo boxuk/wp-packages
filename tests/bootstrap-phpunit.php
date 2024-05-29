@@ -8,5 +8,5 @@
 declare ( strict_types=1 );
  
 $root_dir = dirname( __DIR__ );
-require_once $root_dir . '/vendor/autoload.php';
+require_once $root_dir . '/packages/vendor/autoload.php';
 WP_Mock::bootstrap();

@@ -39,10 +39,10 @@ jobs:
       - name: Install dependencies
         run: composer install
       - name: Run lint
-        run: ./vendor/bin/phpcs -q --report=checkstyle | cs2pr
+        run: composer run phpcs -- -q --report=checkstyle | cs2pr
       - name: Run tests
         run: composer run phpunit
       - name: Run static analysis
-        run: ./vendor/bin/phpstan --error-format=checkstyle --memory-limit=1G analyse | cs2pr
+        run: composer run phpstan -- --error-format=checkstyle --memory-limit=1G | cs2pr
       - name: Run coverage-check
         run: composer run coverage-check

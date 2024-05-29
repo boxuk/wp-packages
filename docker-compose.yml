@@ -3,11 +3,22 @@ version: '3.1'
 services:
   php:
     build: ./docker/php
-    working_dir: /usr/src/app
+    working_dir: /var/www/html
     volumes: 
-      - .:/usr/src/app
+      - .:/var/www/html
   nodejs:
     build: ./docker/nodejs
     working_dir: /usr/src/app
     volumes: 
       - .:/usr/src/app
+
+  wordpress:
+    build: ./docker/wordpress
+    ports:
+      - "8000:80"
+    volumes:
+      - ./docker/wordpress/wp-config.php:/var/www/html/wp-config.php
+      - ./docker/wordpress/db.php:/var/www/html/wp-content/db.php
+      - ./docker/wordpress/mu-plugins/:/var/www/html/wp-content/mu-plugins/
+      - ./docker/wordpress/themes:/var/www/html/wp-content/themes/
+      - ./packages/:/var/www/html/wp-content/plugins/

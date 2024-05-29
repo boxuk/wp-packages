@@ -20,6 +20,7 @@
 	<exclude-pattern>/build</exclude-pattern>
 	<exclude-pattern>/node_modules</exclude-pattern>
 	<exclude-pattern>/coverage</exclude-pattern>
+	<exclude-pattern>/packages/index.php</exclude-pattern>
 
 	<rule ref="WordPress-VIP-Go">
 		<!-- Remove this so we can use PSR-4 autoloading -->

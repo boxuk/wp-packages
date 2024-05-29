@@ -7,3 +7,13 @@ node_modules
 /packages/*/build
 .turbo
 /composer.lock
+
+# Docker WP Image tends to add these plugins...
+packages/akismet
+packages/hello.php
+packages/index.php
+
+# MU-Plugins & Themes are managed via composer
+/docker/wordpress/mu-plugins/*
+/docker/wordpress/themes/*
+!/docker/wordpress/mu-plugins/plugin-loader.php

@@ -1,17 +1,20 @@
 <?php
 /**
  * Plugin Name: Boxuk Editor Tools
- * Plugin URI: https://boxuk.com
  * Description: A collection of tools to enhance the WordPress editor.
+ * Version: 1.0.0
+ * Author: BoxUK
+ * Author URI: https://boxuk.com
  * 
  * @package Boxuk\BoxWpEditorTools
  */
 
 declare( strict_types = 1 );
+namespace Boxuk\BoxWpEditorTools;
 
-( new \Boxuk\BoxWpEditorTools\BlockLoader() )->init();
-( new \Boxuk\BoxWpEditorTools\Comments() )->init();
-( new \Boxuk\BoxWpEditorTools\EditorCleanup() )->init();
-( new \Boxuk\BoxWpEditorTools\PostTypes() )->init();
-( new \Boxuk\BoxWpEditorTools\TemplatePersistence() )->init(); 
-( new \Boxuk\BoxWpEditorTools\Security\Security() )->init();
+( new BlockLoader() )->init();
+( new Comments() )->init();
+( new EditorCleanup() )->init();
+( new PostTypes() )->init();
+( new TemplatePersistence() )->init(); 
+( new Security\Security() )->init();
