@@ -1,0 +1,95 @@
+#!/bin/bash
+
+set -e
+
+PACKAGE_NAME=$1 
+
+if [ -z "$PACKAGE_NAME" ]; then
+    echo "Usage: $0 <package-name>"
+    exit 1
+fi
+
+# Validate the package name is in kebab-case
+if [[ ! $PACKAGE_NAME =~ ^[a-z0-9-]+$ ]]; then
+    echo "Package name must be in lowercase with hyphens only"
+    exit 1
+fi
+
+if [ -d "./packages/$PACKAGE_NAME" ]; then
+    echo "Package already exists at ./packages/$PACKAGE_NAME"
+    exit 1
+fi
+
+# Convert the package name to PascalCase
+# Can't use `sed` as the `\U` flag is not supported on MacOS.
+PASCAL_PACKAGE_NAME=$(echo $PACKAGE_NAME | awk -F- '{for(i=1;i<=NF;i++){ $i=toupper(substr($i,1,1)) substr($i,2) }}1' OFS="")
+
+# Create the necessary directories etc...
+mkdir -p ./packages/$PACKAGE_NAME
+mkdir -p ./packages/$PACKAGE_NAME/src
+mkdir -p ./packages/$PACKAGE_NAME/tests
+
+cat <<EOT >> ./packages/$PACKAGE_NAME/Readme.md
+Please do not submit any Pull Requests here. They will be closed.
+---
+
+Please submit your PR here instead: https://github.com/boxuk/wp-packages
+
+This repository is what we call a "subtree split": a read-only subset of that main repository.
+We're looking forward to your PR there!
+EOT
+
+touch ./packages/$PACKAGE_NAME/.deployignore
+
+cat <<EOT >> ./packages/$PACKAGE_NAME/composer.json
+{
+
+    "name": "boxuk/$PACKAGE_NAME",
+    "type": "wordpress-muplugin",
+    "autoload": {
+        "psr-4": {
+            "Boxuk\\\\${PASCAL_PACKAGE_NAME}\\\\": "src"
+        }
+    },
+    "authors": [
+        {
+            "name": "BoxUK",
+            "email": "developers@boxuk.com"
+        }
+    ],
+    "require": {}
+}
+EOT
+
+cat <<EOT >> ./packages/$PACKAGE_NAME/$PACKAGE_NAME.php
+<?php
+/**
+ * Plugin Name: $PASCAL_PACKAGE_NAME
+ * Description: A brief description of the plugin.
+ * Version: 1.0.0
+ * Author: BoxUK
+ * Author URI: https://boxuk.com
+ * 
+ * @package Boxuk\\${PASCAL_PACKAGE_NAME}
+ */
+
+declare( strict_types=1 );
+
+namespace Boxuk\\${PASCAL_PACKAGE_NAME};
+
+// Your code here
+
+EOT
+
+# Add the package to the mono-repo config. 
+bin/composer run mono:merge
+
+# Modify the auto-load paths (the default is /packages/$PACKAGE_NAME/src), but we need it to be /plugins/$PACKAGE_NAME/src
+sed -i '' -e "s/packages\/$PACKAGE_NAME\/src/plugins\/$PACKAGE_NAME\/src/g" composer.json
+
+bin/composer dump-autoload
+
+echo ""
+echo "Package created at ./packages/$PACKAGE_NAME"
+echo "Please update the .github/workflows/packages.yml file to include the new package in the build process."
+echo ""

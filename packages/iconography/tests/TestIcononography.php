@@ -2,12 +2,12 @@
 /**
  * Test Iconography class
  * 
- * @package Peake\Client\Mu\Plugins\Iconography
+ * @package Boxuk\Iconography
  */
 
 declare( strict_types = 1 );
 
-namespace Peake\Client\Mu\Plugins\Iconography;
+namespace Boxuk\Iconography;
 
 use WP_Mock\Tools\TestCase;
 

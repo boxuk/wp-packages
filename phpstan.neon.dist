@@ -1,11 +1,13 @@
 includes:
-    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+    - packages/vendor/szepeviktor/phpstan-wordpress/extension.neon
 parameters:
   level: 9
   bootstrapFiles: [ tests/bootstrap-phpstan.php ]
   paths:
-    - packages/
+    - packages
   excludePaths:
     analyse:
-      - vendor
+      - packages/vendor
       - /**/tests/*
+    analyseAndScan:
+      - packages/vendor/10up/wp_mock # WP_Mock functions override the signatures from php-stubs/wordpress

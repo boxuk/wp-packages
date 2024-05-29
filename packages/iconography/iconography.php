@@ -1,13 +1,17 @@
 <?php
 /**
  * Plugin Name: Iconography
+ * Description: Provides iconography for the block editor.
+ * Version: 1.0.0
+ * Author: BoxUK
+ * Author URI: https://www.boxuk.com
  * 
- * @package Peake\Client\Mu\Plugins\Iconography
+ * @package Boxuk\Iconography
  */
 
 declare ( strict_types = 1 );
 
-namespace Peake\Client\Mu\Plugins\Iconography;
+namespace Boxuk\Iconography;
 
 /**
  * Loads Iconography
