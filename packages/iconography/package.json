@@ -22,7 +22,7 @@
 	"devDependencies": {
 		"@jest/globals": "^29.7.0",
 		"@testing-library/react": "^16.0.0",
-		"@wordpress/dom-ready": "^3.52.0",
+		"@wordpress/dom-ready": "^4.0.0",
 		"@wordpress/editor": "^14.0.0",
 		"@wordpress/icons": "^9.44.0",
 		"@wordpress/interface": "^6.0.0",
