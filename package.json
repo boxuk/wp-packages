@@ -29,6 +29,6 @@
     "type-coverage": "turbo run type-coverage"
   },
   "devDependencies": {
-    "turbo": "^1.13.3"
+    "turbo": "^2.0.3"
   }
 }
