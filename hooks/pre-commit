@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -e
+
+# Pre-Commit Hook
+
+## Run Tests...
+
+### PHP
+echo "Running PHP Tests..."
+./bin/composer run phpcs
+./bin/composer run phpunit
+./bin/composer run phpstan
+./bin/composer run coverage-check
+
+### JS
+echo "Running JS Tests..."
+./bin/npm run lint
+./bin/npm run test
+./bin/npm run type-coverage
+./bin/npm run build

@@ -4,12 +4,13 @@ services:
   php:
     build: ./docker/php
     working_dir: /var/www/html
-    volumes: 
+    volumes:
       - .:/var/www/html
+
   nodejs:
     build: ./docker/nodejs
     working_dir: /usr/src/app
-    volumes: 
+    volumes:
       - .:/usr/src/app
 
   wordpress:
@@ -22,3 +23,10 @@ services:
       - ./docker/wordpress/mu-plugins/:/var/www/html/wp-content/mu-plugins/
       - ./docker/wordpress/themes:/var/www/html/wp-content/themes/
       - ./packages/:/var/www/html/wp-content/plugins/
+
+  githooks:
+    build: ./docker/githooks
+    volumes:
+      - ./.git:/tmp/.git
+      - ./hooks:/tmp/hooks
+
