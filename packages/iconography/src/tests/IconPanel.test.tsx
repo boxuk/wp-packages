@@ -7,7 +7,6 @@ import { IconPanel } from '../IconPanel';
 
 jest.mock( '../utils', () => ( {
 	generateRichTextFormat: jest.fn(),
-	getIconOptions: jest.fn(),
 } ) );
 
 const iconGroup = {
@@ -44,6 +43,19 @@ describe( 'IconPanel', () => {
 				/>
 			)
 		).toMatchSnapshot();
+	} );
+
+	test( 'search term filters icons', () => {
+		render(
+			<IconPanel
+				iconGroup={ iconGroup }
+				onClick={ jest.fn() }
+				searchTerm={ 'add' }
+			/>
+		);
+
+		expect( screen.queryByText( 'accessibility' ) ).toBe( null );
+		expect( screen.queryByText( 'add' ) ).not.toBe( null );
 	} );
 
 	test( 'clicking icon triggers onClick', () => {

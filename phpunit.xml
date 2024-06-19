@@ -19,6 +19,7 @@
     <coverage>
         <include>
             <directory suffix=".php">./packages/**/src/</directory>
+            <directory suffix=".php">./packages/**/includes/</directory>
         </include>
         <report>
 			<clover outputFile="coverage.xml" />

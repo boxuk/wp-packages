@@ -1,11 +1,13 @@
 import { describe, expect, jest, test } from '@jest/globals';
 
-import { generateRichTextFormat, getIconOptions, snakeCase } from '../utils';
+import {
+	generateRichTextFormat,
+	selectIconAtCurrentCursor,
+	getIconGroups,
+} from '../utils';
+import { IconGroup } from '../types';
 
 jest.mock( '@wordpress/rich-text', () => ( {} ) );
-jest.mock( '../index', () => ( {
-	iconGroups: [],
-} ) );
 
 jest.mock( '../IconToolbarButton', () => ( {
 	IconToolbarButton: jest.fn(),
@@ -54,41 +56,118 @@ describe( 'Should generate a rich-text format from icon', () => {
 	test.each( dataProvider )(
 		'should generate the correct rich-text format for $icon.name',
 		( { icon, iconGroup, expected } ) => {
-			expect( generateRichTextFormat( icon, iconGroup ) ).toEqual(
-				expected
-			);
+			expect(
+				generateRichTextFormat( icon, iconGroup as IconGroup )
+			).toEqual( expected );
 		}
 	);
 } );
 
-describe( 'Get icon options', () => {
-	const dataProvider = [
-		{ suffix: 'Outlined', expected: 2017 },
-		{ suffix: 'Rounded', expected: 2017 },
-		{ suffix: 'Sharp', expected: 2014 },
-	];
+describe( 'Should select icon at current cursor', () => {
+	test( 'should return empty selction and icon if no current selection', () => {
+		const spy = jest.spyOn( document, 'getSelection' );
+		const { selection, icon } = selectIconAtCurrentCursor( [
+			{ className: 'test' } as IconGroup,
+		] );
+		expect( spy ).toBeCalled();
+		expect( selection?.rangeCount ).toBe( 0 );
+		expect( icon ).toBe( null );
+	} );
 
-	test.each( dataProvider )(
-		'should return the correct icon count for $suffix',
-		( { suffix, expected } ) => {
-			expect( getIconOptions( suffix ).length ).toEqual( expected );
-		}
-	);
+	test( 'should return icon if current selection contains icon', () => {
+		const spy = jest.spyOn( document, 'getSelection' ).mockReturnValue( {
+			anchorNode: {
+				parentElement: {
+					className: 'test',
+				},
+			},
+			selectAllChildren: jest.fn(),
+		} as unknown as Selection );
+
+		const { icon } = selectIconAtCurrentCursor( [
+			{ className: 'test' } as IconGroup,
+		] );
+
+		expect( spy ).toBeCalled();
+		expect( icon ).toStrictEqual( { className: 'test' } );
+	} );
 } );
 
-describe( 'snake case', () => {
-	const dataProvider = [
-		{ input: 'thisIsNotSnakeCase', expected: 'this_is_not_snake_case' },
-		{ input: 'this1hasNumbers', expected: 'this_1has_numbers' },
-		{ input: 'this1HasNumbers', expected: 'this_1_has_numbers' },
-		{ input: 'this-also-has-dashes', expected: 'this_also_has_dashes' },
-		{ input: 'this has spaces', expected: 'this_has_spaces' },
-	];
+describe( 'Get Icon Groups', () => {
+	test( 'should return icon groups from window', () => {
+		const iconGroups = [
+			{
+				title: 'Test',
+				name: 'test',
+				tagName: 'div',
+				className: 'test-class',
+				icons: [ { label: 'Test', content: 'test' } ],
+			},
+		];
 
-	test.each( dataProvider )(
-		'should convert $input to $expected',
-		( { input, expected } ) => {
-			expect( snakeCase( input ) ).toEqual( expected );
+		window.boxIconography = { iconGroups };
+
+		expect( getIconGroups() ).toStrictEqual( [
+			{
+				title: 'Test',
+				name: 'test',
+				tagName: 'div',
+				className: 'test-class',
+				options: [ { name: 'Test', value: 'test' } ],
+				interactive: false,
+				edit: expect.any( Function ),
+			},
+		] );
+	} );
+
+	test( 'should only render edit function once', () => {
+		const iconGroups = [
+			{
+				title: 'Test',
+				name: 'test',
+				tagName: 'div',
+				className: 'test-class',
+				icons: [ { label: 'Test', content: 'test' } ],
+			},
+			{
+				title: 'Test2',
+				name: 'test2',
+				tagName: 'div',
+				className: 'test-class',
+				icons: [ { label: 'Test2', content: 'test2' } ],
+			},
+		];
+
+		window.boxIconography = { iconGroups };
+
+		const result = getIconGroups();
+
+		expect( result ).toStrictEqual( [
+			{
+				title: 'Test',
+				name: 'test',
+				tagName: 'div',
+				className: 'test-class',
+				options: [ { name: 'Test', value: 'test' } ],
+				interactive: false,
+				edit: expect.any( Function ),
+			},
+			{
+				title: 'Test2',
+				name: 'test2',
+				tagName: 'div',
+				className: 'test-class',
+				options: [ { name: 'Test2', value: 'test2' } ],
+				interactive: false,
+				edit: expect.any( Function ),
+			},
+		] );
+
+		if ( result ) {
+			expect( result[ 1 ].edit ).not.toBe( result[ 0 ].edit );
+			expect( result[ 1 ].edit() ).toBe( undefined );
+		} else {
+			throw new Error( 'result is undefined' );
 		}
-	);
+	} );
 } );

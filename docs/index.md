@@ -2,4 +2,4 @@
 
 Contents: 
 - [Editor Tools](../packages/editor-tools/README.md)
-- [Iconography](./iconography/index.md)
+- [Iconography](../packages/iconography/README.md)

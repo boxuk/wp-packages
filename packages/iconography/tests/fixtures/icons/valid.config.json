@@ -1,0 +1,12 @@
+{
+	"title": "Test",
+	"name": "test/example",
+	"tagName": "span",
+	"className": "test",
+	"url": "http://example.com",
+	"additionalCss": ".test { color: red; }",
+	"icons": [
+		{ "label": "TestOne", "content": "TestOne" },
+		{ "label": "TestTwo", "content": "TestTwo" }
+	]
+}

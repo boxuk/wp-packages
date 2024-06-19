@@ -2,13 +2,23 @@ import React from 'react';
 
 /* WordPress Dependencies */
 import { __ } from '@wordpress/i18n';
-import { Flex, Button } from '@wordpress/components';
+import {
+	Button,
+	__experimentalGrid as Grid, // eslint-disable-line @wordpress/no-unsafe-wp-apis -- experimental package, but we know the risks!
+} from '@wordpress/components';
 
 /* Internal Dependencies */
 import { generateRichTextFormat } from './utils';
 
 /* Types */
-import type { IconPanelProps } from './types';
+import type { IconGroup } from './types';
+import type { RichTextValue } from '@wordpress/rich-text';
+
+export type IconPanelProps = {
+	iconGroup: IconGroup;
+	onClick: ( icon: RichTextValue ) => void;
+	searchTerm: string;
+};
 
 export const IconPanel = ( {
 	iconGroup,
@@ -26,34 +36,23 @@ export const IconPanel = ( {
 			: iconGroup.options;
 
 	return (
-		<>
-			<Flex
-				gap={ 3 }
-				wrap={ true }
-				direction={ 'row' }
-				justify={ 'start' }
-				style={ { marginTop: '2rem' } }
-			>
-				{ filteredIcons.map( ( Icon ) => (
-					<Button
-						key={ Icon.value }
-						onClick={ () => {
-							const richText = generateRichTextFormat(
-								Icon,
-								iconGroup
-							);
-							onClick( richText );
-						} }
-						style={ { fontSize: '1.5rem' } }
-						// icon={ <Icon.svg /> }
-						label={ Icon.name }
-					>
-						<span className={ iconGroup.className ?? '' }>
-							{ Icon.value }
-						</span>
-					</Button>
-				) ) }
-			</Flex>
-		</>
+		<Grid gap={ 3 } columns={ 8 } style={ { marginTop: '1rem' } }>
+			{ filteredIcons.map( ( Icon ) => (
+				<Button
+					key={ Icon.value }
+					onClick={ () =>
+						onClick( generateRichTextFormat( Icon, iconGroup ) )
+					}
+					label={ Icon.name }
+					style={ { fontSize: '2.5rem' } }
+				>
+					<span className={ iconGroup.className }>
+						{ Icon.value }
+					</span>
+				</Button>
+			) ) }
+		</Grid>
 	);
 };
+
+export default IconPanel;

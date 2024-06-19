@@ -1,6 +1,6 @@
 {
     "name": "boxuk/wp-editor-tools",
-    "type": "wordpress-muplugin",
+    "type": "wordpress-plugin",
     "autoload": {
         "psr-4": {
             "Boxuk\\BoxWpEditorTools\\": "src"

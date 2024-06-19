@@ -1,0 +1,58 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"$schema": {
+			"type": "string"
+		},
+		"title": {
+			"type": "string",
+			"description": "The title used in the tabs of the icon picker."
+		},
+		"name": {
+			"type": "string",
+			"pattern": "^[a-zA-Z0-9-/]+$",
+			"description": "The unique key of this icon set. Should follow pattern of `namespace/icon-set-name`. "
+		},
+		"tagName": {
+			"type": "string",
+			"pattern": "^[a-zA-Z]+$",
+			"description": "The tag name of the icon set. This is used to create the HTML element."
+		},
+		"className": {
+			"pattern": "^[a-zA-Z0-9_-]+$",
+			"type": "string",
+			"description": "The class name of the icon set. This is used to create the HTML element."
+		},
+		"url": {
+			"type": "string",
+			"format": "uri",
+			"description": "The URL to the CSS file that is required to load the icons."
+		},
+		"additionalCss": {
+			"type": "string",
+			"description": "Additional CSS to be included in the icon picker. This should include the selector based on your class name."
+		},
+		"icons": {
+			"type": "array",
+			"description": "The list of icons in the set.",
+			"items": {
+				"type": "object",
+				"minLength": 1,
+				"properties": {
+					"label": {
+						"type": "string",
+						"description": "The label of the icon, shown in the icon picker on hover, and for screen readers."
+					},
+					"content": {
+						"type": "string",
+						"description": "The content of the icon. This will be inserted inside the HTML element constructed from the Tag and Class names of the icon set."
+					}
+				},
+				"required": [ "label", "content" ]
+			}
+		}
+	},
+	"required": [ "title", "name", "tagName", "className", "url", "icons" ],
+	"additionalProperties": false
+}
