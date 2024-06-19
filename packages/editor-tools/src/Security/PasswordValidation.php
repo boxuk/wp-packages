@@ -39,7 +39,18 @@ class PasswordValidation {
 	 * @return void
 	 */
 	public function user_profile_update_errors( \WP_Error $errors ): void {
+
+		if ( false === apply_filters( 'boxuk_validate_password', true ) ) {
+			return;
+		}
+
 		$password = sanitize_text_field( $_POST['pass1'] ?? '' ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verification is handled by WP core.
+
+		// Allow empty-password field if the user is just updating their profile.
+		if ( doing_action( 'user_profile_update_errors' ) && empty( $password ) ) {
+			return;
+		}
+
 		$this->validate_password( $password, $errors );
 	}
 
@@ -95,6 +106,9 @@ class PasswordValidation {
 	 * @return string
 	 */
 	public function password_hint( string $hint ): string {
+		if ( false === apply_filters( 'boxuk_validate_password', true ) ) {
+			return $hint;
+		}
 
 		$hint = __( 'Hint: The password should be at least ten characters long, and include at least one upper case letter and one number. To make it stronger, use more upper and lower case letters, more numbers, and symbols like ! " ? $ % ^ & ).', 'boxuk' );
 

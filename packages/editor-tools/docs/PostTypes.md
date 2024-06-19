@@ -3,21 +3,12 @@ A shorthand for registering post types via a JSON file instead of a
 whole bunch of PHP to make life just a little bit easier. 
 
 ## Usage
-
-You need to initialise the class as early as possible. 
-```php
-add_ation(
-    'plugins_loaded', 
-    function() { 
-        ( new Boxuk\BoxWpEditorTools\PostTypes() )->init();
-    }
-);
-```
+This feature is enabled automatically with the plugin. 
 
 You will also need to define a JSON file which configures your post-types. This should be caleld `post-types.json` and live in the root of your theme (`wp-content/themes/{theme_name}/post-types.json`).
 ```json
 {
-	"$schema": "https://github.com/boxuk/box-wp-editor-tools/post-type.schema.json",
+	"$schema": "https://raw.githubusercontent.com/boxuk/wp-packages/main/schema/post-type.schema.json",
 	"post_types": {
 		"project": {
 			"has_archive": true,
@@ -38,6 +29,16 @@ You will also need to define a JSON file which configures your post-types. This 
         }
     }
 }
+```
+
+You can modify the path of this file using the `boxuk_post_types_json_file_path` filter. 
+```php
+add_filter(
+	'boxuk_post_types_json_file_path',
+	function ( string $default_path ): string { 
+		return __DIR__ . '/my-path-to/post-types.json';
+	}
+);
 ```
 
 The schema file will help your IDE populate any fields you think you need. After parsing, the file is passed to `register_post_type()` so the [WordPress documentation](https://developer.wordpress.org/reference/functions/register_post_type/) should be useful!

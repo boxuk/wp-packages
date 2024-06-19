@@ -44,8 +44,7 @@ class RestrictHTTPRequestMethods {
 	 * @return void
 	 * */
 	public function block_request_if_not_using_allowed_method() {
-
-		if ( $this->is_cli() ) { 
+		if ( $this->is_cli() || ( ! apply_filters( 'boxuk_restrict_http_request_methods', true ) ) ) {
 			return;
 		}
 
@@ -57,7 +56,7 @@ class RestrictHTTPRequestMethods {
 
 	/**
 	 * Get the current method.
-	 * 
+	 *
 	 * @return string The current method or empty string if it can't be determined.
 	 */
 	public function get_method(): string {
@@ -66,12 +65,12 @@ class RestrictHTTPRequestMethods {
 
 	/**
 	 * Check if the request is from the command line.
-	 * 
+	 *
 	 * @return bool Whether the request is from the command line.
-	 * 
+	 *
 	 * @codeCoverageIgnore -- We can't mock constants.
 	 */
 	public function is_cli(): bool {
-		return defined( 'WP_CLI' ) && WP_CLI;
+		return defined( 'WP_CLI' ) && \WP_CLI;
 	}
 }

@@ -24,12 +24,14 @@ class Headers {
 
 	/**
 	 * Hook the nosniff and frame option headers to the send_headers action.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function send_headers(): void {
-		add_action( 'send_headers', 'send_frame_options_header', 10, 0 );
-		add_action( 'send_headers', 'send_nosniff_header', 10, 0 );
+		if ( true === apply_filters( 'boxuk_send_no_sniff_headers', true ) ) {
+			add_action( 'send_headers', 'send_frame_options_header', 10, 0 );
+			add_action( 'send_headers', 'send_nosniff_header', 10, 0 );
+		}
 	}
 
 	/**
@@ -39,7 +41,9 @@ class Headers {
 	 * @return array<mixed>
 	 */
 	public function remove_vip_headers( array $headers ): array {
-		unset( $headers['X-hacker'], $headers['X-Powered-By'] );
+		if ( true === apply_filters( 'boxuk_remove_vip_headers', true ) ) {
+			unset( $headers['X-hacker'], $headers['X-Powered-By'] );
+		}
 		return $headers;
 	}
 }

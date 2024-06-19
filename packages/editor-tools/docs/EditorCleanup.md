@@ -5,12 +5,4 @@ This will hide some additional features added to the block editor:
  - **WordPress VIP Featured Plugins**: WordPress VIP adds a banner to highlight featured plugins for their platform. Plugins are managed by the developer so this should be hidden. 
 
 ## Usage
-The `init` method should be hooked early in the WordPress Lifecycle
-```php
-add_action(
-    'plugins_loaded', 
-    function () { 
-        ( new Boxuk\BoxWpEditorTools\EditorCleanup() )->init(); 
-    }
-);
-```
+The editor cleanup is enabled automatically and does not have any configurable options. 

@@ -1,7 +1,7 @@
 <?php
 /**
  * RSS Disablement
- * 
+ *
  * @package Boxuk\BoxWpEditorTools\Security
  */
 
@@ -16,10 +16,14 @@ class RSS {
 
 	/**
 	 * Init Hooks
-	 * 
+	 *
 	 * @return void
 	 */
-	public function init() { 
+	public function init() {
+		if ( false === apply_filters( 'boxuk_disable_rss', true ) ) {
+			return;
+		}
+
 		add_action( 'do_feed', array( $this, 'send_404' ), 1 );
 		add_action( 'do_feed_rdf', array( $this, 'send_404' ), 1 );
 		add_action( 'do_feed_rss', array( $this, 'send_404' ), 1 );
@@ -36,7 +40,7 @@ class RSS {
 
 	/**
 	 * Make sure all RSS feeds are blank.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function send_404(): void {
@@ -45,10 +49,10 @@ class RSS {
 		include get_query_template( '404' );
 		$this->exit();
 	}
-	
+
 	/**
 	 * Feed content type
-	 * 
+	 *
 	 * @return string
 	 */
 	public function feed_content_type(): string {
@@ -57,11 +61,11 @@ class RSS {
 
 	/**
 	 * Exit
-	 * 
+	 *
 	 * Test stub for `exit` function.
-	 * 
+	 *
 	 * @codeCoverageIgnore -- we can't handle the `exit`.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function exit(): void {
