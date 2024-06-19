@@ -34,7 +34,7 @@ define( 'NONCE_SALT', 'dm[=a6+2b1rHuGW=xE`#-<}<w_ -dnmdvM%:ZcxLCCPtq2>o{}NlqT>4<
 /**#@-*/
 $table_prefix = 'wp_'; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 define( 'WP_DEBUG', true );
-define( 'WP_SCRIPT_DEBUG', true );
+define( 'SCRIPT_DEBUG', true );
 
 /** Absolute path to the WordPress directory. */
 if ( ! defined( 'ABSPATH' ) ) {

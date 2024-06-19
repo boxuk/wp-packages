@@ -1,7 +1,3 @@
-/* Data */
-import IconData from './icons.json';
-import { iconGroups } from './index';
-
 /* Types */
 import type { IconGroupIcon, IconGroup } from './types';
 import type { RichTextValue } from '@wordpress/rich-text';
@@ -30,38 +26,24 @@ export function generateRichTextFormat(
 }
 
 /**
- * Gets all icons from the data set with a given suffix.
- *
- * @param {string} suffix The suffix to filter by.
- *
- * @return {IconGroupIcon[]} Array of { name, value } objects.
- */
-export const getIconOptions = ( suffix: string ): IconGroupIcon[] => {
-	const iconNames = IconData.filter( ( iconName: string ) =>
-		iconName.endsWith( suffix )
-	);
-
-	return iconNames.map( ( name: string ) => {
-		const value = snakeCase( name.replace( suffix, '' ) );
-		return { name, value };
-	} );
-};
-
-/**
  * Selects the icon in full that the cursor is currently in.
  *
  * Beacse the icon is usually made up of a `<span class="icon-type">icon_name</icon>`, the usual behaviours when selecting text don't work as expected.
  * This function will select the entire icon, so that the event that's bubbling up handles the icon as one selection.
  *
+ * @param {IconGroup[]} iconGroups - The icon groups.
+ *
  * @return {{ selection: Selection|null|undefined, icon: HTMLElement|null|undefined }} { selection, icon } - The selection and icon element.
  */
-export const selectIconAtCurrentCursor = (): {
-	selection: Selection | null | undefined;
-	icon: HTMLElement | null | undefined;
+export const selectIconAtCurrentCursor = (
+	iconGroups: IconGroup[] | undefined
+): {
+	selection?: Selection | null;
+	icon?: HTMLElement | null;
 } => {
 	const selection = document.defaultView?.getSelection();
 	const icon = iconGroups
-		.map( ( iconGroup ) => iconGroup.className )
+		?.map( ( iconGroup ) => iconGroup.className )
 		.includes( selection?.anchorNode?.parentElement?.className ?? '' )
 		? selection?.anchorNode?.parentElement
 		: null;
@@ -73,19 +55,18 @@ export const selectIconAtCurrentCursor = (): {
 	return { selection, icon };
 };
 
-/**
- * PascalCase to snake_case
- *
- * @param {string} str
- *
- * @return {string} The snake_cased string.
- */
-export const snakeCase = ( str: string ): string => {
-	return str
-		.replace( /([A-Z])/g, ' $1' ) // add space before all uppercase letters
-		.replace( /([0-9]+)/g, ' $1' ) // add space before all numbers (including consecutive nums)
-		.replace( /-/g, ' ' ) // replace dashes with spaces
-		.trim() // remove leading and trailing whitespace
-		.toLowerCase() // convert to lowercase
-		.replace( / /g, '_' ); // convert spaces to underscores
-};
+export const getIconGroups = ( withEdit = true ): IconGroup[] | undefined =>
+	window.boxIconography?.iconGroups.map( ( value, index ): IconGroup => {
+		const { icons, ...rest } = value;
+		return {
+			...rest,
+			options: icons.map(
+				( icon ): IconGroupIcon => ( {
+					name: icon.label,
+					value: icon.content,
+				} )
+			),
+			interactive: false,
+			edit: () => {},
+		};
+	} );

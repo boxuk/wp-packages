@@ -1,0 +1,59 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "boxuk/icon",
+	"title": "Icon",
+	"category": "media",
+	"description": "Display an icon as a block.",
+	"icon": "star-filled",
+	"keywords": [ "icon", "emoji", "symbol" ],
+	"textdomain": "boxuk",
+	"supports": {
+		"align": [ "wide", "full" ],
+		"alignWide": true,
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"background": { "backgroundImage": true, "backgroundSize": true },
+		"anchor": false,
+		"ariaLabel": true,
+		"className": true,
+		"customClassName": true,
+		"dimensions": { "aspectRatio": false, "minHeight": true },
+		"filter": { "duotone": false },
+		"html": false,
+		"inserter": true,
+		"interactivity": false,
+		"layout": true,
+		"lock": true,
+		"multiple": true,
+		"position": {
+			"sticky": false
+		},
+		"renaming": true,
+		"reusable": true,
+		"shadow": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"textAlign": true
+		}
+	},
+	"attributes": {
+		"className": {
+			"type": "string"
+		},
+		"tagName": {
+			"type": "string"
+		},
+		"iconContent": {
+			"type": "string"
+		}
+	},
+	"example": {}
+}
