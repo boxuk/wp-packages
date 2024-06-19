@@ -24,7 +24,7 @@ class SessionTimeoutModifier {
 	}
 
 	/**
-	 * Modify the default session timeout value. 
+	 * Modify the default session timeout value.
 	 *
 	 * @param int  $wp_default_expiration the default WP session expiration timeout value, in seconds.
 	 * @param int  $user_id the current user id.
@@ -33,6 +33,10 @@ class SessionTimeoutModifier {
 	 * @return int
 	 */
 	public function auth_cookie_expiration_filter( int $wp_default_expiration, int $user_id, bool $remember_me ): int {
+		if ( false === apply_filters( 'boxuk_modify_session_timeout', true ) ) {
+			return $wp_default_expiration;
+		}
+
 		if ( $remember_me ) {
 			return $wp_default_expiration;
 		}

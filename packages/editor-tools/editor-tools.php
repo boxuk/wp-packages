@@ -5,7 +5,7 @@
  * Version: 1.0.0
  * Author: BoxUK
  * Author URI: https://boxuk.com
- * 
+ *
  * @package Boxuk\BoxWpEditorTools
  */
 
@@ -16,5 +16,12 @@ namespace Boxuk\BoxWpEditorTools;
 ( new Comments() )->init();
 ( new EditorCleanup() )->init();
 ( new PostTypes() )->init();
-( new TemplatePersistence() )->init(); 
-( new Security\Security() )->init();
+( new TemplatePersistence() )->init();
+( new Security\AuthorEnumeration() )->init();
+( new Security\Headers() )->init();
+( new Security\PasswordValidation() )->init();
+( new Security\UserSessions() )->init();
+( new Security\RestrictHTTPRequestMethods() )->init();
+( new Security\RSS() )->init();
+( new Security\SessionTimeoutModifier() )->init();
+( new Security\UserLogin() )->init();

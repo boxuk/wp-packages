@@ -28,7 +28,10 @@ class PostTypes {
 	 */
 	public function register_post_types(): void {
 
-		$path = get_template_directory() . '/post-types.json';
+		$path = apply_filters(
+			'boxuk_post_types_json_file_path',
+			get_template_directory() . '/post-types.json'
+		);
 		if ( ! file_exists( $path ) ) {
 			return;
 		}
