@@ -1,10 +1,13 @@
 version: 2
 updates:
+    # PHP Deps
     - package-ecosystem: composer
       directory: "/"
       registries: "*"
       schedule:
           interval: daily
+    
+    # NodeJS Deps
     - package-ecosystem: npm
       directory: "/"
       registries: "*"
@@ -20,9 +23,14 @@ updates:
       commit-message:
           prefix: "[DEPS][GHA]"
 
-    # Docker PHP image
+    # Docker images
     - package-ecosystem: docker
-      directory: "/docker"
+      directory: "/docker/nodejs"
+      registries: "*"
+      schedule:
+          interval: daily
+    - package-ecosystem: docker
+      directory: "/docker/php"
       registries: "*"
       schedule:
           interval: daily
