@@ -14,7 +14,7 @@
 define( 'SQLITE_DB_DROPIN_VERSION', '1.8.0' );
 
 // Bail early if the SQLite implementation was not located in the plugin.
-if ( ! file_exists( ABSPATH . 'wp-content/mu-plugins/sqlite-database-integration/wp-includes/sqlite/db.php' ) ) {
+if ( ! file_exists( ABSPATH . 'wp-content/plugins/vendor/wordpress/sqlite-database-integration/wp-includes/sqlite/db.php' ) ) {
 	return;
 }
 
@@ -24,7 +24,7 @@ if ( ! defined( 'DATABASE_TYPE' ) ) {
 }
 
 // Require the implementation from the plugin.
-require_once ABSPATH . 'wp-content/mu-plugins/sqlite-database-integration/wp-includes/sqlite/db.php';
+require_once ABSPATH . 'wp-content/plugins/vendor/wordpress/sqlite-database-integration/wp-includes/sqlite/db.php';
 
 // Activate the performance-lab plugin if it is not already activated.
 add_action(
