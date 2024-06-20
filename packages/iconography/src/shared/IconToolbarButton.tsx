@@ -1,33 +1,38 @@
-import React from 'react';
+import React, { ComponentProps } from 'react';
 
 /* WordPress Dependencies */
 import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
+import { BlockControls } from '@wordpress/block-editor';
 import { ToolbarButton } from '@wordpress/components';
 
 /* Internal Dependencies */
-import { ReactComponent as AddReactionOutlined } from './AddReactionOutlined.svg';
+import { ReactComponent as Icon } from '../Icon.svg';
+import { IconModal } from './IconModal';
 
 /* Types */
 import type { RichTextValue } from '@wordpress/rich-text';
-import { IconModal } from './IconModal';
 
 export type IconToolbarButtonProps = {
 	onChange: ( value: RichTextValue ) => void;
 	value: RichTextValue;
+	icon: ComponentProps< typeof ToolbarButton >[ 'icon' ];
+	initialOpen?: boolean;
 };
 
 export const IconToolbarButton = ( {
 	onChange,
 	value,
+	icon = <Icon />,
+	initialOpen = false,
 }: IconToolbarButtonProps ) => {
-	const [ open, setOpen ] = useState( false );
+	const [ open, setOpen ] = useState( initialOpen );
 
 	return (
-		<>
+		<BlockControls group="inline">
 			<ToolbarButton
-				icon={ <AddReactionOutlined /> }
-				label={ __( 'Add an icon', 'boxuk' ) }
+				icon={ icon }
+				label={ __( 'Select icon', 'boxuk' ) }
 				onClick={ () => setOpen( ! open ) }
 			/>
 			{ open && (
@@ -37,6 +42,6 @@ export const IconToolbarButton = ( {
 					value={ value }
 				/>
 			) }
-		</>
+		</BlockControls>
 	);
 };

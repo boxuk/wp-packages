@@ -8,10 +8,10 @@ import {
 } from '@wordpress/components';
 
 /* Internal Dependencies */
-import { generateRichTextFormat } from './utils';
+import { generateRichTextFormat } from '../utils';
 
 /* Types */
-import type { IconGroup } from './types';
+import type { IconGroup } from '../types';
 import type { RichTextValue } from '@wordpress/rich-text';
 
 export type IconPanelProps = {

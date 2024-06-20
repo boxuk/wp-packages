@@ -8,7 +8,7 @@ import { useState, useMemo } from '@wordpress/element';
 
 /* Internal Dependencies */
 import { PlaceholderIconPanel } from './PlaceholderIconPanel';
-import { getIconGroups } from './utils';
+import { getIconGroups } from '../utils';
 
 /* Types */
 import type { RichTextValue } from '@wordpress/rich-text';

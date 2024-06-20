@@ -29,11 +29,23 @@ class IconographyService {
 	 * Init Hooks
 	 */
 	public function init(): void {
+		add_action( 'init', array( $this, 'register_block' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ) );
 		add_action( 'wp_footer', array( $this, 'enqueue_assets' ), 1, 0 );
 		add_action( 'enqueue_block_assets', array( $this, 'register_assets' ), 1, 0 );
 		add_action( 'enqueue_block_assets', array( $this, 'enqueue_editor_scripts' ) );
 		add_action( 'enqueue_block_assets', array( $this, 'enqueue_all_assets' ) );
+	}
+
+	/**
+	 * Register the block
+	 *
+	 * @return void
+	 */
+	public function register_block(): void {
+		register_block_type_from_metadata(
+			plugin_dir_path( __DIR__ ) . 'build/block'
+		);
 	}
 
 	/**

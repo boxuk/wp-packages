@@ -1,22 +1,16 @@
 import React, { ComponentProps } from 'react';
 
 /* WordPress Dependencies */
-import domReady from '@wordpress/dom-ready';
 import { registerFormatType } from '@wordpress/rich-text';
-import { registerBlockType } from '@wordpress/blocks';
-import { BlockControls } from '@wordpress/block-editor';
 
 /* Internal deps */
-import metadata from './block/block.json';
-import { Edit } from './block/Edit';
-import { Save } from './block/Save';
-import { IconToolbarButton } from './IconToolbarButton';
+import { IconToolbarButton } from './shared';
 import { getIconGroups, selectIconAtCurrentCursor } from './utils';
 
 /* Types */
 import type { IconGroup } from './types';
 
-export const handleKeyDown =
+const handleKeyDown =
 	( iconGroups: IconGroup[] | undefined ) => ( event: KeyboardEvent ) => {
 		switch ( event.key ) {
 			case 'ArrowLeft':
@@ -29,7 +23,7 @@ export const handleKeyDown =
 		}
 	};
 
-export const handleKeyUp =
+const handleKeyUp =
 	( iconGroups: IconGroup[] | undefined ) => ( event: KeyboardEvent ) => {
 		if ( 'ArrowRight' === event.key ) {
 			const { selection, icon } = selectIconAtCurrentCursor( iconGroups );
@@ -55,7 +49,7 @@ export const handleKeyEvent =
 		}
 	};
 
-export const registerIconography = () => {
+export const registerInlineIconography = () => {
 	const iconGroups = getIconGroups();
 	if ( ! iconGroups ) {
 		return;
@@ -65,11 +59,7 @@ export const registerIconography = () => {
 		if ( index === 0 ) {
 			iconGroup.edit = (
 				props: ComponentProps< typeof IconToolbarButton >
-			) => (
-				<BlockControls group="inline">
-					<IconToolbarButton { ...props } />
-				</BlockControls>
-			);
+			) => <IconToolbarButton { ...props } />;
 		}
 		registerFormatType( iconGroup.name, iconGroup );
 	} );
@@ -80,11 +70,4 @@ export const registerIconography = () => {
 	document.addEventListener( 'keyup', handleKeyEvent( iconGroups ) );
 };
 
-domReady( () => {
-	registerIconography();
-} );
-
-registerBlockType( metadata, {
-	edit: Edit,
-	save: Save,
-} );
+export default registerInlineIconography;
