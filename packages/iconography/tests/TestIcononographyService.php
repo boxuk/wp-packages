@@ -25,6 +25,7 @@ class TestIcononographyService extends TestCase {
 	 */
 	public function testInit(): void {
 		$class_in_test = new IconographyService( new ConfigurationParser() );
+		\WP_Mock::expectActionAdded( 'init', array( $class_in_test, 'register_block' ) );
 		\WP_Mock::expectActionAdded( 'wp_enqueue_scripts', array( $class_in_test, 'register_assets' ) );
 		\WP_Mock::expectActionAdded( 'wp_footer', array( $class_in_test, 'enqueue_assets' ), 1, 0 );
 		\WP_Mock::expectActionAdded( 'enqueue_block_assets', array( $class_in_test, 'register_assets' ), 1, 0 );
@@ -32,6 +33,25 @@ class TestIcononographyService extends TestCase {
 		\WP_Mock::expectActionAdded( 'enqueue_block_assets', array( $class_in_test, 'enqueue_all_assets' ) );
 
 		$class_in_test->init();
+		$this->assertConditionsMet();
+	}
+
+	/**
+	 * Test Register Block
+	 *
+	 * @return void
+	 */
+	public function testRegisterBlock(): void {
+		\WP_Mock::userFunction( 'plugin_dir_path' )
+			->once()
+			->andReturn( 'test/' );
+
+		\WP_Mock::userFunction( 'register_block_type_from_metadata' )
+			->once()
+			->with( 'test/build/block' );
+
+		$class_in_test = new IconographyService( new ConfigurationParser() );
+		$class_in_test->register_block();
 		$this->assertConditionsMet();
 	}
 

@@ -9,7 +9,7 @@ import { IconGroup } from '../types';
 
 jest.mock( '@wordpress/rich-text', () => ( {} ) );
 
-jest.mock( '../IconToolbarButton', () => ( {
+jest.mock( '../shared', () => ( {
 	IconToolbarButton: jest.fn(),
 } ) );
 

@@ -3,13 +3,16 @@ import { registerFormatType } from '@wordpress/rich-text';
 
 /* Internal Dependencies */
 import { selectIconAtCurrentCursor, getIconGroups } from '../utils';
-import { handleKeyEvent, registerIconography } from '../';
+import {
+	handleKeyEvent,
+	registerInlineIconography,
+} from '../registerInlineIconography';
 
 jest.mock( '@wordpress/rich-text', () => ( {
 	registerFormatType: jest.fn(),
 } ) );
 
-jest.mock( '../IconToolbarButton', () => ( {
+jest.mock( '../shared', () => ( {
 	IconToolbarButton: jest.fn(),
 } ) );
 
@@ -26,6 +29,7 @@ jest.mock( '../utils', () => ( {
 
 describe( 'registering iconography', () => {
 	test( 'should register all 3 types by default', () => {
+		registerInlineIconography();
 		expect( getIconGroups ).toBeCalledTimes( 1 );
 		// just by having imported the file, the registerFormatType should be called 3 times as per the 3 mocked values.
 		expect( registerFormatType ).toBeCalledTimes( 3 );
@@ -35,7 +39,7 @@ describe( 'registering iconography', () => {
 		jest.clearAllMocks();
 		getIconGroups.mockReturnValue( undefined );
 		expect( registerFormatType ).toBeCalledTimes( 0 );
-		registerIconography();
+		registerInlineIconography();
 	} );
 } );
 

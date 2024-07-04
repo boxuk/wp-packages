@@ -10,7 +10,7 @@ import {
 } from '@wordpress/components';
 
 /* Types */
-import type { IconGroup } from './types';
+import type { IconGroup } from '../types';
 import type { RichTextValue } from '@wordpress/rich-text';
 
 export type IconPanelProps = {

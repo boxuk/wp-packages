@@ -1,28 +1,27 @@
 import React from 'react';
 
-import { IconToolbarButton } from '../IconToolbarButton';
-import {
-	BlockControls,
-	InspectorControls,
-	useBlockProps,
-} from '@wordpress/block-editor';
+/* WordPress Dependencies */
+import { useBlockProps } from '@wordpress/block-editor';
 import { store as RichTextStore } from '@wordpress/rich-text';
 import { useSelect } from '@wordpress/data';
-import { useState } from '@wordpress/element';
-import { Button, Panel, PanelBody } from '@wordpress/components';
+import { Icon, Spinner } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import { replace } from '@wordpress/icons';
+
+/* Internal deps */
+import { IconToolbarButton } from '../shared';
+import './style.scss';
 
 /* Types */
 import type { Attributes } from './Attributes.type';
 import type { BlockEditProps } from '@wordpress/blocks';
 import type { RichTextValue } from '@wordpress/rich-text';
 import type { WPFormat } from '@wordpress/rich-text/build-types/register-format-type';
-import { IconModal } from '../IconModal';
 
 export const Edit = ( {
 	attributes,
 	setAttributes,
 }: BlockEditProps< Attributes > ) => {
-	const [ showIconModal, setShowIconModal ] = useState( false );
 	const blockProps = useBlockProps();
 	const { getFormatType } = useSelect(
 		( select ) =>
@@ -42,52 +41,35 @@ export const Edit = ( {
 
 		setAttributes( {
 			iconContent: value.text,
-			tagName: format.tagName,
-			className: format.className,
+			iconTag: format.tagName,
+			iconClass: format.className,
 		} );
 	};
 
 	const TagName =
-		( attributes.tagName as keyof HTMLElementTagNameMap ) ?? 'span';
-
-	const ShowModalButton = () => (
-		<Button
-			variant={ 'primary' }
-			onClick={ () => setShowIconModal( ! showIconModal ) }
-		>
-			Select Icon
-		</Button>
-	);
+		( attributes.iconTag as keyof HTMLElementTagNameMap ) ?? 'span';
 
 	return (
 		<>
-			<InspectorControls>
-				<Panel>
-					<PanelBody>
-						<ShowModalButton />
-					</PanelBody>
-				</Panel>
-			</InspectorControls>
+			<IconToolbarButton
+				icon={ <Icon icon={ replace } /> }
+				onChange={ handleChange }
+				value={ {
+					text: '',
+					formats: [],
+					replacements: [],
+					start: 0,
+					end: 0,
+				} }
+				initialOpen={ ! attributes.iconContent }
+			/>
 			<div { ...blockProps }>
 				{ attributes.iconContent && (
-					<TagName className={ attributes.className ?? '' }>
+					<TagName className={ attributes.iconClass ?? '' }>
 						{ attributes.iconContent }
 					</TagName>
 				) }
-				{ ! attributes.iconContent && <ShowModalButton /> }
-				{ showIconModal && (
-					<IconModal
-						onRequestClose={ () => setShowIconModal( false ) }
-						onChange={ handleChange }
-						value={ {
-							text: '',
-							formats: [],
-							replacements: [],
-							start: 0,
-							end: 0,
-						} }
-					/>
-				) }
+				{ ! attributes.iconContent && <Spinner /> }
 			</div>
 		</>
 	);

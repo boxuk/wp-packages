@@ -8,24 +8,33 @@
 	"icon": "star-filled",
 	"keywords": [ "icon", "emoji", "symbol" ],
 	"textdomain": "boxuk",
+	"style": "file:./style-index.css",
+	"editorScript": "file:./index.ts",
 	"supports": {
-		"align": [ "wide", "full" ],
-		"alignWide": true,
+		"anchor": false,
+		"align": [],
+		"alignWide": false,
+		"ariaLabel": true,
+		"background": {
+			"backgroundImage": false,
+			"backgroundSize": false
+		},
+		"className": true,
 		"color": {
 			"background": true,
 			"text": true
 		},
-		"background": { "backgroundImage": true, "backgroundSize": true },
-		"anchor": false,
-		"ariaLabel": true,
-		"className": true,
 		"customClassName": true,
-		"dimensions": { "aspectRatio": false, "minHeight": true },
-		"filter": { "duotone": false },
+		"dimensions": {
+			"aspectRatio": false,
+			"minHeight": false
+		},
+		"filter": {
+			"duotone": false
+		},
 		"html": false,
 		"inserter": true,
 		"interactivity": false,
-		"layout": true,
 		"lock": true,
 		"multiple": true,
 		"position": {
@@ -33,26 +42,33 @@
 		},
 		"renaming": true,
 		"reusable": true,
-		"shadow": false,
+		"shadow": true,
 		"spacing": {
 			"margin": true,
-			"padding": true
+			"padding": true,
+			"blockGrap": false
 		},
 		"typography": {
 			"fontSize": true,
-			"lineHeight": true,
+			"lineHeight": false,
 			"textAlign": true
 		}
 	},
 	"attributes": {
-		"className": {
+		"iconClass": {
 			"type": "string"
 		},
-		"tagName": {
+		"iconTag": {
 			"type": "string"
 		},
 		"iconContent": {
 			"type": "string"
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"textAlign": "center"
+			}
 		}
 	},
 	"example": {}

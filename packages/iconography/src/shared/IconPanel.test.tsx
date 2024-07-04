@@ -3,7 +3,7 @@ import { describe, expect, jest, test } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
 import { generateRichTextFormat } from '../utils';
 
-import { IconPanel } from '../IconPanel';
+import { IconPanel } from './IconPanel';
 
 jest.mock( '../utils', () => ( {
 	generateRichTextFormat: jest.fn(),
