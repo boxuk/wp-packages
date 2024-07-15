@@ -20,6 +20,8 @@ jobs:
             target_repo: "wp-editor-tools"
           - local_path: "iconography"
             target_repo: "wp-iconography"
+          - local_path: "query-include-exclude"
+            target_repo: "wp-query-include-exclude"
 
     steps:
       - uses: actions/checkout@v4

@@ -1,0 +1,13 @@
+{
+
+    "name": "boxuk/query-include-exclude",
+    "type": "wordpress-muplugin",
+    "autoload": {},
+    "authors": [
+        {
+            "name": "BoxUK",
+            "email": "developers@boxuk.com"
+        }
+    ],
+    "require": {}
+}
