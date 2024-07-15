@@ -69,6 +69,21 @@ class TestPostTypes extends TestCase {
 			->once()
 			->with( 'bar', $expected_parsed_json_with_defaults );
 
+		\WP_Mock::userFunction( 'register_taxonomy' )
+			->once()
+			->with( 
+				'example_category', 
+				array(), 
+				array(
+					'labels'  => array(
+						'name'          => 'TestName',
+						'singular_name' => 'TestName',
+					),
+					'public'  => true,
+					'rewrite' => array( 'slug' => 'example-category' ),
+				) 
+			);
+
 		// Short-circuit the test here as we'll test the blocks-to-template methods separately.
 		\WP_Mock::userFunction( 'is_admin' )
 			->twice()

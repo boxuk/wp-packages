@@ -41,6 +41,10 @@ class PostTypes {
 			return;
 		}
 
+		foreach ( $data['taxonomies'] ?? array() as $name => $args ) {
+			register_taxonomy( $name, array(), $args );
+		}
+
 		foreach ( $data['post_types'] ?? array() as $name => $args ) {
 			$args = wp_parse_args(
 				$args,
@@ -54,7 +58,7 @@ class PostTypes {
 			);
 
 			register_post_type( $name, $args ); // phpcs:ignore WordPress.NamingConventions.ValidPostTypeSlug.NotStringLiteral
-		}
+		}   
 	}
 
 	/**

@@ -16,5 +16,17 @@
 			"menu_icon": "dashicons-admin-post",
 			"taxonomies": [ "category", "post_tag" ]
 		}
+	},
+	"taxonomies": {
+		"example_category": {
+			"labels": {
+				"name": "TestName",
+				"singular_name": "TestName"
+			},
+			"public": true,
+			"rewrite": {
+				"slug": "example-category"
+			}
+		}
 	}
 }

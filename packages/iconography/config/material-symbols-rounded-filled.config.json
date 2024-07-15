@@ -1,5 +1,5 @@
 {
-	"$schema": "../schema.json",
+	"$schema": "../schema/icon-config.json",
 	"title": "Rounded (Filled)",
 	"name": "boxuk/material-symbols-rounded-filled",
 	"tagName": "span",

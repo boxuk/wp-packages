@@ -90,7 +90,7 @@ class ConfigurationParser {
 	 * @return SchemaContract
 	 */
 	private function get_schema(): SchemaContract {
-		return Schema::import( plugin_dir_path( __DIR__ ) . '/schema.json' );
+		return Schema::import( plugin_dir_path( __DIR__ ) . '/schema/icon-config.json' );
 	}
 
 	/**
