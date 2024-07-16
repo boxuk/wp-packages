@@ -218,7 +218,7 @@
 							"description": "Whether a post type is intended for use publicly either via the admin interface or by front-end users. While the default settings of $exclude_from_search, $publicly_queryable, $show_ui, and $show_in_nav_menus are inherited from $public, each does not rely on this relationship and controls a very specific intention.",
 							"default": false
 						},
-						"heirarchical": {
+						"hierarchical": {
 							"type": "boolean",
 							"description": "Whether the post type is hierarchical (e.g. page)",
 							"default": false
@@ -587,7 +587,7 @@
 							"type": "boolean",
 							"description": "Whether the taxonomy is publicly queryable."
 						},
-						"heirarchical": {
+						"hierarchical": {
 							"type": "boolean",
 							"description": "Whether the taxonomy is hierarchical."
 						},
