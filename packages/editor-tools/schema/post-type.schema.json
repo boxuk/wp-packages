@@ -638,25 +638,22 @@
 						"capabilities": {
 							"type": "object",
 							"description": "Array of capabilities for this taxonomy.",
-							"items": {
-								"type": "object",
-								"properties": {
-									"manage_terms": {
-										"type": "string",
-										"description": "Capability required to manage terms of this taxonomy."
-									},
-									"edit_terms": {
-										"type": "string",
-										"description": "Capability required to edit terms of this taxonomy."
-									},
-									"delete_terms": {
-										"type": "string",
-										"description": "Capability required to delete terms of this taxonomy."
-									},
-									"assign_terms": {
-										"type": "string",
-										"description": "Capability required to assign terms of this taxonomy."
-									}
+							"properties": {
+								"manage_terms": {
+									"type": "string",
+									"description": "Capability required to manage terms of this taxonomy."
+								},
+								"edit_terms": {
+									"type": "string",
+									"description": "Capability required to edit terms of this taxonomy."
+								},
+								"delete_terms": {
+									"type": "string",
+									"description": "Capability required to delete terms of this taxonomy."
+								},
+								"assign_terms": {
+									"type": "string",
+									"description": "Capability required to assign terms of this taxonomy."
 								}
 							}
 						},
