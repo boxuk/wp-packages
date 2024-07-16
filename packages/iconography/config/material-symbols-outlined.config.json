@@ -1,5 +1,5 @@
 {
-	"$schema": "../schema.json",
+	"$schema": "../schema/icon-config.json",
 	"title": "Outlined",
 	"name": "boxuk/material-symbols-outlined",
 	"tagName": "span",
