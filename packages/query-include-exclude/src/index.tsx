@@ -22,7 +22,7 @@ addFilter(
 
 				return (
 					<>
-						<BlockEdit { ...props } />;
+						<BlockEdit { ...props } />
 						<InspectorControls>
 							<AdditionalControls { ...props } />
 						</InspectorControls>
