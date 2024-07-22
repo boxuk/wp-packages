@@ -9,5 +9,6 @@ parameters:
     analyse:
       - packages/vendor
       - /**/tests/*
+      - /**/node_modules/*
     analyseAndScan:
       - packages/vendor/10up/wp_mock # WP_Mock functions override the signatures from php-stubs/wordpress

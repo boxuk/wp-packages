@@ -13,7 +13,7 @@
 		"lint:fix": "wp-scripts lint-js --fix",
 		"test": "wp-scripts test-unit-js",
 		"test:snapshots": "wp-scripts test-unit-js --updateSnapshot",
-		"packages-update": "wp-scripts packages-update",
+		"packages-update": "wp-scripts packages-update --dist-tag=wp-6.4",
 		"start": "wp-scripts start",
 		"type-coverage": "type-coverage --strict --detail --at-least 97.5"
 	},
@@ -23,11 +23,11 @@
 		"@jest/globals": "^29.7.0",
 		"@testing-library/react": "^16.0.0",
 		"@types/wordpress__block-editor": "^11.5.15",
-		"@wordpress/dom-ready": "^4.3.0",
-		"@wordpress/editor": "^14.3.0",
-		"@wordpress/icons": "^10.3.0",
-		"@wordpress/interface": "^6.3.0",
-		"@wordpress/scripts": "^27.8.0",
+		"@wordpress/dom-ready": "^3.42.13",
+		"@wordpress/editor": "^13.19.14",
+		"@wordpress/icons": "^9.33.13",
+		"@wordpress/interface": "^5.19.14",
+		"@wordpress/scripts": "^26.13.13",
 		"react": "^18.2.0",
 		"type-coverage": "^2.29.1"
 	}
