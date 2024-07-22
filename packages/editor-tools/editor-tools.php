@@ -5,6 +5,7 @@
  * Version: 1.0.0
  * Author: BoxUK
  * Author URI: https://boxuk.com
+ * Requires at least: 6.4 
  *
  * @package Boxuk\BoxWpEditorTools
  */

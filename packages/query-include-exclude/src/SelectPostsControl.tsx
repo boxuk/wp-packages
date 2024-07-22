@@ -72,7 +72,7 @@ export const SelectPostsControl = ( {
 	return (
 		<FormTokenField
 			label={ label }
-			value={ selectedPosts.map( ( post: Post ) => post.title.rendered ) }
+			value={ selectedPosts.map( postToTitleWithId ) }
 			suggestions={ allPosts.map( postToTitleWithId ) }
 			onChange={ handleChange }
 			tokenizeOnBlur={ false }
