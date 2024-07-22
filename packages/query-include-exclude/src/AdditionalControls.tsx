@@ -27,12 +27,12 @@ export const AdditionalControls = ( {
 	 * @param includes
 	 */
 	const setQueryIncludes = ( includes: number[] ) => {
-		setAttributes( {
-			query: {
-				...query,
-				include: includes.length ? includes : undefined,
-			},
-		} );
+		if ( includes.length > 0 ) {
+			setAttributes( { query: { ...query, include: includes } } );
+		} else {
+			const { include, ...rest } = query || {};
+			setAttributes( { query: rest } );
+		}
 	};
 
 	/**
