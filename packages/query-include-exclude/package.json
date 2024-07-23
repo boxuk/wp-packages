@@ -27,7 +27,7 @@
 		"@wordpress/compose": "^6.19.13",
 		"@wordpress/core-data": "^6.19.14",
 		"@wordpress/data": "^9.12.13",
-		"@wordpress/hooks": "^3.42.13",
+		"@wordpress/hooks": "^4.3.0",
 		"@wordpress/icons": "^9.33.13",
 		"@wordpress/scripts": "^26.13.13",
 		"react": "^18.2.0",
