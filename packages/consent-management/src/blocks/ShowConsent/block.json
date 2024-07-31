@@ -1,0 +1,42 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "boxuk/consent-button",
+	"title": "Consent Trigger",
+	"description": "Adds a link to show the cookie consent popup.",
+	"category": "widgets",
+	"keywords": [ "cookies", "consent", "button", "gdpr" ],
+	"textdomain": "boxuk",
+	"editorScript": "file:./index.ts",
+	"supports": {
+		"align": [ "full", "wide" ],
+		"dimensions": {
+			"aspectRatio": false,
+			"minHeight": false
+		},
+		"anchor": true,
+		"html": false,
+		"multiple": true,
+		"position": {
+			"sticky": false
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"textAlign": true
+		},
+		"reusable": true
+	},
+	"attributes": {
+		"text": {
+			"type": "rich-text",
+			"default": "Set Cookie Preferences",
+			"source": "rich-text"
+		}
+	},
+	"example": {}
+}

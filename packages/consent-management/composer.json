@@ -1,0 +1,11 @@
+{
+	"name": "boxuk/wp-consent-management",
+	"type": "wordpress-muplugin",
+	"authors": [
+		{
+			"name": "BoxUK",
+			"email": "developers@boxuk.com"
+		}
+	],
+	"require": {}
+}

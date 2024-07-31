@@ -1,0 +1,49 @@
+/**
+ * Sample style sheet for the Cookie Consent plugin.
+ */
+
+#cc-main {
+
+	@media (prefers-reduced-motion: reduce) {
+		--cc-modal-transition-duration: 0;
+	}
+
+	--cc-bg: var(--wp--preset--color-white);
+	--cc-primary-color: var(--wp--preset--color-black);
+	--cc-secondary-color: var(--wp--preset--color--grey-8);
+
+	--cc-btn-primary-bg: var(--wp--preset--color-blue-4);
+	--cc-btn-primary-color: var(--wp--preset--color-white);
+	--cc-btn-primary-hover-bg: var(--wp--preset--color-blue-5);
+	--cc-btn-primary-hover-color: var(--wp--preset--color-white);
+	--cc-btn-primary-border-color: var(--wp--preset--color-white);
+	--cc-btn-primary-hover-border-color: var(--wp--preset--color-blue-5);
+
+	--cc-btn-secondary-bg: var(--wp--preset--color-white);
+	--cc-btn-secondary-color: var(--wp--preset--color-blue-4);
+	--cc-btn-secondary-hover-bg: var(--wp--preset--color-blue-1);
+	--cc-btn-secondary-hover-color: var(--wp--preset--color-blue-4);
+	--cc-btn-secondary-border-color: var(--wp--preset--color-blue-4);
+	--cc-btn-secondary-hover-border-color: var(--wp--preset--color-blue-4);
+
+	--cc-btn-border-radius: 999px;
+
+	--cc-cookie-category-block-bg: var(--cc-bg);
+	--cc-cookie-category-block-border: var(--wp--preset--color-grey-1);
+	--cc-cookie-category-block-hover-bg: var(--wp--preset--color-grey-1);
+	--cc-cookie-category-expanded-block-hover-bg: var(--wp--preset--color-grey-1);
+	--cc-cookie-category-expanded-block-bg: var(--wp--preset--color-grey-1);
+
+	--cc-toggle-readonly-bg: var(--wp--preset--color-grey-2);
+	--cc-overlay-bg: rgba(4, 6, 8, 0.85) !important;
+
+	--cc-toggle-off-bg: var(--wp--preset--color-black);
+	--cc-toggle-on-bg: var(--wp--preset--color-blue-3);
+
+	--cc-toggle-off-knob-bg: var(--cc-bg);
+	--cc-toggle-on-knob-bg: var(--cc-bg);
+
+	--cc-toggle-readonly-knob-bg: var(--cc-cookie-category-block-bg);
+
+	--cc-separator-border-color: var(--cc-bg);
+}

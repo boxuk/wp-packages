@@ -1,0 +1,10 @@
+@import url(vanilla-cookieconsent/dist/cookieconsent.css);
+
+#consent-settings-root {
+
+	*[contenteditable="true"] {
+		user-select: text !important;
+		-webkit-user-modify: read-write-plaintext-only !important;
+		pointer-events: all !important;
+	}
+}
