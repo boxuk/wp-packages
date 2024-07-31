@@ -59,6 +59,7 @@
         }
     },
     "replace": {
+        "boxuk/consent-management": "self.version",
         "boxuk/query-include-exclude": "self.version",
         "boxuk/wp-editor-tools": "self.version",
         "boxuk/wp-iconography": "self.version"

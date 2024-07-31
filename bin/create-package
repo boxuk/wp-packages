@@ -92,4 +92,5 @@ bin/composer dump-autoload
 echo ""
 echo "Package created at ./packages/$PACKAGE_NAME"
 echo "Please update the .github/workflows/packages.yml file to include the new package in the build process."
+echo "Don't forget to update the plugin description!"
 echo ""

@@ -22,6 +22,8 @@ jobs:
             target_repo: "wp-iconography"
           - local_path: "query-include-exclude"
             target_repo: "wp-query-include-exclude"
+          - local_path: "consent-management"
+            target_repo: "wp-consent-management"
 
     steps:
       - uses: actions/checkout@v4

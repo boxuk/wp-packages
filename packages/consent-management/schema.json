@@ -1,0 +1,177 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"translations": {
+			"type": "object",
+			"properties": {
+				"functionalityStorageLabel": {
+					"type": "string"
+				},
+				"securityStorageLabel": {
+					"type": "string"
+				},
+				"analyticsStorageLabel": {
+					"type": "string"
+				},
+				"personalizationStorageLabel": {
+					"type": "string"
+				},
+				"adStorageLabel": {
+					"type": "string"
+				},
+				"adUserDataLabel": {
+					"type": "string"
+				},
+				"adPersonalizationLabel": {
+					"type": "string"
+				},
+				"modal": {
+					"type": "object",
+					"properties": {
+						"title": {
+							"type": "string"
+						},
+						"description": {
+							"type": "string"
+						},
+						"acceptAllBtn": {
+							"type": "string"
+						},
+						"acceptNecessaryBtn": {
+							"type": "string"
+						},
+						"showPreferencesBtn": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"title",
+						"description",
+						"acceptAllBtn",
+						"acceptNecessaryBtn",
+						"showPreferencesBtn"
+					]
+				},
+				"preferences": {
+					"type": "object",
+					"properties": {
+						"title": {
+							"type": "string"
+						},
+						"acceptAllBtn": {
+							"type": "string"
+						},
+						"acceptNecessaryBtn": {
+							"type": "string"
+						},
+						"savePreferencesBtn": {
+							"type": "string"
+						},
+						"closeIconLabel": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"title",
+						"acceptAllBtn",
+						"acceptNecessaryBtn",
+						"savePreferencesBtn",
+						"closeIconLabel"
+					]
+				},
+				"main": {
+					"type": "object",
+					"properties": {
+						"title": {
+							"type": "string"
+						},
+						"description": {
+							"type": "string"
+						}
+					},
+					"required": [ "title", "description" ]
+				},
+				"necessary": {
+					"type": "object",
+					"properties": {
+						"title": {
+							"type": "string"
+						},
+						"description": {
+							"type": "string"
+						}
+					},
+					"required": [ "title", "description" ]
+				},
+				"analytics": {
+					"type": "object",
+					"properties": {
+						"title": {
+							"type": "string"
+						},
+						"description": {
+							"type": "string"
+						}
+					},
+					"required": [ "title", "description" ]
+				},
+				"personalisation": {
+					"type": "object",
+					"properties": {
+						"title": {
+							"type": "string"
+						},
+						"description": {
+							"type": "string"
+						}
+					},
+					"required": [ "title", "description" ]
+				},
+				"advertising": {
+					"type": "object",
+					"properties": {
+						"title": {
+							"type": "string"
+						},
+						"description": {
+							"type": "string"
+						}
+					},
+					"required": [ "title", "description" ]
+				}
+			},
+			"required": [
+				"functionalityStorageLabel",
+				"securityStorageLabel",
+				"analyticsStorageLabel",
+				"personalizationStorageLabel",
+				"adStorageLabel",
+				"adUserDataLabel",
+				"adPersonalizationLabel",
+				"modal",
+				"preferences",
+				"main",
+				"necessary",
+				"analytics",
+				"personalisation",
+				"advertising"
+			]
+		},
+		"tagConfig": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"auth": {
+					"type": "string"
+				},
+				"preview": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"required": [ "translations" ]
+}
