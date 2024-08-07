@@ -36,6 +36,10 @@ jobs:
           php-version: ${{ matrix.php }}
           coverage: pcov
           tools: cs2pr
+      - name: Setup Composer Auth
+        run: composer config -g github-oauth.github.com $GITHUB_TOKEN
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Install dependencies
         run: composer install
       - name: Run lint
