@@ -29,7 +29,7 @@
 		"@wordpress/data": "^10.4.0",
 		"@wordpress/hooks": "^4.5.0",
 		"@wordpress/icons": "^10.4.0",
-		"@wordpress/scripts": "^26.13.13",
+		"@wordpress/scripts": "^27.9.0",
 		"react": "^18.2.0",
 		"type-coverage": "^2.29.1"
 	}
