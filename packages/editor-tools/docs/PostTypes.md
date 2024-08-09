@@ -20,9 +20,9 @@ You will also need to define a JSON file which configures your post-types. This 
 			"taxonomies": [ "category", "post_tag" ],
 			"supports": [ "title", "editor", "thumbnail", "excerpt" ]
 		},
-        "product": { 
-            "menu_icon": "dashicons-cart",
-            "labels": {
+		"product": { 
+			"menu_icon": "dashicons-cart",
+			"labels": {
 				"name": "Products",
 				"singular_name": "Product"
 			},
