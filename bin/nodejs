@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-docker-compose run --rm nodejs "$@"
+docker compose run --rm nodejs "$@"

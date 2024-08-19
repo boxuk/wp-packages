@@ -1,6 +1,6 @@
 #!/bin/bash
 
 ./bin/composer install
-docker-compose up -d wordpress
+docker compose up -d wordpress
 ./bin/npm install
 ./bin/npm run start
