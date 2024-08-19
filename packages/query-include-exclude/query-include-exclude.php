@@ -28,3 +28,16 @@ add_action(
 		);
 	}
 );
+
+add_filter(
+	'query_loop_block_query_vars',
+	function ( array $query, \WP_Block $block ): array {
+		$block_query = $block->context['query'] ?? array();
+		if ( ! empty( $block_query['include'] ) ) {
+			$query['post__in'] = array_map( 'intval', $block_query['include'] );
+		}
+		return $query;
+	},
+	10,
+	2
+);
