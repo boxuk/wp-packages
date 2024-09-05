@@ -25,7 +25,7 @@
 		"@wordpress/block-editor": "^14.1.0",
 		"@wordpress/blocks": "^13.4.0",
 		"@wordpress/compose": "^7.4.0",
-		"@wordpress/core-data": "^7.6.0",
+		"@wordpress/core-data": "^7.7.0",
 		"@wordpress/data": "^10.6.0",
 		"@wordpress/hooks": "^4.5.0",
 		"@wordpress/icons": "^10.4.0",
