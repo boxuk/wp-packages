@@ -23,7 +23,7 @@
 		"@jest/globals": "^29.7.0",
 		"@testing-library/react": "^16.0.1",
 		"@types/wordpress__block-editor": "^11.5.15",
-		"@wordpress/dom-ready": "^4.5.0",
+		"@wordpress/dom-ready": "^4.7.0",
 		"@wordpress/editor": "^14.6.0",
 		"@wordpress/icons": "^10.4.0",
 		"@wordpress/interface": "^6.5.0",
