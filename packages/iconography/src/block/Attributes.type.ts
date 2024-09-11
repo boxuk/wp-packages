@@ -4,4 +4,6 @@ export type Attributes = Partial< {
 	iconClass: WPFormat[ 'className' ];
 	iconTag: WPFormat[ 'tagName' ];
 	iconContent: string;
+	ariaLabel?: string;
+	ariaHidden?: boolean;
 } >;
