@@ -16,6 +16,7 @@ import { replace } from '@wordpress/icons';
 
 /* Internal deps */
 import { IconToolbarButton } from '../shared';
+import { toTitleCase } from '../utils';
 import './style.scss';
 
 /* Types */
@@ -55,6 +56,9 @@ export const Edit = ( {
 
 	const TagName =
 		( attributes.iconTag as keyof HTMLElementTagNameMap ) ?? 'span';
+	const defaultAriaLabel = attributes.iconContent
+		? toTitleCase( attributes.iconContent ) + ' icon'
+		: undefined;
 
 	return (
 		<>
@@ -94,7 +98,7 @@ export const Edit = ( {
 				{ attributes.iconContent && (
 					<TagName
 						className={ attributes.iconClass ?? '' }
-						aria-label={ ariaLabel || undefined }
+						aria-label={ ariaLabel || defaultAriaLabel }
 						aria-hidden={ ariaHidden || undefined }
 					>
 						{ attributes.iconContent }

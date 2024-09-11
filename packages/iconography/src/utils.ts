@@ -70,3 +70,15 @@ export const getIconGroups = ( withEdit = true ): IconGroup[] | undefined =>
 			edit: () => {},
 		};
 	} );
+
+/**
+ *
+ * @param {string} title The title to change to title case.
+ * @return {string} The altered title.
+ */
+export function toTitleCase( title: string ): string {
+	title = title.replace( /_/g, ' ' );
+	title =
+		title.charAt( 0 ).toUpperCase() + title.substring( 1 ).toLowerCase();
+	return title;
+}
