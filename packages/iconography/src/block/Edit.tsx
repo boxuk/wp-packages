@@ -95,7 +95,7 @@ export const Edit = ( {
 					<TagName
 						className={ attributes.iconClass ?? '' }
 						aria-label={ ariaLabel || undefined }
-						aria-hidden={ ariaHidden }
+						aria-hidden={ ariaHidden || undefined }
 					>
 						{ attributes.iconContent }
 					</TagName>

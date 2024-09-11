@@ -80,7 +80,7 @@
 		},
 		"ariaHidden": {
 			"type": "boolean",
-			"default": false
+			"default": ""
 		}
 	},
 	"example": {}

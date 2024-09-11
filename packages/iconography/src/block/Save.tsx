@@ -17,7 +17,7 @@ export const Save = ( { attributes }: BlockSaveProps< Attributes > ) => {
 			<TagName
 				className={ iconClass ?? '' }
 				aria-label={ ariaLabel || undefined }
-				aria-hidden={ ariaHidden }
+				aria-hidden={ ariaHidden || undefined }
 			>
 				{ iconContent }
 			</TagName>
