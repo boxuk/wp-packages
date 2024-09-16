@@ -20,10 +20,6 @@ class TemplatePersistence {
 	 * @return void
 	 */
 	public function init(): void {
-		if ( apply_filters( 'boxuk_disable_template_persistence', false ) ) {
-			return;
-		}
-		
 		add_action( 'save_post', array( $this, 'persist_template' ), 10, 2 );
 	}
 
@@ -35,7 +31,13 @@ class TemplatePersistence {
 	 *  
 	 * @return void
 	 */
-	public function persist_template( int $post_id, \WP_Post $post ): void {    
+	public function persist_template( int $post_id, \WP_Post $post ): void { 
+		
+		$default = wp_get_environment_type() !== 'local';
+		if ( apply_filters( 'boxuk_disable_template_persistence', $default ) ) {
+			return;
+		}
+		
 		$filename = $this->get_template_filename( $post );
 		
 		if ( false === $filename || ! $this->is_writeable( $filename ) ) {
