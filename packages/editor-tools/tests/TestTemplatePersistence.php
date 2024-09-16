@@ -51,12 +51,14 @@ class TestTemplatePersistence extends TestCase {
 	 * @return void
 	 */
 	public function test_init_with_disabled_filter(): void {
+		\WP_Mock::userFunction( 'wp_get_environment_type' )
+			->once()
+			->andReturn( 'production' );
 		\WP_Mock::onFilter( 'boxuk_disable_template_persistence' )
-			->with( false )
+			->with( true )
 			->reply( true );
 
-		\WP_Mock::expectActionNotAdded( 'save_post', array( $this->class_in_test, 'persist_template' ), 10, 2 );
-		$this->class_in_test->init();
+		$this->class_in_test->persist_template( 0, $this->getMockPost( 'wp_template' ) );
 		$this->assertConditionsMet();
 	}
 
@@ -76,6 +78,13 @@ class TestTemplatePersistence extends TestCase {
 		bool $expect_template_write,
 		string|bool $template_path
 	) { 
+		\WP_Mock::userFunction( 'wp_get_environment_type' )
+			->once()
+			->andReturn( 'local' );
+		\WP_Mock::onFilter( 'boxuk_disable_template_persistence' )
+			->with( false )
+			->reply( false );
+			
 		if ( $expect_template_write ) {
 			\WP_Mock::userFunction( 'get_stylesheet_directory' )
 				->once()
