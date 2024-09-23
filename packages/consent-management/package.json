@@ -39,7 +39,7 @@
 		"@wordpress/dom-ready": "^4.7.0",
 		"@wordpress/editor": "^14.8.3",
 		"@wordpress/icons": "^10.4.0",
-		"@wordpress/interface": "^6.7.0",
+		"@wordpress/interface": "^6.8.2",
 		"@wordpress/scripts": "^27.9.0",
 		"react": "^18.2.0",
 		"type-coverage": "^2.29.1",
