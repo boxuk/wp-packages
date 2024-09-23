@@ -24,7 +24,7 @@
 	"devDependencies": {
 		"@wordpress/rich-text": "^7.8.0",
 		"@wordpress/data": "^10.6.0",
-		"@wordpress/blocks": "^13.4.0",
+		"@wordpress/blocks": "^13.8.2",
 		"@wordpress/block-editor": "^14.2.0",
 		"@wordpress/i18n": "^5.8.0",
 		"@wordpress/element": "^6.7.0",
