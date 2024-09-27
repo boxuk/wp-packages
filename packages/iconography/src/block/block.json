@@ -6,7 +6,11 @@
 	"category": "media",
 	"description": "Display an icon as a block.",
 	"icon": "star-filled",
-	"keywords": [ "icon", "emoji", "symbol" ],
+	"keywords": [
+		"icon",
+		"emoji",
+		"symbol"
+	],
 	"textdomain": "boxuk",
 	"style": "file:./style-index.css",
 	"editorScript": "file:./index.ts",
@@ -69,6 +73,14 @@
 			"default": {
 				"textAlign": "center"
 			}
+		},
+		"ariaLabel": {
+			"type": "string",
+			"default": ""
+		},
+		"ariaHidden": {
+			"type": "boolean",
+			"default": ""
 		}
 	},
 	"example": {}
