@@ -97,6 +97,7 @@ class UserSessions {
 	 * @return int
 	 */
 	public static function get_session_limit(): int {
-		return absint( get_option( 'user_session_limit', 0 ) );
+		$option = get_option( 'user_session_limit', 0 );
+		return is_numeric( $option ) ? absint( $option ) : 0;
 	}
 }
