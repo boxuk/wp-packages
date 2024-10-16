@@ -1,0 +1,23 @@
+{
+    "name": "boxuk/wordpress-email-tld-checker",
+    "description": "A small WordPress plugin to validate email addresses against valid TLDs.",
+    "keywords"   : ["wordpress", "email"],
+    "type": "wordpress-plugin",
+    "require": {
+        "php": "^7|^8",
+        "symfony/polyfill-intl-idn": "^1.12",
+        "arubacao/tld-checker": "^1.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "BoxUK",
+            "email": "developers@boxuk.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "suggest": {
+        "ext-intl": "Use the intl extension rather than the polyfill for converting domain names to IDNA ASCII form.",
+        "composer/installers": "To ensure this package is installed in the appropriate place for a WordPress plugin."
+    }
+}
