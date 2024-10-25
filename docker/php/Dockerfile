@@ -1,4 +1,4 @@
-FROM php:8.3.12
+FROM php:8.3.13
 COPY --from=composer:2.7.7 /usr/bin/composer /usr/bin/composer
 
 # PECL for code coverage
