@@ -7,6 +7,34 @@
             "email": "developers@boxuk.com"
         }
     ],
+    "require": {
+        "arubacao/tld-checker": "^1.2",
+        "php": "^7|^8",
+        "swaggest/json-schema": "^0.12",
+        "symfony/polyfill-intl-idn": "^1.12",
+        "symfony/validator": "^7.0 || ^6.0"
+    },
+    "require-dev": {
+        "10up/wp_mock": "^1.0",
+        "automattic/vipwpcs": "^3.0",
+        "composer/installers": "^2.2",
+        "permafrost-dev/coverage-check": "^2.0",
+        "phpcompatibility/phpcompatibility-wp": "^2.1",
+        "symplify/monorepo-builder": "^11.2",
+        "szepeviktor/phpstan-wordpress": "^1.3",
+        "wordpress/sqlite-database-integration": "^2.0",
+        "wpackagist-plugin/sqlite-database-integration": "^2.0",
+        "wpackagist-theme/twentytwentyfour": "^1.0"
+    },
+    "replace": {
+        "boxuk/consent-management": "self.version",
+        "boxuk/email-tld-checker": "self.version",
+        "boxuk/query-include-exclude": "self.version",
+        "boxuk/wordpress-email-tld-checker": "self.version",
+        "boxuk/wp-consent-management": "self.version",
+        "boxuk/wp-editor-tools": "self.version",
+        "boxuk/wp-iconography": "self.version"
+    },
     "repositories": [
         {
             "type": "vcs",
@@ -21,31 +49,6 @@
             "url": "https://wpackagist.org"
         }
     ],
-    "require": {
-        "swaggest/json-schema": "^0.12",
-        "symfony/validator": "^7.0 || ^6.0"
-    },
-    "scripts": {
-        "phpunit": "phpunit",
-        "phpstan": "phpstan analyse --memory-limit=1G",
-        "phpcs": "phpcs",
-        "phpcbf": "phpcbf",
-        "coverage-check": "coverage-check coverage.xml --require=100",
-        "mono:merge": "monorepo-builder merge",
-        "mono:validate": "monorepo-builder validate"
-    },
-    "require-dev": {
-        "10up/wp_mock": "^1.0",
-        "automattic/vipwpcs": "^3.0",
-        "composer/installers": "^2.2",
-        "permafrost-dev/coverage-check": "^2.0",
-        "phpcompatibility/phpcompatibility-wp": "^2.1",
-        "symplify/monorepo-builder": "^11.2",
-        "szepeviktor/phpstan-wordpress": "^1.3",
-        "wordpress/sqlite-database-integration": "^2.0",
-        "wpackagist-plugin/sqlite-database-integration": "^2.0",
-        "wpackagist-theme/twentytwentyfour": "^1.0"
-    },
     "autoload": {
         "psr-4": {
             "Boxuk\\BoxWpEditorTools\\": [
@@ -57,12 +60,6 @@
                 "plugins/iconography/includes/"
             ]
         }
-    },
-    "replace": {
-        "boxuk/consent-management": "self.version",
-        "boxuk/query-include-exclude": "self.version",
-        "boxuk/wp-editor-tools": "self.version",
-        "boxuk/wp-iconography": "self.version"
     },
     "config": {
         "vendor-dir": "packages/vendor",
@@ -81,5 +78,15 @@
                 "type:wordpress-theme"
             ]
         }
-    }
+    },
+    "scripts": {
+        "phpunit": "phpunit",
+        "phpstan": "phpstan analyse --memory-limit=1G",
+        "phpcs": "phpcs",
+        "phpcbf": "phpcbf",
+        "coverage-check": "coverage-check coverage.xml --require=100",
+        "mono:merge": "monorepo-builder merge",
+        "mono:validate": "monorepo-builder validate"
+    },
+    "minimum-stability": "stable"
 }
