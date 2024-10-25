@@ -21,6 +21,7 @@ class BlockLoader {
 	 */
 	public function init(): void {
 		add_action( 'init', array( $this, 'register_blocks' ) );
+		add_filter( 'block_type_metadata', array( $this, 'enforce_versioning' ) );
 	}
 
 	/**
@@ -41,6 +42,43 @@ class BlockLoader {
 		foreach ( $block_json_file_paths as $block_json_file ) {
 			register_block_type( dirname( $block_json_file ), array() );
 		}
+	}
+
+	/**
+	 * Enforce Versioning
+	 *
+	 * @param array{version?:string,editorScript?:string,file?:string} $metadata Block metadata.
+	 * 
+	 * @return array{version?:string,editorScript?:string,file?:string} Block metadata.
+	 */
+	public function enforce_versioning( array $metadata ): array {
+		if ( ! empty( $metadata['version'] ) ) {
+			return $metadata;
+		}
+
+		$editor_script = $metadata['editorScript'] ?? '';
+		if ( empty( $editor_script ) ) {
+			return $metadata;
+		}
+
+		$json_file_path = $metadata['file'] ?? '';
+		if ( empty( $json_file_path ) ) {
+			return $metadata;
+		}
+		
+		// @see `register_block_script_handle()` in WordPress core.
+		$script_path       = remove_block_asset_path_prefix( $editor_script );
+		$path              = dirname( $json_file_path );
+		$script_asset_path = realpath( $path . '/' . substr_replace( $script_path, '.asset.php', - strlen( '.js' ) ) );
+
+		if ( ! $script_asset_path || ! file_exists( $script_asset_path ) ) {
+			return $metadata;
+		}
+
+		$asset = require $script_asset_path; // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable -- This is required.
+		
+		$metadata['version'] = $asset['version'] ?? '';
+		return $metadata;
 	}
 
 	/**
