@@ -1,0 +1,18 @@
+{
+    "name": "boxuk/wp-feature-flags",
+    "description": "A feature flag manager and register for releasing features across environments.",
+    "type": "wordpress-plugin",
+    "license": "GPL-3.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "BoxUk\\WpFeatureFlags\\": "includes/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "10up/wp_mock": "^1.0",
+        "automattic/vipwpcs": "^3.0",
+        "szepeviktor/phpstan-wordpress": "^1.3"
+    }
+}
