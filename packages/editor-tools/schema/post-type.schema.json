@@ -461,6 +461,15 @@
 				"^[a-zA-Z0-9_]+$": {
 					"type": "object",
 					"properties": {
+						"post_types": { 
+							"type": "array",
+							"description": "An array of post type identifiers that will be registered for the taxonomy. Post types can be registered later with register_post_type() or register_post_type_for_object_type().",
+							"items": {
+								"type": "string",
+								"pattern": "^[a-zA-Z0-9_]+$",
+								"description": "Post type identifier"
+							}
+						},
 						"labels": {
 							"type": "object",
 							"description": "An array of labels for this taxonomy. If not set, taxonomy labels are inherited from post type labels. See [get_taxonomy_labels()](https://developer.wordpress.org/reference/functions/get_taxonomy_labels/) for a full list of supported labels.",
