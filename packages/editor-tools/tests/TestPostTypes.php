@@ -73,7 +73,7 @@ class TestPostTypes extends TestCase {
 			->once()
 			->with( 
 				'example_category', 
-				array(), 
+				'post', 
 				array(
 					'labels'  => array(
 						'name'          => 'TestName',

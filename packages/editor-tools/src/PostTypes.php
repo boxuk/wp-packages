@@ -42,7 +42,7 @@ class PostTypes {
 		}
 
 		foreach ( $data['taxonomies'] ?? array() as $name => $args ) {
-			register_taxonomy( $name, array(), $args );
+			register_taxonomy( $name, $args['post_types'] ?? 'post', $args );
 		}
 
 		foreach ( $data['post_types'] ?? array() as $name => $args ) {
