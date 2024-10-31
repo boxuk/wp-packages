@@ -24,7 +24,7 @@
 		"@testing-library/react": "^16.0.1",
 		"@wordpress/block-editor": "^14.6.0",
 		"@wordpress/blocks": "^13.8.2",
-		"@wordpress/compose": "^7.4.0",
+		"@wordpress/compose": "^7.11.0",
 		"@wordpress/core-data": "^7.11.0",
 		"@wordpress/data": "^10.6.0",
 		"@wordpress/hooks": "^4.11.0",
