@@ -22,6 +22,7 @@ class TestPostTypes extends TestCase {
 	public function testInit(): void {
 		$post_types = new \Boxuk\BoxWpEditorTools\PostTypes();
 		\WP_Mock::expectActionAdded( 'init', array( $post_types, 'register_post_types' ) );
+		\WP_Mock::expectFilterAdded( 'register_post_type_args', array( $post_types, 'modify_post_types' ), 10, 2 );
 		$post_types->init();
 		$this->assertConditionsMet();
 	}
@@ -232,6 +233,49 @@ class TestPostTypes extends TestCase {
 					),
 				),
 				'expected' => array( array( 'core/paragraph', array(), array() ) ),
+			),
+		);
+	}
+
+	/**
+	 * Test `modify_post_types`
+	 * 
+	 * @dataProvider modify_post_types_provider
+	 * 
+	 * @param string $post_type Post Type.
+	 * @param array  $args Arguments.
+	 * @param array  $expected Expected.
+	 * 
+	 * @return void
+	 */
+	public function testModifyPostTypes( $post_type, $args, $expected ): void {
+		$post_types = new \Boxuk\BoxWpEditorTools\PostTypes();
+		$this->assertEquals( $expected, $post_types->modify_post_types( $args, $post_type ) );
+	}
+
+	/**
+	 * Modify post types provider
+	 * 
+	 * @return array
+	 * 
+	 * phpcs:ignore NeutronStandard.Functions.LongFunction.LongFunction -- This is a data provider
+	 */
+	public function modify_post_types_provider(): array {
+		return array(
+			'not-post-or-page' => array(
+				'post_type' => 'foo',
+				'args'      => array( 'foo' => 'bar' ),
+				'expected'  => array( 'foo' => 'bar' ),
+			),
+			'post'             => array(
+				'post_type' => 'post',
+				'args'      => array(),
+				'expected'  => array( 'template' => array() ),
+			),
+			'page'             => array(
+				'post_type' => 'page',
+				'args'      => array(),
+				'expected'  => array( 'template' => array() ),
 			),
 		);
 	}
