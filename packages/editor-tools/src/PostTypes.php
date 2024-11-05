@@ -19,6 +19,7 @@ class PostTypes {
 	 */
 	public function init(): void {
 		add_action( 'init', array( $this, 'register_post_types' ) );
+		add_filter( 'register_post_type_args', array( $this, 'modify_post_types' ), 10, 2 );
 	}
 
 	/**
@@ -124,5 +125,25 @@ class PostTypes {
 			$block['attrs'] ?? array(),
 			$this->blocks_to_template( $block['innerBlocks'] ?? array() ),
 		);
+	}
+
+	/**
+	 * Modify built in post types to load templates if they exist.
+	 *
+	 * @param array  $args Array of arguments.
+	 * @param string $post_type Post Type.
+	 * 
+	 * // @phpstan-ignore-next-line -- return shape can't be desribed for phpstan because it's recursive.
+	 */
+	public function modify_post_types( array $args, string $post_type ): array {
+		if ( 'post' !== $post_type && 'page' !== $post_type ) {
+			return $args;
+		}
+
+		$args['template'] = $this->blocks_to_template(
+			$this->get_blocks_from_file( $post_type ) ?? array()
+		) ?? array();
+
+		return $args;
 	}
 }
