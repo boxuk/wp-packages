@@ -27,12 +27,22 @@ class Api extends WP_REST_Controller {
 	protected $id_lookup = '(?P<flag>[a-zA-Z0-9_-]+)';
 
 	/**
-	 * Constructor for the API.
+	 * Flag register instance.
+	 *
+	 * @var FlagRegister
 	 */
-	public function __construct() {
-		$this->namespace = 'feature-flags/v1';
-		$this->rest_base = '/flags';
-		$this->id_lookup = '(?P<flag>[a-zA-Z0-9_-]+)';
+	private FlagRegister $flag_register;
+
+	/**
+	 * Constructor for the API.
+	 * 
+	 * @param FlagRegister $flag_register Flag register instance.
+	 */
+	public function __construct( ?FlagRegister $flag_register = null ) {
+		$this->flag_register = $flag_register ?? FlagRegister::instance();
+		$this->namespace     = 'feature-flags/v1';
+		$this->rest_base     = '/flags';
+		$this->id_lookup     = '(?P<flag>[a-zA-Z0-9_-]+)';
 	}
 
 	/**
@@ -71,8 +81,10 @@ class Api extends WP_REST_Controller {
 	 * Check if the current user has the required permissions.
 	 * 
 	 * @param WP_REST_Request<array<mixed>> $request Full details about the request.
+	 * 
+	 * @return true|WP_Error
 	 */
-	public function get_items_permissions_check( $request ): true|WP_Error {
+	public function get_items_permissions_check( $request ) {
 		if ( current_user_can( 'manage_options' ) ) {
 			return true;
 		}
@@ -85,15 +97,17 @@ class Api extends WP_REST_Controller {
 	 * @param WP_REST_Request<array<mixed>> $request Full details about the request.
 	 */
 	public function get_items( $request ) {
-		return rest_ensure_response( array_values( FlagRegister::instance()->get_flags() ) );
+		return rest_ensure_response( array_values( $this->flag_register->get_flags() ) );
 	}
 
 	/**
 	 * Check if the current user has the required permissions.
 	 * 
 	 * @param WP_REST_Request<array<mixed>> $request Full details about the request.
+	 * 
+	 * @return true|WP_Error
 	 */
-	public function update_item_permissions_check( $request ): true|WP_Error {
+	public function update_item_permissions_check( $request ) {
 		if ( current_user_can( 'manage_options' ) ) {
 			return true;
 		}
@@ -111,12 +125,14 @@ class Api extends WP_REST_Controller {
 
 		if ( ! $key ) {
 			wp_die( new WP_Error( 'missing_params', 'Missing required parameters.', array( 'status' => 400 ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			return; // @phpstan-ignore-line Return added for the purposes of testing. 
 		}
 
-		$flag = FlagRegister::instance()->get_flag( $key );
+		$flag = $this->flag_register->get_flag( $key );
 
 		if ( ! $flag ) {
 			wp_die( new WP_Error( 'flag_not_found', 'Flag not found.', array( 'status' => 404 ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			return; // @phpstan-ignore-line Return added for the purposes of testing. 
 		}
 
 		$flag_data = $request->get_json_params();

@@ -1,9 +1,7 @@
 import React from 'react';
 
-import { useSelect } from '@wordpress/data';
-import { store as CoreStore, type User } from '@wordpress/core-data';
-
 import type { Flag } from '../types';
+import { useUser } from '../utils/useUsers';
 
 export const UsersRender = ( { flag }: { flag: Flag } ) => {
 	if ( ! flag.users || 0 === flag.users.length ) {
@@ -22,15 +20,6 @@ export const UsersRender = ( { flag }: { flag: Flag } ) => {
 };
 
 const UserRender = ( { userId }: { userId: string } ) => {
-	const user = useSelect(
-		( select ) =>
-			select( CoreStore ).getEntityRecord< User< 'edit' > >(
-				'root',
-				'user',
-				userId
-			),
-		[ userId ]
-	);
-
+	const user = useUser( userId );
 	return user?.email ?? '';
 };

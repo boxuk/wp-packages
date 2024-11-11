@@ -4,6 +4,7 @@ import { apiFetch } from '@wordpress/data-controls';
 /* Internal deps */
 import { TYPES } from './constants';
 import type { Flag } from '../types';
+import { sanitizeFlag } from '../utils';
 
 const { SET_FLAGS, SAVE_SUCCESS, SAVE_FAILURE } = TYPES;
 
@@ -20,16 +21,20 @@ export function setFlags( flags: Flag[] ) {
 
 export function* updateFlag( flag: Flag ) {
 	try {
-		const response = yield apiFetch( {
+		const response: unknown = yield apiFetch( {
 			path: getFlagPath( flag ) + '',
 			method: 'PUT',
 			data: flag,
 		} );
 
+		if ( ! response || typeof response !== 'object' ) {
+			throw new Error( 'Invalid response' );
+		}
+
 		return {
 			type: SAVE_SUCCESS,
 			payload: {
-				flag: response,
+				flag: sanitizeFlag( response ),
 			},
 		};
 	} catch ( error: unknown ) {

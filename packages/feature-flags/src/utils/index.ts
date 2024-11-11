@@ -19,14 +19,75 @@ const sanitizeBoolean = ( value: unknown ): boolean | undefined | null => {
 	return undefined;
 };
 
-export const sanitizeFlag = ( data: Record< string, any > ): Flag => ( {
-	key: sanitizeString( data.key ),
-	name: sanitizeString( data.name ),
-	description: sanitizeString( data.description ),
-	created: data.created,
-	group: sanitizeString( data.group ),
-	enforced: sanitizeBoolean( data.enforced ),
-	stable: sanitizeBoolean( data.stable ),
-	is_published: sanitizeBoolean( data.is_published ),
-	users: data.users,
-} );
+const sanitizeNumber = ( value: unknown ): number | undefined | null => {
+	if ( typeof value === 'number' || value === undefined || value === null ) {
+		return value;
+	}
+
+	return undefined;
+};
+
+export const sanitizeFlag = ( data: unknown ): Flag => {
+	if ( typeof data !== 'object' || ! data ) {
+		throw new Error( 'Invalid flag data' );
+	}
+
+	if (
+		! ( 'key' in data ) ||
+		! ( 'name' in data ) ||
+		! ( 'description' in data ) ||
+		! ( 'created' in data ) ||
+		! ( 'group' in data ) ||
+		! ( 'enforced' in data ) ||
+		! ( 'stable' in data ) ||
+		! ( 'is_published' in data ) ||
+		! ( 'users' in data )
+	) {
+		throw new Error( 'Invalid flag data' );
+	}
+
+	return {
+		key: sanitizeString( data.key ),
+		name: sanitizeString( data.name ),
+		description: sanitizeString( data.description ),
+		created: sanitizeApiDate( data.created ),
+		group: sanitizeString( data.group ),
+		enforced: sanitizeBoolean( data.enforced ),
+		stable: sanitizeBoolean( data.stable ),
+		is_published: sanitizeBoolean( data.is_published ),
+		users: sanitizeArray( data.users, sanitizeString ),
+	};
+};
+
+export const sanitizeArray = < T >(
+	data: unknown,
+	typeChecker: ( value: unknown ) => T | undefined | null
+): T[] | undefined => {
+	if ( Array.isArray( data ) ) {
+		return data
+			.map( typeChecker )
+			.filter(
+				( value ): value is T => value !== undefined && value !== null
+			);
+	}
+
+	return undefined;
+};
+
+export const sanitizeApiDate = ( data: unknown ): ApiDate | undefined => {
+	if (
+		typeof data === 'object' &&
+		data &&
+		'date' in data &&
+		'timezone_type' in data &&
+		'timezone' in data
+	) {
+		return {
+			date: sanitizeString( data.date ),
+			timezone_type: sanitizeNumber( data.timezone_type ),
+			timezone: sanitizeString( data.timezone ),
+		};
+	}
+
+	return undefined;
+};
