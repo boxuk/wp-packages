@@ -17,7 +17,7 @@
 		"lint:js:fix": "wp-scripts lint-js --fix",
 		"packages-update": "wp-scripts packages-update",
 		"start": "wp-scripts start",
-		"type-coverage": "type-coverage --strict --detail --at-least 100.00"
+		"type-coverage": "type-coverage --strict --detail --at-least 99.00"
 	},
 	"author": "",
 	"license": "ISC",

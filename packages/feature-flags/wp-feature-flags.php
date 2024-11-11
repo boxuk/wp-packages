@@ -17,9 +17,9 @@
  * License URI: https://www.gnu.org/licenses/gpl-3.0.txt
  * Text Domain: boxuk
  * Domain Path: /languages/
- * Requires PHP: 7.2
- * Requires at least: 5.0
- * Tested up to: 5.8
+ * Requires PHP: 8.0
+ * Requires at least: 6.7
+ * Tested up to: 6.7
  */
 
 declare(strict_types=1);

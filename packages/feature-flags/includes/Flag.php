@@ -15,7 +15,7 @@ use JsonSerializable;
 /**
  * Class Flag
  */
-final class Flag implements JsonSerializable {
+class Flag implements JsonSerializable {
 
 	private const DEFAULT_GROUP      = 'Default';
 	public const FLAG_PUBLISH_OPTION = 'wp_feature_flags_published_flags';

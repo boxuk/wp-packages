@@ -14,7 +14,7 @@ use BoxUk\WpFeatureFlags\Flag;
 /**
  * Flag Register class.
  */
-final class FlagRegister {
+class FlagRegister {
 
 	/**
 	 * Singleton instance.

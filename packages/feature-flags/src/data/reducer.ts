@@ -15,7 +15,7 @@ const reducer = (
 		type: string;
 		payload: unknown;
 	}
-) => {
+): typeof DEFAULT_STATE => {
 	switch ( type ) {
 		case SET_FLAGS:
 			if ( ! Array.isArray( payload ) ) {
@@ -24,13 +24,13 @@ const reducer = (
 
 			return {
 				...state,
-				flags: payload,
+				flags: payload.map( sanitizeFlag ),
 			};
 
 		case SAVE_SUCCESS:
 			if (
-				! payload ||
 				typeof payload !== 'object' ||
+				! payload ||
 				'flag' in payload === false ||
 				! payload.flag
 			) {

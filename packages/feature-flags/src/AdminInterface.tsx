@@ -1,13 +1,16 @@
 import React from 'react';
 
-import { DataViews, type View } from '@wordpress/dataviews';
-import { actions, defaultView, defaultLayouts, filterData } from './config';
+import {
+	DataViews,
+	filterSortAndPaginate,
+	type View,
+} from '@wordpress/dataviews';
 
+import { actions, defaultView, defaultLayouts, useFields } from './config';
 import { useFlags } from './data/hooks';
+import { useLocalStorageState } from './utils/useLocalStorageState';
 
 import './styles.scss';
-import { useLocalStorageState } from './utils/useLocalStorageState';
-import { useFields } from './config/fields';
 
 export const AdminInterface = () => {
 	const [ view, setView ] = useLocalStorageState< View >(
@@ -15,35 +18,25 @@ export const AdminInterface = () => {
 		defaultView
 	);
 
-	const data = useFlags();
+	const flags = useFlags();
 	const fields = useFields();
 
-	const { page = 1, perPage = 10 } = view;
-	const filteredData = filterData( data ?? [], view );
+	const { data, paginationInfo } = filterSortAndPaginate(
+		flags ?? [],
+		view,
+		fields
+	);
 
 	return (
 		<>
 			<DataViews
-				header={
-					<>
-						{ data
-							? filteredData.length.toLocaleString() + ' flags'
-							: null }
-					</>
-				}
-				isLoading={ undefined === data }
+				isLoading={ undefined === flags }
 				actions={ actions }
 				defaultLayouts={ defaultLayouts }
 				fields={ fields }
 				view={ view }
-				data={ filteredData.slice(
-					( page - 1 ) * perPage,
-					page * perPage
-				) }
-				paginationInfo={ {
-					totalItems: filteredData.length,
-					totalPages: Math.ceil( filteredData.length / perPage ),
-				} }
+				data={ data }
+				paginationInfo={ paginationInfo }
 				onChangeView={ setView }
 				getItemId={ ( item ) => ( item.key || 0 ).toString() }
 			/>
