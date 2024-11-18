@@ -1,0 +1,22 @@
+name: Update WP Deps
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+    inputs:
+      WP_VERSION:
+        description: 'WP Version to update packages for'
+        required: false
+        default: '6.7'
+
+jobs:
+  update-deps:
+    runs-on: ubuntu-latest
+    steps:
+      # Setup
+      - name: Run Update
+        uses: './.github/wp-packages'
+        with:
+          WP_VERSION: ${{ github.event.inputs.WP_VERSION }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

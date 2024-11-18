@@ -13,6 +13,9 @@ updates:
       registries: "*"
       schedule:
           interval: daily
+      ignore:
+        # Ignore updates to the WordPress packages, we'll handle those manually.
+        - dependency-name: "@wordpress/*"
 
     # Github Actions
     - package-ecosystem: "github-actions"
