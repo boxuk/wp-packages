@@ -2,10 +2,7 @@ import React from 'react';
 
 /* WordPress Dependencies */
 import { __ } from '@wordpress/i18n';
-import {
-	Button,
-	__experimentalGrid as Grid, // eslint-disable-line @wordpress/no-unsafe-wp-apis -- experimental package, but we know the risks!
-} from '@wordpress/components';
+import { Button, Flex, FlexItem } from '@wordpress/components';
 
 /* Internal Dependencies */
 import { generateRichTextFormat } from '../utils';
@@ -36,22 +33,28 @@ export const IconPanel = ( {
 			: iconGroup.options;
 
 	return (
-		<Grid gap={ 3 } columns={ 8 } style={ { marginTop: '1rem' } }>
+		<Flex
+			wrap={ true }
+			gap={ 3 }
+			style={ { marginTop: '1rem', overflowY: 'auto' } }
+		>
 			{ filteredIcons.map( ( Icon ) => (
-				<Button
-					key={ Icon.value }
-					onClick={ () =>
-						onClick( generateRichTextFormat( Icon, iconGroup ) )
-					}
-					label={ Icon.name }
-					style={ { fontSize: '2.5rem' } }
-				>
-					<span className={ iconGroup.className }>
-						{ Icon.value }
-					</span>
-				</Button>
+				<FlexItem key={ Icon.value }>
+					<Button
+						key={ Icon.value }
+						onClick={ () =>
+							onClick( generateRichTextFormat( Icon, iconGroup ) )
+						}
+						label={ Icon.name }
+						style={ { fontSize: '2.5rem' } }
+					>
+						<span className={ iconGroup.className }>
+							{ Icon.value }
+						</span>
+					</Button>
+				</FlexItem>
 			) ) }
-		</Grid>
+		</Flex>
 	);
 };
 

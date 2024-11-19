@@ -29,7 +29,7 @@ export const IconModal = ( {
 
 	return (
 		<Modal
-			size="small"
+			size="medium"
 			onRequestClose={ onRequestClose }
 			title={ __( 'Select an icon', 'boxuk' ) }
 		>
