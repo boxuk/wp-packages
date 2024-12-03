@@ -29,7 +29,7 @@ class TestIcononographyService extends TestCase {
 		\WP_Mock::expectActionAdded( 'wp_enqueue_scripts', array( $class_in_test, 'register_assets' ) );
 		\WP_Mock::expectActionAdded( 'wp_footer', array( $class_in_test, 'enqueue_assets' ), 1, 0 );
 		\WP_Mock::expectActionAdded( 'enqueue_block_assets', array( $class_in_test, 'register_assets' ), 1, 0 );
-		\WP_Mock::expectActionAdded( 'enqueue_block_assets', array( $class_in_test, 'enqueue_editor_scripts' ) );
+		\WP_Mock::expectActionAdded( 'enqueue_block_editor_assets', array( $class_in_test, 'enqueue_editor_scripts' ) );
 		\WP_Mock::expectActionAdded( 'enqueue_block_assets', array( $class_in_test, 'enqueue_all_assets' ) );
 
 		$class_in_test->init();

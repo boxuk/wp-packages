@@ -33,7 +33,7 @@ class IconographyService {
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ) );
 		add_action( 'wp_footer', array( $this, 'enqueue_assets' ), 1, 0 );
 		add_action( 'enqueue_block_assets', array( $this, 'register_assets' ), 1, 0 );
-		add_action( 'enqueue_block_assets', array( $this, 'enqueue_editor_scripts' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_scripts' ) );
 		add_action( 'enqueue_block_assets', array( $this, 'enqueue_all_assets' ) );
 	}
 
