@@ -1,0 +1,69 @@
+name: Update WP Packaes
+description: 'Update WP Packages'
+inputs: 
+  WP_VERSION: 
+    description: 'WP Version to update packages for'
+    required: false
+    default: 'undefined'
+  GITHUB_TOKEN:
+    description: 'GitHub Token'
+    required: true
+runs:
+  using: composite
+  steps:
+
+    # Setup the action
+    - name: Clone Repo
+      uses: actions/checkout@v2
+      with: 
+        fetch-depth: 1
+        persist-credentials: false
+    - name: Setup Node
+      uses: actions/setup-node@v2
+      with:
+        node-version-file: .nvmrc
+        cache: npm
+    - name: Install Deps
+      shell: bash
+      run: npm install
+
+    # This step will determine the WP version from the composer.lock file if the WP_VERSION input is not set
+    - name: Determine WP Version from Repo
+      shell: bash
+      if: ${{ inputs.WP_VERSION == 'undefined' }}
+      run: echo "WP_VERSION=$(jq -r '.packages[] | select(.name == "roots/wordpress-full") | .version' composer.lock | cut -d '.' -f 1,2)" >> $GITHUB_ENV
+    - name: Determine WP Version from Input
+      shell: bash
+      if: ${{ inputs.WP_VERSION != 'undefined' }}
+      run: echo "WP_VERSION=$WP_VERSION" >> $GITHUB_ENV
+
+    # Validate the WP_VERSION
+    - name: Validate WP Version
+      shell: bash
+      run: |
+        if [[ ! $WP_VERSION =~ ^[0-9]+\.[0-9]+$ ]]; then
+          echo "Invalid WP_VERSION: $WP_VERSION"
+          exit 1
+        fi
+
+    # Run the update script
+    - name: Update WP Packages
+      shell: bash
+      run: |
+          if [[ -f 'turbo.json' ]]; then
+              npm run packages-update -- -- --dist-tag=wp-$WP_VERSION
+          else
+              npm run packages-update -- --dist-tag=wp-$WP_VERSION
+          fi
+    
+    # Create a PR
+    - name: Create Pull Request
+      uses: gr2m/create-or-update-pull-request-action@v1
+      env: 
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+      with: 
+        title: "[DEPS] Update WP Packages for WP $WP_VERSION"
+        body: "This PR updates the WP packages to the latest versions for WP $WP_VERSION"
+        branch: "deps/wp-packages/wp-$WP_VERSION"
+        author: "BoxUK WordPress Robot<wordpress@boxuk.com>"
+        labels: "dependencies"
