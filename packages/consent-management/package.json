@@ -34,7 +34,7 @@
 		"@wordpress/components": "^28.13.0",
 		"@jest/globals": "^29.7.0",
 		"@testing-library/react": "^16.0.1",
-		"@types/wordpress__block-editor": "^11.5.15",
+		"@types/wordpress__block-editor": "^11.5.16",
 		"@types/wordpress__data": "^7.0.0",
 		"@wordpress/dom-ready": "^4.13.0",
 		"@wordpress/editor": "^14.13.0",
