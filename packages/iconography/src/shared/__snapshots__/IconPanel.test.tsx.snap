@@ -30,7 +30,7 @@ exports[`IconPanel rendered IconPanel matches snapshot 1`] = `
     />
     <div>
       <div
-        class="components-grid css-18sx5q1-PolymorphicDiv-gridClasses e19lxcc00"
+        class="components-grid css-as5ssv-View-gridClasses e19lxcc00"
         data-wp-c16t="true"
         data-wp-component="Grid"
         style="margin-top: 1rem;"
@@ -64,7 +64,7 @@ exports[`IconPanel rendered IconPanel matches snapshot 1`] = `
   </body>,
   "container": <div>
     <div
-      class="components-grid css-18sx5q1-PolymorphicDiv-gridClasses e19lxcc00"
+      class="components-grid css-as5ssv-View-gridClasses e19lxcc00"
       data-wp-c16t="true"
       data-wp-component="Grid"
       style="margin-top: 1rem;"
