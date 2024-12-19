@@ -13,7 +13,7 @@
 		"lint:fix": "wp-scripts lint-js --fix",
 		"test": "wp-scripts test-unit-js --passWithNoTests",
 		"test:snapshots": "wp-scripts test-unit-js --updateSnapshot",
-		"packages-update": "wp-scripts packages-update --dist-tag=wp-6.4",
+		"packages-update": "wp-scripts packages-update",
 		"start": "wp-scripts start",
 		"type-coverage": "type-coverage --strict --detail --at-least 92.03"
 	},
