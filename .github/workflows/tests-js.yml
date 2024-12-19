@@ -1,10 +1,15 @@
 name: JS Quality Tests
 
 on:
-    pull_request:
+  pull_request:
+  workflow_dispatch:
 
 env:
     fail-fast: true
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
