@@ -15,7 +15,7 @@
     "start": "turbo run start",
     "build": "turbo run build",
     "format": "turbo run format",
-    "packages-update": "turbo run packages-update",
+    "packages-update": "turbo run packages-update --concurrency=1 -- -- --dist-tag=wp-$WORDPRESS_VERSION",
     "precommit": "turbo run precommit",
     "lint": "turbo run lint",
     "lint:css": "turbo run lint:css",

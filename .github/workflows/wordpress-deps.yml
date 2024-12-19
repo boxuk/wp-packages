@@ -1,0 +1,39 @@
+name: Update WP Deps
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+env: 
+  WORDPRESS_VERSION: ${{ vars.WORDPRESS_VERSION }}
+
+jobs:
+  update-deps:
+    runs-on: ubuntu-latest
+    steps:
+      # Setup
+      - name: Run Update
+        uses: './.github/wp-packages'
+        with:
+          WP_VERSION: ${{ env.WORDPRESS_VERSION }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Dispatch Workflow - Tests
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_file: 'test-php.yml',
+              ref: deps/wp-packages/wp-${{ env.WORDPRESS_VERSION }}
+            });
+            await github.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_file: 'test-js.yml',
+              ref: deps/wp-packages/wp-${{ env.WORDPRESS_VERSION }}
+            });
+        

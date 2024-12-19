@@ -10,17 +10,26 @@ services:
     working_dir: /usr/src/app
     volumes:
       - .:/usr/src/app
+    env_file: ./.env
 
   wordpress:
-    build: ./docker/wordpress
+    build: 
+      context: ./docker/wordpress
+      args:
+        WORDPRESS_VERSION: $WORDPRESS_VERSION
     ports:
       - "8000:80"
     volumes:
-      - ./docker/wordpress/wp-config.php:/var/www/html/wp-config.php
-      - ./docker/wordpress/db.php:/var/www/html/wp-content/db.php
-      - ./docker/wordpress/mu-plugins/:/var/www/html/wp-content/mu-plugins/
-      - ./docker/wordpress/themes:/var/www/html/wp-content/themes/
       - ./packages/:/var/www/html/wp-content/plugins/
+      - wordpress:/var/www/html
+    
+  wpcli: 
+    image: wordpress:cli
+    volumes:
+      - ./packages/:/var/www/html/wp-content/plugins/
+      - wordpress:/var/www/html
+    depends_on:
+      - wordpress
 
   githooks:
     build: ./docker/githooks
@@ -28,3 +37,5 @@ services:
       - ./.git:/tmp/.git
       - ./hooks:/tmp/hooks
 
+volumes:
+  wordpress:

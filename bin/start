@@ -3,4 +3,5 @@
 ./bin/composer install
 docker compose up -d wordpress
 ./bin/npm install
-./bin/npm run start
+sleep 10 && open http://localhost:8000 &>/dev/null &
+./bin/npm run start 
