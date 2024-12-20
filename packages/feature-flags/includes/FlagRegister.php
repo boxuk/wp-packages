@@ -82,6 +82,15 @@ class FlagRegister {
 	}
 
 	/**
+	 * Unregister a flag.
+	 * 
+	 * @param Flag $flag The flag to unregister.
+	 */
+	public function unregister_flag( Flag $flag ): void {
+		unset( $this->flags[ $flag->get_key() ] );
+	}
+
+	/**
 	 * Register Flags.
 	 * 
 	 * @param array<Flag> $flags Array of flag objects.
