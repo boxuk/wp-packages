@@ -30,7 +30,19 @@ runs:
     - name: Update WP Packages
       shell: bash
       run: npm run packages-update
-    
+
+    # Commit the changes
+    - name: Commit changes
+      shell: bash
+      run: |
+          git config --global user.email "developers@boxuk.com"
+          git config --global user.name "boxuk-wp-robot"
+          git config --global push.autoSetupRemote true
+          git checkout -b update-wp-deps/$WP_VERSION
+          git add .
+          git commit -n -m "[DEPS] Update WordPress packages to $WP_VERSION"
+          git push -f
+
     # Create a PR
     - name: Create PR #if needed
       shell: bash
