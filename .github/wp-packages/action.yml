@@ -42,3 +42,4 @@ runs:
         branch: "deps/wp-packages/wp-$WP_VERSION"
         author: "BoxUK WordPress Robot<wordpress@boxuk.com>"
         labels: "dependencies"
+        github-token: ${{ inputs.GITHUB_TOKEN }}
