@@ -24,22 +24,22 @@ runs:
         cache: npm
     - name: Install Deps
       shell: bash
-      run: npm install
+      run: npm ci
 
     # Run the update script
     - name: Update WP Packages
       shell: bash
       run: npm run packages-update
-    
-    # Create a PR
+
     - name: Create Pull Request
-      uses: gr2m/create-or-update-pull-request-action@v1
-      env: 
-        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
-      with: 
-        title: "[DEPS] Update WP Packages for WP $WP_VERSION"
-        body: "This PR updates the WP packages to the latest versions for WP $WP_VERSION"
-        branch: "deps/wp-packages/wp-$WP_VERSION"
-        author: "BoxUK WordPress Robot<wordpress@boxuk.com>"
-        labels: "dependencies"
-        github-token: ${{ inputs.GITHUB_TOKEN }}
+      uses: peter-evans/create-pull-request@v7
+      with:
+        token: ${{ inputs.GITHUB_TOKEN }}
+        commit-message: Update WP Packages to ${{ inputs.WP_VERSION }}
+        committer: BoxUK WP Robot <developers@boxuk.com>
+        author: BoxUK WP Robot <developers@boxuk.com>
+        branch: update-wp-deps/${{ inputs.WP_VERSION }}
+        delete-branch: true
+        title: '[DEPS] Update WP Deps to ${{ inputs.WP_VERSION }}'
+        body: |
+          This PR updates the WordPress packages to the version that's compatible with the current WP version.

@@ -18,27 +18,23 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+
       - name: Run Update
         uses: './.github/wp-packages'
         with:
           WP_VERSION: ${{ env.WORDPRESS_VERSION }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Dispatch Workflow - Tests
-        uses: actions/github-script@v7
+      - name: Checkout Branch
+        uses: actions/checkout@v2
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            await github.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_file: 'test-php.yml',
-              ref: deps/wp-packages/wp-${{ env.WORDPRESS_VERSION }}
-            });
-            await github.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_file: 'test-js.yml',
-              ref: deps/wp-packages/wp-${{ env.WORDPRESS_VERSION }}
-            });
+          ref: update-wp-deps/${{ env.WORDPRESS_VERSION }}
+          persist-credentials: false
+      
+      - name: Run JS Tests
+        uses: ./.github/workflows/tests-js.yml
+      - name: Run PHP Tests
+        uses: ./.github/workflows/tests-php.yml
+      
+           
         
