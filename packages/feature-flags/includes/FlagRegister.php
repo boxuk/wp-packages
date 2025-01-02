@@ -36,6 +36,11 @@ class FlagRegister {
 		return self::$instance;
 	}
 
+	/** 
+	 * Private contstructor.
+	 */
+	private function __construct() {}
+
 	/**
 	 * Array of flags.
 	 *
