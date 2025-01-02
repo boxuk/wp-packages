@@ -52,16 +52,16 @@ class FlagRegister {
 	/**
 	 * Get a flag.
 	 * 
-	 * @param mixed $flag Anything, but ideally a `Flag` instance or a string which is a key in the flags array.
+	 * @param Flag|string $flag Anything, but ideally a `Flag` instance or a string which is a key in the flags array.
 	 * 
 	 * @return Flag|null
 	 */
-	public function get_flag( mixed $flag ): ?Flag {
+	public function get_flag( Flag|string $flag ): ?Flag {
 		if ( $flag instanceof Flag ) {
 			return $flag;
 		}
 		
-		if ( is_string( $flag ) && array_key_exists( $flag, $this->flags ) ) {
+		if ( array_key_exists( $flag, $this->flags ) ) {
 			return $this->flags[ $flag ];
 		}
 
@@ -108,27 +108,5 @@ class FlagRegister {
 		}
 
 		return $this;
-	}
-
-	/**
-	 * Sanitize Flags array
-	 * 
-	 * @param mixed $flags Anything.
-	 * 
-	 * @return array<Flag>
-	 */
-	public function sanitize_flags( mixed $flags ): array {
-		if ( ! is_array( $flags ) ) { 
-			return array();
-		}
-
-		return array_filter(
-			array_map( 
-				function ( mixed $flag ) { 
-					return FlagRegister::instance()->get_flag( $flag );
-				},
-				$flags
-			)
-		);
 	}
 }

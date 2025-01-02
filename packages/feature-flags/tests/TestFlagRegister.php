@@ -9,6 +9,7 @@ declare( strict_types = 1 );
 
 namespace BoxUk\WpFeatureFlags;
 
+use stdClass;
 use WP_Mock\Tools\TestCase;
 
 /**
@@ -105,6 +106,7 @@ class TestFlagRegister extends TestCase {
 	 * Test `sanitize_flags` method
 	 */
 	public function test_sanitize_flags(): void {
-		$this->assertEquals( array(), FlagRegister::instance()->sanitize_flags( 'invalid input' ) );
+		$this->assertEquals( array(), Sanitizer::sanitize_flags( 'invalid input' ) );
+		$this->assertEquals( array(), Sanitizer::sanitize_flags( array( new stdClass() ) ) );
 	}
 }   

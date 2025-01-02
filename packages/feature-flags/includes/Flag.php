@@ -264,7 +264,7 @@ class Flag implements JsonSerializable {
 			return array();
 		}
 
-		return FlagRegister::instance()->sanitize_flags( $published_flags );
+		return Sanitizer::sanitize_flags( $published_flags );
 	}
 
 	/**
@@ -287,13 +287,13 @@ class Flag implements JsonSerializable {
 			return array();
 		}
 
-		return FlagRegister::instance()->sanitize_flags( $user_flags );
+		return Sanitizer::sanitize_flags( $user_flags );
 	}
 
 	/**
 	 * Set the published flags.
 	 *
-	 * @param array<mixed> $flags The published flags.
+	 * @param array<string|Flag> $flags The published flags.
 	 * @return bool
 	 */
 	protected function set_published_flags( array $flags ): bool {
@@ -303,7 +303,7 @@ class Flag implements JsonSerializable {
 			array_unique(
 				array_map( 
 					fn( Flag $flag ) => $flag->get_key(),
-					FlagRegister::instance()->sanitize_flags( $flags ) 
+					Sanitizer::sanitize_flags( $flags ) 
 				)
 			)
 		);
@@ -312,8 +312,8 @@ class Flag implements JsonSerializable {
 	/**
 	 * Sets users enabled flags.
 	 *
-	 * @param array<mixed> $flags    The flags to enable for the user.
-	 * @param integer      $user_id  The current user ID.
+	 * @param array<string|Flag> $flags    The flags to enable for the user.
+	 * @param integer            $user_id  The current user ID.
 	 * 
 	 * @return bool True on successful update, false on failure or if the value passed to the function is the same as the one that is already in the database.
 	 */
@@ -328,7 +328,7 @@ class Flag implements JsonSerializable {
 			self::FLAG_USER_OPTION, 
 			array_map( 
 				fn( Flag $flag ) => $flag->get_key(),
-				FlagRegister::instance()->sanitize_flags( $flags ) 
+				Sanitizer::sanitize_flags( $flags ) 
 			)
 		);
 	}

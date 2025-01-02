@@ -117,13 +117,13 @@ class Api extends WP_REST_Controller {
 	/**
 	 * Update a flag.
 	 * 
-	 * @param WP_REST_Request<array<array{flag:string}>> $request Full details about the request.
+	 * @param WP_REST_Request<array{flag:string}> $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function update_item( $request ) {
 		$key = $request->get_param( 'flag' );
 
-		if ( ! $key ) {
+		if ( ! is_string( $key ) ) {
 			wp_die( new WP_Error( 'missing_params', 'Missing required parameters.', array( 'status' => 400 ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			return; // @phpstan-ignore-line Return added for the purposes of testing. 
 		}
