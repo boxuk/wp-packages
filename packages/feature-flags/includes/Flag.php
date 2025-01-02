@@ -29,8 +29,8 @@ class Flag implements JsonSerializable {
 	 * @param string   $description Description of the flag.
 	 * @param DateTime $created Array of meta keys and values related to the flag.
 	 * @param string   $group Group the flag belongs to.
-	 * @param boolean  $enforced Whether the flag is enforced or not.
-	 * @param boolean  $stable Whether the flag is stable or not.
+	 * @param boolean  $force_enabled Whether the flag is forcibly enabled or not.
+	 * @param boolean  $force_disabled Whether the flag is forcibly disabled or not.
 	 */
 	public function __construct(
 		private string $key,
@@ -38,8 +38,8 @@ class Flag implements JsonSerializable {
 		private string $description,
 		private ?DateTime $created = null,
 		private string $group = self::DEFAULT_GROUP,
-		private bool $enforced = false,
-		private bool $stable = true,
+		private bool $force_enabled = false,
+		private bool $force_disabled = false,
 	) {}
 
 	/**
@@ -92,17 +92,17 @@ class Flag implements JsonSerializable {
 	 *
 	 * @return boolean
 	 */
-	public function is_enforced(): bool {
-		return $this->enforced;
+	public function is_force_enabled(): bool {
+		return $this->force_enabled;
 	}
 
 	/**
-	 * Is the flag stable or not?
+	 * Is the flag forcibly disabled or not?
 	 *
 	 * @return boolean
 	 */
-	public function is_stable(): bool {
-		return $this->stable;
+	public function is_force_disabled(): bool {
+		return $this->force_disabled;
 	}
 
 	/**
@@ -111,13 +111,12 @@ class Flag implements JsonSerializable {
 	 * @return boolean
 	 */
 	public function can_be_published(): bool {
-		// Unstable flags canont be published.
-		if ( false === $this->stable ) {
+		if ( true === $this->force_disabled ) {
 			return false;
 		}
 
 		// Enforced flags cannot be published.
-		if ( true === $this->enforced ) {
+		if ( true === $this->force_enabled ) {
 			return false;
 		}
 
@@ -166,11 +165,11 @@ class Flag implements JsonSerializable {
 	 * @param int $user_id The user ID to check if the flag is on for.
 	 */
 	public function is_enabled( int $user_id = 0 ): bool {
-		if ( $this->is_enforced() ) {
+		if ( $this->is_force_enabled() ) {
 			return true;
 		}
 
-		if ( ! $this->is_stable() ) {
+		if ( $this->is_force_disabled() ) {
 			return false;
 		}
 		
@@ -188,19 +187,19 @@ class Flag implements JsonSerializable {
 	/**
 	 * Json serializable method.
 	 * 
-	 * @return array{key:string,name:string,description:string,created:DateTime|null,group:string,enforced:bool,stable:bool,is_published:bool,users:array<int>}
+	 * @return array{key:string,name:string,description:string,created:DateTime|null,group:string,force_enabled:bool,force_disabled:bool,is_published:bool,users:array<int>}
 	 */
 	public function jsonSerialize(): array {
 		return array(
-			'key'          => $this->key,
-			'name'         => $this->name,
-			'description'  => $this->description,
-			'created'      => $this->created,
-			'group'        => $this->group,
-			'enforced'     => $this->enforced,
-			'stable'       => $this->stable,
-			'is_published' => $this->is_published(),
-			'users'        => $this->get_users(),
+			'key'            => $this->key,
+			'name'           => $this->name,
+			'description'    => $this->description,
+			'created'        => $this->created,
+			'group'          => $this->group,
+			'force_enabled'  => $this->force_enabled,
+			'force_disabled' => $this->force_disabled,
+			'is_published'   => $this->is_published(),
+			'users'          => $this->get_users(),
 		);
 	}
 

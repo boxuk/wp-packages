@@ -10,7 +10,7 @@ import { Flag } from '../types';
 import { Flex } from '@wordpress/components';
 
 export const BooleanRender = ( { flag }: { flag: Flag } ) => {
-	if ( flag.enforced ) {
+	if ( flag.force_enabled ) {
 		return (
 			<Flex justify={ 'start' }>
 				<Enforced />
@@ -18,7 +18,7 @@ export const BooleanRender = ( { flag }: { flag: Flag } ) => {
 			</Flex>
 		);
 	}
-	if ( ! flag.stable ) {
+	if ( flag.force_disabled ) {
 		return (
 			<Flex justify={ 'start' }>
 				<Disabled />

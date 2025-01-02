@@ -6,6 +6,7 @@ import { store } from '../data';
 
 import { Flag } from '../types';
 import { UsersModal } from '../components/UsersModal';
+import { canModifyPublishState } from '../utils';
 
 import { ReactComponent as Check } from '../icons/check.svg';
 import { ReactComponent as ManageUsers } from '../icons/manage-users.svg';
@@ -19,7 +20,7 @@ export const actions: Action< Flag >[] = [
 		icon: <Check />,
 		supportsBulk: true,
 		isEligible: ( item ) =>
-			!! ( ! item.is_published && item.stable && ! item.enforced ),
+			!! ( ! item.is_published && canModifyPublishState( item ) ),
 		callback: ( items ) => {
 			items.map( ( item ) =>
 				dispatch( store ).updateFlag( { ...item, is_published: true } )
@@ -33,7 +34,7 @@ export const actions: Action< Flag >[] = [
 		isPrimary: true,
 		icon: <ManageUsers />,
 		supportsBulk: true,
-		isEligible: ( item ) => !! ( item.stable && ! item.enforced ),
+		isEligible: ( item ) => canModifyPublishState( item ),
 		RenderModal: UsersModal,
 	},
 	{
@@ -44,7 +45,7 @@ export const actions: Action< Flag >[] = [
 		supportsBulk: true,
 		isDestructive: true,
 		isEligible: ( item ) =>
-			!! ( item.is_published && item.stable && ! item.enforced ),
+			!! ( item.is_published && canModifyPublishState( item ) ),
 		callback: ( items ) => {
 			items.map( ( item ) =>
 				dispatch( store ).updateFlag( { ...item, is_published: false } )

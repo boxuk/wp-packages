@@ -69,27 +69,27 @@ class TestFlag extends TestCase {
 	 * Test `is_enforced` method
 	 */
 	public function test_is_enforced(): void {
-		$this->assertFalse( $this->get_flag()->is_enforced() );
+		$this->assertFalse( $this->get_flag()->is_force_enabled() );
 	}
 
 	/**
-	 * Test `is_stable` method
+	 * Test `is_force_disabled` method
 	 */
-	public function test_is_stable(): void {
-		$this->assertTrue( $this->get_flag()->is_stable() );
+	public function test_is_force_disabled(): void {
+		$this->assertFalse( $this->get_flag()->is_force_disabled() );
 	}
 
 	/**
 	 * Test `can_be_published` method
 	 */
 	public function test_can_be_published(): void {
-		$flag = new Flag( 'test', 'Test Flag', 'This is a test flag', null, 'Default', false, true );
+		$flag = new Flag( 'test', 'Test Flag', 'This is a test flag', null, 'Default', false, false );
 		$this->assertTrue( $flag->can_be_published() );
 
-		$flag = new Flag( 'test', 'Test Flag', 'This is a test flag', null, 'Default', true, false );
+		$flag = new Flag( 'test', 'Test Flag', 'This is a test flag', null, 'Default', true, true );
 		$this->assertFalse( $flag->can_be_published() );
 
-		$flag = new Flag( 'test', 'Test Flag', 'This is a test flag', null, 'Default', true, true );
+		$flag = new Flag( 'test', 'Test Flag', 'This is a test flag', null, 'Default', true, false );
 		$this->assertFalse( $flag->can_be_published() );
 	}
 
@@ -210,32 +210,32 @@ class TestFlag extends TestCase {
 	public function is_enabled_provider(): array {
 		return array(
 			'enforced'  => array(
-				new Flag( 'enforced', 'Test', 'Test', null, 'default', true, true ),
+				new Flag( 'enforced', 'Test', 'Test', null, 'default', true, false ),
 				array(),
 				array(),
 				true,
 			),
 			'published' => array(
-				new Flag( 'published', 'Test', 'Test', null, 'default', false, true ),
+				new Flag( 'published', 'Test', 'Test', null, 'default', false, false ),
 				array( 'published' ),
 				array(),
 				true,
 			),
 			'user'      => array(
-				new Flag( 'user', 'Test', 'Test', null, 'default', false, true ),
+				new Flag( 'user', 'Test', 'Test', null, 'default', false, false ),
 				array(),
 				array( 'user' ),
 				true,
 			),
 			'none'      => array(
-				new Flag( 'none', 'Test', 'Test', null, 'default', false, true ),
+				new Flag( 'none', 'Test', 'Test', null, 'default', false, false ),
 				array(),
 				array(),
 				false,
 			),
-			'unstable'  => array(
-				new Flag( 'unstable', 'Test', 'Test', null, 'default', false, false ),
-				array( 'unstable' ),
+			'disabled'  => array(
+				new Flag( 'disbaled', 'Test', 'Test', null, 'default', false, true ),
+				array( 'disbaled' ),
 				array(),
 				false,
 			),
@@ -252,15 +252,15 @@ class TestFlag extends TestCase {
 		$flag = $this->get_flag();
 		$this->assertEquals(
 			array(
-				'key'          => 'test',
-				'name'         => 'Test Flag',
-				'description'  => 'This is a test flag',
-				'created'      => null,
-				'group'        => 'Default',
-				'enforced'     => false,
-				'stable'       => true,
-				'is_published' => false,
-				'users'        => array(),
+				'key'            => 'test',
+				'name'           => 'Test Flag',
+				'description'    => 'This is a test flag',
+				'created'        => null,
+				'group'          => 'Default',
+				'force_enabled'  => false,
+				'force_disabled' => false,
+				'is_published'   => false,
+				'users'          => array(),
 			),
 			$flag->jsonSerialize()
 		);

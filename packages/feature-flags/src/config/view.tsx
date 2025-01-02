@@ -17,7 +17,11 @@ export const layouts: SupportedLayouts = {
 				{
 					id: 'status',
 					label: 'Status',
-					children: [ 'is_published', 'enforced', 'stable' ],
+					children: [
+						'is_published',
+						'force_enabled',
+						'force_disabled',
+					],
 					direction: 'horizontal',
 				},
 			],

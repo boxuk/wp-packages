@@ -13,8 +13,8 @@ export type Flag = PartialNullable< {
 	description: string;
 	created: ApiDate;
 	group: string;
-	enforced: boolean;
-	stable: boolean;
+	force_enabled: boolean;
+	force_disabled: boolean;
 	is_published: boolean;
 	users: string[];
 } >;

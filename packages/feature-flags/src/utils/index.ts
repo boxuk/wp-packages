@@ -27,6 +27,9 @@ const sanitizeNumber = ( value: unknown ): number | undefined | null => {
 	return undefined;
 };
 
+export const canModifyPublishState = ( flag: Flag ): boolean =>
+	! flag.force_disabled && ! flag.force_enabled;
+
 export const sanitizeFlag = ( data: unknown ): Flag => {
 	if ( typeof data !== 'object' || ! data ) {
 		throw new Error( 'Invalid flag data' );
@@ -38,8 +41,8 @@ export const sanitizeFlag = ( data: unknown ): Flag => {
 		! ( 'description' in data ) ||
 		! ( 'created' in data ) ||
 		! ( 'group' in data ) ||
-		! ( 'enforced' in data ) ||
-		! ( 'stable' in data ) ||
+		! ( 'force_enabled' in data ) ||
+		! ( 'force_disabled' in data ) ||
 		! ( 'is_published' in data ) ||
 		! ( 'users' in data )
 	) {
@@ -52,8 +55,8 @@ export const sanitizeFlag = ( data: unknown ): Flag => {
 		description: sanitizeString( data.description ),
 		created: sanitizeApiDate( data.created ),
 		group: sanitizeString( data.group ),
-		enforced: sanitizeBoolean( data.enforced ),
-		stable: sanitizeBoolean( data.stable ),
+		force_enabled: sanitizeBoolean( data.force_enabled ),
+		force_disabled: sanitizeBoolean( data.force_disabled ),
 		is_published: sanitizeBoolean( data.is_published ),
 		users: sanitizeArray( data.users, sanitizeString ),
 	};

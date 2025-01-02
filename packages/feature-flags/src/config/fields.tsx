@@ -78,10 +78,10 @@ export const useFields = (): Fields< Flag > => {
 				},
 			],
 			getValue: ( { item } ) => {
-				if ( item.enforced ) {
+				if ( item.force_enabled ) {
 					return 'enforced';
 				}
-				if ( ! item.stable ) {
+				if ( item.force_disabled ) {
 					return 'disabled';
 				}
 				if ( ! item.is_published && ( item.users?.length ?? 0 ) > 0 ) {

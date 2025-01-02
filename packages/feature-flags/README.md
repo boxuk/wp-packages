@@ -23,8 +23,8 @@ A simple flag registration looks like this:
 			'An experimental feature that we want to control the release of.', // description
 			new \DateTime( '2020-03-23' ), // creation-date
 			'experiments', // group-name
-			false, // stable
-			true // enforced
+			true // force-enable
+			false, // force-disable
 		)
 	)->register_flag(
 		new \BoxUk\WpFeatureFlags\Flag(
@@ -51,19 +51,19 @@ There are extra attributes that can be set in this array that give you more cont
 
 * **created (DateTime)** - the date you decided to add this flag. This will help with technical debt management. Defaults to `null`. 
 * **group (text string)** - to make related flags easier to find, you can group them together by giving them the same group name. 
-* **stable (true/false)** - whether the flag is stable enough to be published. This is `true` by default.
-* **enforced (true/false)** - flags can be forced into a published state by setting this to `true`. This defaults to `false`.
+* **force-enable (true/false)** - flags can be forced into a published state by setting this to `true`. This defaults to `false`.
+* **force-disable (true/false)** - flags can be forced into a disabled state by setting this to `true`. This defaults to `false`. 
 
-You could use more complex logic to determine if a flag is stable or enforced, such as by using functions like `wp_get_environment_type()`, but bare in mind these functions may not be ready until later in the loading sequence and as such you may want to hook your registration to a hook such as `muplugins_loaded`. 
+You could use more complex logic to determine if a flag has an enforced state, such as by using functions like `wp_get_environment_type()`, but bare in mind these functions may not be ready until later in the loading sequence and as such you may want to hook your registration to a hook such as `muplugins_loaded`. 
 
 ## Using Flags
 
 Ideally reading a flags status shouldn't be used before the `init` hook, and registration should happen before that point. This is to ensure that all flags have been registered and that the current user is logged in so we can determine if a user does have access. 
 
-The simplest check would be to use the `enabled()` method, which takes into consideration if a flag is enforced, stable or enabled on a per-user basis to give a valid answer. 
+The simplest check would be to use the `is_enabled()` method, which takes into consideration if a flag has a forced state or enabled on a per-user basis to give a valid answer. 
 
 ```php
-\BoxUk\WpFeatureFlags\FlagRegister::instance()->get_flag( 'example-flag-2' )->enabled();
+\BoxUk\WpFeatureFlags\FlagRegister::instance()->get_flag( 'example-flag-2' )->is_enabled();
 ```
 
 Alternatively, all the other flag properties can be checked independently if you want more fine-control of the state of your flag. 
@@ -71,8 +71,8 @@ Alternatively, all the other flag properties can be checked independently if you
 ```php
 \BoxUk\WpFeatureFlags\FlagRegister::instance()->get_flag( 'example-flag-2' )->is_published(); // If the flag has been specifically published. This will return false for enforced-flags
 \BoxUk\WpFeatureFlags\FlagRegister::instance()->get_flag( 'example-flag-2' )->enabled_for_user( $user_id ); // if the flag is in enabled for a specific user
-\BoxUk\WpFeatureFlags\FlagRegister::instance()->get_flag( 'example-flag-2' )->is_stable();
-\BoxUk\WpFeatureFlags\FlagRegister::instance()->get_flag( 'example-flag-2' )->is_enforced();
+\BoxUk\WpFeatureFlags\FlagRegister::instance()->get_flag( 'example-flag-2' )->is_force_enabled();
+\BoxUk\WpFeatureFlags\FlagRegister::instance()->get_flag( 'example-flag-2' )->is_force_disabled();
 ```
 
 ### Load Order
@@ -100,12 +100,11 @@ $user_id = 123; // A known user ID (ie, not `get_current_user_id()`
 $published = $flag->is_published(); // will work immediately. 
 $published = $flag->enabled_for_user(); // will return false until `init` because current user ID is not known before `init`. 
 $published = $flag->enabled_for_user( $user_id ); // will work, since we don't need to lookup the current user. 
-$published = $flag->enabled(); // will vary - if the flag is enforced, unstable or published, this will work as expected. If none of the other rules apply, it fallsback to checking current user, so will return false before the `init` hook because we don't know the current user ID.
+$published = $flag->enabled(); // will vary - if the flag has a forced state or published, this will work as expected. If none of the other rules apply, it fallsback to checking current user, so will return false before the `init` hook because we don't know the current user ID.
 $published = $flag->enabled( $user_id ); // As above - will work as expected. 
 ```
 
 As you can see, in most instances you may want to wait for the `init` hook before checking a flag's status since any users who are opted in to the flag will not be enabled. This may also cause complexities if you're using the flag check in multiple points in the firing sequence in a WP application and the published state might change depending on your load state. 
-
 
 ## Contributing
 
