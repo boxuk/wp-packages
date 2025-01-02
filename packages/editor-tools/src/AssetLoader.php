@@ -63,12 +63,15 @@ class AssetLoader {
 			}
 			return;
 		}
+		$deps    = isset( $asset['dependencies'] ) && is_array( $asset['dependencies'] ) ? $asset['dependencies'] : array();
+		$deps    = array_filter( $deps, 'is_string' );
+		$version = isset( $asset['version'] ) && is_string( $asset['version'] ) ? $asset['version'] : false;
 
 		wp_enqueue_script(
 			$this->prefix . $handle,
 			$this->get_base_url() . $handle . '.js',
-			$asset['dependencies'] ?? array(),
-			$asset['version'] ?? false,
+			$deps,
+			$version,
 			true,
 		);
 
@@ -99,7 +102,7 @@ class AssetLoader {
 				$this->prefix . $handle,
 				$this->get_base_url() . $handle . '.css',
 				array(),
-				$asset['version'] ?? false,
+				$version,
 			);
 		}
 	}

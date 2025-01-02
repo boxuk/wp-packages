@@ -44,7 +44,9 @@ class PasswordValidation {
 			return;
 		}
 
-		$password = sanitize_text_field( $_POST['pass1'] ?? '' ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verification is handled by WP core.
+		$password = isset( $_POST['pass1'] ) && is_string( $_POST['pass1'] ) ? // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verification is handled by WP core.
+		sanitize_text_field( $_POST['pass1'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verification is handled by WP core.
+
 
 		// Allow empty-password field if the user is just updating their profile.
 		if ( doing_action( 'user_profile_update_errors' ) && empty( $password ) ) {
