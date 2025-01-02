@@ -24,7 +24,7 @@ runs:
         cache: npm
     - name: Install Deps
       shell: bash
-      run: npm install
+      run: npm ci
 
     # Run the update script
     - name: Update WP Packages
@@ -32,14 +32,10 @@ runs:
       run: npm run packages-update
     
     # Create a PR
-    - name: Create Pull Request
-      uses: gr2m/create-or-update-pull-request-action@v1
-      env: 
+    - name: Create PR #if needed
+      shell: bash
+      run: |
+        gh pr create --title "[DEPS] Update WordPress packages to $WP_VERSION" --body "This PR updates the WordPress packages to the version that's compatible with the current WP version." --base main --head update-wp-deps/$WP_VERSION
+      continue-on-error: true # If the PR already exists, the action will fail, but we don't want the whole workflow to fail.
+      env:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
-      with: 
-        title: "[DEPS] Update WP Packages for WP $WP_VERSION"
-        body: "This PR updates the WP packages to the latest versions for WP $WP_VERSION"
-        branch: "deps/wp-packages/wp-$WP_VERSION"
-        author: "BoxUK WordPress Robot<wordpress@boxuk.com>"
-        labels: "dependencies"
-        github-token: ${{ inputs.GITHUB_TOKEN }}
