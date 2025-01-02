@@ -3,6 +3,10 @@ name: PHP Quality Tests
 on: 
   pull_request: 
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Update WP Deps"]
+    types:
+      - completed
   
 permissions:
   contents: write
