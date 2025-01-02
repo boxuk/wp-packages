@@ -60,7 +60,9 @@ class RestrictHTTPRequestMethods {
 	 * @return string The current method or empty string if it can't be determined.
 	 */
 	public function get_method(): string {
-		return sanitize_text_field( $_SERVER['REQUEST_METHOD'] ?? '' );
+		return isset( $_SERVER['REQUEST_METHOD'] ) && is_string( $_SERVER['REQUEST_METHOD'] ) ? 
+			sanitize_text_field( $_SERVER['REQUEST_METHOD'] ) 
+			: '';
 	}
 
 	/**

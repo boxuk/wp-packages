@@ -44,7 +44,7 @@ class Comments {
 	public function disable_comments_post_types_support(): void {
 		// Remove all post-type support for comments.
 		foreach ( get_post_types() as $post_type ) {
-			if ( is_string( $post_type ) && post_type_supports( $post_type, 'comments' ) ) {
+			if ( post_type_supports( $post_type, 'comments' ) ) {
 				remove_post_type_support( $post_type, 'comments' );
 				remove_post_type_support( $post_type, 'trackbacks' );
 			}
