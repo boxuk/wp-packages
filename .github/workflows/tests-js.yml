@@ -26,6 +26,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        if: github.event_name != 'workflow_run'
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: deps/wp-packages/wp-${{ vars.WORDPRESS_VERSION }}
+        if: github.event_name == 'workflow_run'
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
