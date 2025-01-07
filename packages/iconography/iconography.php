@@ -20,7 +20,7 @@ add_action(
 
 		add_filter(
 			'boxuk_iconography_files',
-			function ( $config_files ) {
+			function ( array $config_files ): array {
 				$plugin_dir = __DIR__;
 
 				$config_files['material-symbols-outlined']        = $plugin_dir . '/config/material-symbols-outlined.config.json';

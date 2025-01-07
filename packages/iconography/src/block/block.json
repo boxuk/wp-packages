@@ -12,7 +12,7 @@
 	"editorScript": "file:./index.ts",
 	"supports": {
 		"anchor": false,
-		"align": [],
+		"align": false,
 		"alignWide": false,
 		"ariaLabel": true,
 		"background": {
@@ -46,12 +46,12 @@
 		"spacing": {
 			"margin": true,
 			"padding": true,
-			"blockGrap": false
+			"blockGap": false
 		},
 		"typography": {
 			"fontSize": true,
 			"lineHeight": false,
-			"textAlign": true
+			"textAlign": false
 		}
 	},
 	"attributes": {
