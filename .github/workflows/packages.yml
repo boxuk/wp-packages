@@ -28,6 +28,8 @@ jobs:
             target_repo: "wordpress-email-tld-checker"
           - local_path: "deps-auto-update"
             target_repo: "wp-deps-auto-update"
+          - local_path: "feature-flags"
+            target_repo: "wp-feature-flags"
 
     steps:
       - uses: actions/checkout@v4
