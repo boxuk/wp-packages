@@ -4,7 +4,13 @@ This is the BoxUK mono-repo for our WordPress packages. The [WordPress Skeleton]
 
 ## How to use
 
-This mono repo allows you to develop any of the packages. To start a WordPress development environment to test against, just run `docker-compose up -d wordpress` and you'll be able to access WordPress at [http://localhost:8000](http://localhost:8000). 
+This mono repo allows you to develop any of the packages. To start a WordPress development environment to test against, either:
+
+run `docker-compose up -d wordpress` to start the container \
+or \
+run `bin/start`, which runs composer & npm installs, starts the container and runs npm start
+
+and you'll be able to access WordPress at [http://localhost:8000](http://localhost:8000). 
 
 We use [Monorepo Builder](https://github.com/symplify/monorepo-builder) tools to manage the mono-repo dependancies. 
 
