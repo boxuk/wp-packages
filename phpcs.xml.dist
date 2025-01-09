@@ -21,6 +21,7 @@
 	<exclude-pattern>/node_modules</exclude-pattern>
 	<exclude-pattern>/coverage</exclude-pattern>
 	<exclude-pattern>/packages/index.php</exclude-pattern>
+	<exclude-pattern>*.asset.php</exclude-pattern>
 
 	<!-- Third party packages -->
 	<exclude-pattern>/packages/akismet</exclude-pattern>

@@ -13,6 +13,7 @@ namespace Boxuk\Iconography;
 
 use Boxuk\Iconography\Model\Icon;
 use Boxuk\Iconography\Model\IconGroup;
+use Swaggest\JsonSchema\Context;
 use Swaggest\JsonSchema\Schema;
 use Swaggest\JsonSchema\SchemaContract;
 
