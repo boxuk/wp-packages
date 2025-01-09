@@ -22,6 +22,10 @@
 	<exclude-pattern>/coverage</exclude-pattern>
 	<exclude-pattern>/packages/index.php</exclude-pattern>
 
+	<!-- Third party packages -->
+	<exclude-pattern>/packages/akismet</exclude-pattern>
+	<exclude-pattern>/packages/hello.php</exclude-pattern>
+
 	<rule ref="WordPress-VIP-Go">
 		<!-- Remove this so we can use PSR-4 autoloading -->
 		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
