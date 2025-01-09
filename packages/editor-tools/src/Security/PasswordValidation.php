@@ -25,10 +25,10 @@ class PasswordValidation {
 	 * @return void
 	 */
 	public function init(): void {
-		add_action( 'user_profile_update_errors', array( $this, 'user_profile_update_errors' ) );
-		add_action( 'validate_password_reset', array( $this, 'user_profile_update_errors' ) );
-		add_action( 'registration_errors', array( $this, 'user_profile_update_errors' ) );
-		add_filter( 'password_hint', array( $this, 'password_hint' ) );
+		add_action( 'user_profile_update_errors', [ $this, 'user_profile_update_errors' ] );
+		add_action( 'validate_password_reset', [ $this, 'user_profile_update_errors' ] );
+		add_action( 'registration_errors', [ $this, 'user_profile_update_errors' ] );
+		add_filter( 'password_hint', [ $this, 'password_hint' ] );
 	}
 
 	/**
@@ -65,33 +65,33 @@ class PasswordValidation {
 	 * @return void
 	 */
 	public function validate_password( string $password, \WP_Error &$errors ): void { // phpcs:ignore NeutronStandard.Functions.TypeHint.NoArgumentType -- false positive.
-		$constraints = array(
+		$constraints = [
 			new NotBlank(),
 			new Length(
-				array(
+				[
 					'min' => 10,
 					'max' => 72,
-				)
+				]
 			),
 			new Regex(
-				array(
+				[
 					'pattern' => '/[a-z]/',
 					'message' => 'Password must contain at least one lowercase letter.',
-				)
+				]
 			),
 			new Regex(
-				array(
+				[
 					'pattern' => '/[A-Z]/',
 					'message' => 'Password must contain at least one uppercase letter.',
-				)
+				]
 			),
 			new Regex(
-				array(
+				[
 					'pattern' => '/[0-9]/',
 					'message' => 'Password must contain at least one number.',
-				)
+				]
 			),
-		);
+		];
 
 		$validator = Validation::createValidator();
 

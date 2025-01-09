@@ -21,8 +21,8 @@ class EditorCleanup {
 	 * @return void
 	 */
 	public function init(): void {
-		add_action( 'after_setup_theme', array( $this, 'remove_theme_support' ) );
-		add_action( 'init', array( $this, 'remove_actions' ), 100 );
+		add_action( 'after_setup_theme', [ $this, 'remove_theme_support' ] );
+		add_action( 'init', [ $this, 'remove_actions' ], 100 );
 	}
 
 	/**

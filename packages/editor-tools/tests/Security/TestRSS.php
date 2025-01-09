@@ -29,26 +29,26 @@ class TestRSS extends TestCase {
 		$class_in_test = new RSS();
 
 		if ( ! $enabled ) { 
-			\WP_Mock::expectActionNotAdded( 'do_feed', array( $class_in_test, 'send_404' ), 1 );
-			\WP_Mock::expectActionNotAdded( 'do_feed_rdf', array( $class_in_test, 'send_404' ), 1 );
-			\WP_Mock::expectActionNotAdded( 'do_feed_rss', array( $class_in_test, 'send_404' ), 1 );
-			\WP_Mock::expectActionNotAdded( 'do_feed_rss2', array( $class_in_test, 'send_404' ), 1 );
-			\WP_Mock::expectActionNotAdded( 'do_feed_atom', array( $class_in_test, 'send_404' ), 1 );
-			\WP_Mock::expectActionNotAdded( 'do_feed_rss2_comments', array( $class_in_test, 'send_404' ), 1 );
-			\WP_Mock::expectActionNotAdded( 'do_feed_atom_comments', array( $class_in_test, 'send_404' ), 1 );
+			\WP_Mock::expectActionNotAdded( 'do_feed', [ $class_in_test, 'send_404' ], 1 );
+			\WP_Mock::expectActionNotAdded( 'do_feed_rdf', [ $class_in_test, 'send_404' ], 1 );
+			\WP_Mock::expectActionNotAdded( 'do_feed_rss', [ $class_in_test, 'send_404' ], 1 );
+			\WP_Mock::expectActionNotAdded( 'do_feed_rss2', [ $class_in_test, 'send_404' ], 1 );
+			\WP_Mock::expectActionNotAdded( 'do_feed_atom', [ $class_in_test, 'send_404' ], 1 );
+			\WP_Mock::expectActionNotAdded( 'do_feed_rss2_comments', [ $class_in_test, 'send_404' ], 1 );
+			\WP_Mock::expectActionNotAdded( 'do_feed_atom_comments', [ $class_in_test, 'send_404' ], 1 );
 	
 			\WP_Mock::userFunction( 'remove_action' )
 				->never()->with( 'wp_head', 'feed_links_extra', 3 );
 			\WP_Mock::userFunction( 'remove_action' )
 				->never()->with( 'wp_head', 'feed_links', 2 );
 		} else {
-			\WP_Mock::expectActionAdded( 'do_feed', array( $class_in_test, 'send_404' ), 1 );
-			\WP_Mock::expectActionAdded( 'do_feed_rdf', array( $class_in_test, 'send_404' ), 1 );
-			\WP_Mock::expectActionAdded( 'do_feed_rss', array( $class_in_test, 'send_404' ), 1 );
-			\WP_Mock::expectActionAdded( 'do_feed_rss2', array( $class_in_test, 'send_404' ), 1 );
-			\WP_Mock::expectActionAdded( 'do_feed_atom', array( $class_in_test, 'send_404' ), 1 );
-			\WP_Mock::expectActionAdded( 'do_feed_rss2_comments', array( $class_in_test, 'send_404' ), 1 );
-			\WP_Mock::expectActionAdded( 'do_feed_atom_comments', array( $class_in_test, 'send_404' ), 1 );
+			\WP_Mock::expectActionAdded( 'do_feed', [ $class_in_test, 'send_404' ], 1 );
+			\WP_Mock::expectActionAdded( 'do_feed_rdf', [ $class_in_test, 'send_404' ], 1 );
+			\WP_Mock::expectActionAdded( 'do_feed_rss', [ $class_in_test, 'send_404' ], 1 );
+			\WP_Mock::expectActionAdded( 'do_feed_rss2', [ $class_in_test, 'send_404' ], 1 );
+			\WP_Mock::expectActionAdded( 'do_feed_atom', [ $class_in_test, 'send_404' ], 1 );
+			\WP_Mock::expectActionAdded( 'do_feed_rss2_comments', [ $class_in_test, 'send_404' ], 1 );
+			\WP_Mock::expectActionAdded( 'do_feed_atom_comments', [ $class_in_test, 'send_404' ], 1 );
 
 			\WP_Mock::userFunction( 'remove_action' )
 				->once()->with( 'wp_head', 'feed_links_extra', 3 );
@@ -66,10 +66,10 @@ class TestRSS extends TestCase {
 	 * @return array
 	 */
 	public function init_provider(): array {
-		return array(
-			'enabled'  => array( true ),
-			'disabled' => array( false ),
-		);
+		return [
+			'enabled'  => [ true ],
+			'disabled' => [ false ],
+		];
 	}
 
 	/**

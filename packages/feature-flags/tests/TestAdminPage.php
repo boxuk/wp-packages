@@ -21,8 +21,8 @@ class TestAdminPage extends TestCase {
 	 */
 	public function test_init() {
 		$admin_page = new AdminPage();
-		\WP_Mock::expectActionAdded( 'admin_menu', array( $admin_page, 'add_settings_menu_page' ) );
-		\WP_Mock::expectActionAdded( 'admin_enqueue_scripts', array( $admin_page, 'enqueue_scripts' ) );
+		\WP_Mock::expectActionAdded( 'admin_menu', [ $admin_page, 'add_settings_menu_page' ] );
+		\WP_Mock::expectActionAdded( 'admin_enqueue_scripts', [ $admin_page, 'enqueue_scripts' ] );
 		$admin_page->init();
 		$this->assertConditionsMet();
 	}
@@ -35,16 +35,16 @@ class TestAdminPage extends TestCase {
 
 		\WP_Mock::userFunction(
 			'add_submenu_page',
-			array(
-				'args' => array(
+			[
+				'args' => [
 					'tools.php',
 					__( 'Feature flags', 'boxuk' ),
 					__( 'Feature flags', 'boxuk' ),
 					'manage_options',
 					'wp-feature-flags',
-					array( $admin_page, 'add_menu_page_content' ),
-				),
-			)
+					[ $admin_page, 'add_menu_page_content' ],
+				],
+			]
 		);
 		
 		$admin_page->add_settings_menu_page();
@@ -75,18 +75,18 @@ class TestAdminPage extends TestCase {
 	public function test_enqueue_scripts( string $screen_name, bool $should_enqueue ) {
 		$admin_page = $this->createPartialMock(
 			AdminPage::class,
-			array(
+			[
 				'get_asset_path',
-			)
+			]
 		);
 
 		$admin_page->method( 'get_asset_path' )->willReturn( __DIR__ . '/fixtures/index.asset.php' );
 
 		\WP_Mock::userFunction(
 			'get_current_screen',
-			array(
-				'return' => (object) array( 'id' => $screen_name ),
-			) 
+			[
+				'return' => (object) [ 'id' => $screen_name ],
+			] 
 		);
 
 		if ( ! $should_enqueue ) {
@@ -100,7 +100,7 @@ class TestAdminPage extends TestCase {
 		\WP_Mock::userFunction( 'wp_enqueue_script' )->once()->with(
 			'wp-feature-flags-admin',
 			'http://example.com',
-			array( 'test' ),
+			[ 'test' ],
 			'test',
 			true
 		);
@@ -108,14 +108,14 @@ class TestAdminPage extends TestCase {
 		\WP_Mock::userFunction( 'wp_enqueue_style' )->once()->with(
 			'wp-feature-flags-admin',
 			'http://example.com',
-			array(),
+			[],
 			'test'
 		);
 
 		\WP_Mock::userFunction( 'wp_enqueue_style' )->once()->with(
 			'wp-feature-flags-admin-style',
 			'http://example.com',
-			array(),
+			[],
 			'test'
 		);
 
@@ -132,11 +132,11 @@ class TestAdminPage extends TestCase {
 	 * @return array
 	 */
 	public function data_enqueue_scripts(): array {
-		return array(
-			array( 'tools_page_wp-feature-flags', true ),
-			array( 'tools_page_wp-feature-flags2', false ),
-			array( 'tools_page_wp-feature-flags3', false ),
-		);
+		return [
+			[ 'tools_page_wp-feature-flags', true ],
+			[ 'tools_page_wp-feature-flags2', false ],
+			[ 'tools_page_wp-feature-flags3', false ],
+		];
 	}
 
 	/**

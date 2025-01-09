@@ -5,4 +5,4 @@
  * @package Test
  */
 
-return array( 'version' => 'test' );
+return [ 'version' => 'test' ];

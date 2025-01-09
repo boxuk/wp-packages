@@ -38,10 +38,10 @@ class ConsentManagement {
 	 * @return void
 	 */
 	public function init(): void {
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin' ) );
-		add_action( 'init', array( $this, 'register_settings' ) );
-		add_action( 'admin_menu', array( $this, 'add_settings_screen' ) );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_frontend' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin' ] );
+		add_action( 'init', [ $this, 'register_settings' ] );
+		add_action( 'admin_menu', [ $this, 'add_settings_screen' ] );
 	}
 
 	/**
@@ -64,13 +64,13 @@ class ConsentManagement {
 		wp_localize_script(
 			self::HOOK_NAME,
 			'consentManagement',
-			(array) get_option( self::OPTION_NAME, array() ),
+			(array) get_option( self::OPTION_NAME, [] ),
 		);
 
 		wp_enqueue_style(
 			self::HOOK_NAME,
 			plugins_url( '/build/frontend.css', __FILE__ ),
-			array(),
+			[],
 			$asset['version']
 		);
 	}
@@ -103,7 +103,7 @@ class ConsentManagement {
 		wp_enqueue_style(
 			self::HOOK_NAME . '-admin',
 			plugins_url( '/build/style-frontend.css', __FILE__ ),
-			array(),
+			[],
 			$asset['version']
 		);
 
@@ -121,12 +121,12 @@ class ConsentManagement {
 		register_setting(
 			self::OPTION_NAME,
 			self::OPTION_NAME,
-			array(
+			[
 				'type'         => 'object',
-				'show_in_rest' => array(
+				'show_in_rest' => [
 					'schema' => json_decode( $schema ? $schema : '{}', true ),
-				),
-			)
+				],
+			]
 		);
 
 		$block_json_file = plugin_dir_path( __FILE__ ) . 'build/blocks/ShowConsent/block.json';
@@ -145,7 +145,7 @@ class ConsentManagement {
 			__( 'Cookie Consent', 'boxuk' ),
 			'manage_options',
 			self::HOOK_NAME,
-			array( $this, 'render_settings_screen' ),
+			[ $this, 'render_settings_screen' ],
 		);
 	}
 

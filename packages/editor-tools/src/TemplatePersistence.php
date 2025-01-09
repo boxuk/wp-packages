@@ -20,7 +20,7 @@ class TemplatePersistence {
 	 * @return void
 	 */
 	public function init(): void {
-		add_action( 'save_post', array( $this, 'persist_template' ), 10, 2 );
+		add_action( 'save_post', [ $this, 'persist_template' ], 10, 2 );
 	}
 
 	/**
@@ -70,11 +70,11 @@ class TemplatePersistence {
 
 		return join(
 			'/', 
-			array( 
+			[ 
 				rtrim( get_stylesheet_directory(), '/' ),
 				$template_dir,
 				$post->post_name . '.html',
-			)
+			]
 		);
 	}
 

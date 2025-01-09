@@ -29,11 +29,11 @@ class Comments {
 		add_filter( 'pings_open', '__return_false', 20 );
 		add_filter( 'comments_array', '__return_empty_array', 10 );
 
-		add_action( 'admin_init', array( $this, 'disable_comments_post_types_support' ) );
-		add_action( 'admin_init', array( $this, 'remove_dashboard_meta' ) );
-		add_action( 'admin_init', array( $this, 'prevent_access_to_edit_page' ) );
-		add_action( 'admin_menu', array( $this, 'remove_menu_options' ) );
-		add_action( 'init', array( $this, 'remove_menu_bar_options' ) );
+		add_action( 'admin_init', [ $this, 'disable_comments_post_types_support' ] );
+		add_action( 'admin_init', [ $this, 'remove_dashboard_meta' ] );
+		add_action( 'admin_init', [ $this, 'prevent_access_to_edit_page' ] );
+		add_action( 'admin_menu', [ $this, 'remove_menu_options' ] );
+		add_action( 'init', [ $this, 'remove_menu_bar_options' ] );
 	}
 
 	/**
@@ -70,7 +70,7 @@ class Comments {
 
 		// Prevent access to the comments page by redirecting requests.
 		if ( 'edit-comments.php' === $pagenow ) {
-			wp_die( esc_html__( 'Comments are closed.', 'boxuk' ), '', array( 'response' => 403 ) );
+			wp_die( esc_html__( 'Comments are closed.', 'boxuk' ), '', [ 'response' => 403 ] );
 		}
 	}
 

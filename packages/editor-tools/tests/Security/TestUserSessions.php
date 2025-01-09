@@ -22,8 +22,8 @@ class TestUserSessions extends TestCase {
 		
 		$user_sessions = new UserSessions();
 
-		\WP_Mock::expectActionAdded( 'admin_init', array( $user_sessions, 'register_settings' ) );
-		\WP_Mock::expectFilterAdded( 'session_token_manager', array( $user_sessions, 'get_session_token_manager' ), 10, 1 );
+		\WP_Mock::expectActionAdded( 'admin_init', [ $user_sessions, 'register_settings' ] );
+		\WP_Mock::expectFilterAdded( 'session_token_manager', [ $user_sessions, 'get_session_token_manager' ], 10, 1 );
 
 		$user_sessions->init();
 
@@ -39,24 +39,24 @@ class TestUserSessions extends TestCase {
 		\WP_Mock::userFunction( 'register_setting' )->once()->with(
 			'general', 
 			'user_session_limit', 
-			array(
+			[
 				'type'              => 'integer',
 				'show_in_rest'      => true,
 				'default'           => 0,
 				'sanitize_callback' => 'absint',
-			)
+			]
 		);
 
 		\WP_Mock::userFunction( 'add_settings_field' )->once()->with(
 			'user_session_limit',
 			'User Session Limit',
-			array( $user_sessions, 'render_user_session_limit_field' ),
+			[ $user_sessions, 'render_user_session_limit_field' ],
 			'general',
 			'default',
-			array(
+			[
 				'label_for' => 'user_session_limit',
 				'class'     => 'user-session-limit',
-			)
+			]
 		);
 
 		$user_sessions->register_settings();
@@ -106,9 +106,9 @@ class TestUserSessions extends TestCase {
 	 * @return array
 	 */
 	public function get_session_token_manager_provider(): array {
-		return array( 
-			array( 'AClassThatShouldntBeFiltered', 'AClassThatShouldntBeFiltered' ),
-			array( 'WP_User_Meta_Session_Tokens', RestrictedSessionTokenManager::class ),
-		);
+		return [ 
+			[ 'AClassThatShouldntBeFiltered', 'AClassThatShouldntBeFiltered' ],
+			[ 'WP_User_Meta_Session_Tokens', RestrictedSessionTokenManager::class ],
+		];
 	}
 }

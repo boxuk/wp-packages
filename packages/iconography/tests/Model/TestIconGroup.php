@@ -27,7 +27,7 @@ class TestIconGroup extends TestCase {
 			'class_name',
 			'url',
 			'additional_css',
-			array()
+			[]
 		);
 
 		\WP_Mock::expectFilter( 'boxuk_iconography_configuration_title', 'title' );
@@ -45,7 +45,7 @@ class TestIconGroup extends TestCase {
 			'class_name',
 			'url',
 			'additional_css',
-			array()
+			[]
 		);
 
 		\WP_Mock::expectFilter( 'boxuk_iconography_configuration_name', 'name' );
@@ -63,7 +63,7 @@ class TestIconGroup extends TestCase {
 			'class_name',
 			'url',
 			'additional_css',
-			array()
+			[]
 		);
 
 		\WP_Mock::expectFilter( 'boxuk_iconography_configuration_tag_name', 'tag_name' );
@@ -82,7 +82,7 @@ class TestIconGroup extends TestCase {
 			'class_name',
 			'url',
 			'additional_css',
-			array()
+			[]
 		);
 
 		\WP_Mock::expectFilter( 'boxuk_iconography_configuration_class_name', 'class_name' );
@@ -101,12 +101,12 @@ class TestIconGroup extends TestCase {
 			'class_name',
 			'url',
 			'additional_css',
-			array()
+			[]
 		);
 
-		\WP_Mock::expectFilter( 'boxuk_iconography_configuration_icons', array() );
+		\WP_Mock::expectFilter( 'boxuk_iconography_configuration_icons', [] );
 
-		$this->assertSame( array(), $icon_group->get_icons() );
+		$this->assertSame( [], $icon_group->get_icons() );
 	}
 
 	/**
@@ -120,12 +120,12 @@ class TestIconGroup extends TestCase {
 			'class_name',
 			'url',
 			'additional_css',
-			array()
+			[]
 		);
 
 		\WP_Mock::userFunction( 'wp_register_style' )
 			->once()
-			->with( 'name', 'url', array(), null, 'all' );
+			->with( 'name', 'url', [], null, 'all' );
 		\WP_Mock::userFunction( 'wp_add_inline_style' )
 			->once()
 			->with( 'name', 'additional_css' );
@@ -156,7 +156,7 @@ class TestIconGroup extends TestCase {
 			'class_name',
 			'url',
 			'additional_css',
-			array()
+			[]
 		);
 
 		$icon_group->enqueue_assets( $content );
@@ -170,11 +170,11 @@ class TestIconGroup extends TestCase {
 	 * @return array
 	 */
 	public function dataProviderTestEnqueueAssets(): array {
-		return array(
-			array( 'class_name', true ),
-			array( null, true ),
-			array( 'nope', false ),
-		);
+		return [
+			[ 'class_name', true ],
+			[ null, true ],
+			[ 'nope', false ],
+		];
 	}
 
 	/**
@@ -190,16 +190,16 @@ class TestIconGroup extends TestCase {
 			'class_name',
 			'url',
 			'additional_css',
-			array()
+			[]
 		);
 
-		$expected = array(
+		$expected = [
 			'title'     => 'title',
 			'name'      => 'name',
 			'tagName'   => 'tag_name',
 			'className' => 'class_name',
-			'icons'     => array(),
-		);
+			'icons'     => [],
+		];
 
 		$this->assertSame( $expected, $icon_group->to_json() );
 	}

@@ -30,7 +30,7 @@ class ConfigurationParser {
 	 *
 	 * @var IconGroup[]
 	 */
-	private array $configs = array();
+	private array $configs = [];
 
 	/**
 	 * Get Configurations

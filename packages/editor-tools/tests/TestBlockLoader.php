@@ -23,8 +23,8 @@ class TestBlockLoader extends TestCase {
 	 */
 	public function testInit(): void {
 		$loader = new BlockLoader();
-		\WP_Mock::expectActionAdded( 'init', array( $loader, 'register_blocks' ) );
-		\WP_Mock::expectFilterAdded( 'block_type_metadata', array( $loader, 'enforce_versioning' ) );
+		\WP_Mock::expectActionAdded( 'init', [ $loader, 'register_blocks' ] );
+		\WP_Mock::expectFilterAdded( 'block_type_metadata', [ $loader, 'enforce_versioning' ] );
 		$loader->init();
 		$this->assertConditionsMet();
 	}
@@ -44,7 +44,7 @@ class TestBlockLoader extends TestCase {
 		
 		\WP_Mock::userFunction( 'register_block_type' )
 			->once()
-			->with( $fixture_dir . '/build/blocks/test-block', array() );
+			->with( $fixture_dir . '/build/blocks/test-block', [] );
 
 		$loader = new BlockLoader();
 		$loader->register_blocks();
@@ -84,7 +84,7 @@ class TestBlockLoader extends TestCase {
 		
 		\WP_Mock::userFunction( 
 			'remove_block_asset_path_prefix', 
-			array(
+			[
 				'return' => function ( $asset_handle_or_path ) {
 					$path_prefix = 'file:';
 					if ( ! str_starts_with( $asset_handle_or_path, $path_prefix ) ) {
@@ -99,7 +99,7 @@ class TestBlockLoader extends TestCase {
 					}
 					return $path;
 				},
-			)
+			]
 		);
 
 		$this->assertEquals( $expected, $loader->enforce_versioning( $metadata ) );
@@ -111,41 +111,41 @@ class TestBlockLoader extends TestCase {
 	 * @return array
 	 */
 	public function metadataProvider(): array {
-		return array(
-			'empty'              => array( array(), array() ),
-			'Version, no File'   => array( array( 'version' => '1.0.0' ), array( 'version' => '1.0.0' ) ),
-			'Editor, no Version' => array( array( 'editorScript' => 'test.js' ), array( 'editorScript' => 'test.js' ) ),
-			'Version and File'   => array(
-				array(
+		return [
+			'empty'              => [ [], [] ],
+			'Version, no File'   => [ [ 'version' => '1.0.0' ], [ 'version' => '1.0.0' ] ],
+			'Editor, no Version' => [ [ 'editorScript' => 'test.js' ], [ 'editorScript' => 'test.js' ] ],
+			'Version and File'   => [
+				[
 					'version' => '1.0.0',
 					'file'    => __DIR__,
-				),
-				array(
+				],
+				[
 					'version' => '1.0.0',
 					'file'    => __DIR__,
-				),
-			),
-			'Editor, no asset'   => array(
-				array(
+				],
+			],
+			'Editor, no asset'   => [
+				[
 					'editorScript' => 'test.js',
 					'file'         => __DIR__,
-				),
-				array(
+				],
+				[
 					'editorScript' => 'test.js',
 					'file'         => __DIR__,
-				),
-			),
-			'Real File'          => array(
-				array(
+				],
+			],
+			'Real File'          => [
+				[
 					'editorScript' => 'file:./test.js',
 					'file'         => __DIR__ . '/fixtures/BlockLoader/versioning-block/test.json',
-				),
-				array(
+				],
+				[
 					'editorScript' => 'file:./test.js',
 					'file'         => __DIR__ . '/fixtures/BlockLoader/versioning-block/test.json',
 					'version'      => 'test',
-				),
-			),
-		);
+				],
+			],
+		];
 	}
 }

@@ -45,20 +45,20 @@ class TestAssetLoader extends TestCase {
 
 		\WP_Mock::userFunction( 'wp_enqueue_script' )
 			->once()
-			->with( 'box-test', $this->base_url . '/build/test.js', array(), '1', true );
+			->with( 'box-test', $this->base_url . '/build/test.js', [], '1', true );
 
 		\WP_Mock::userFunction( 'wp_enqueue_style' )
 			->once()
-			->with( 'box-test', $this->base_url . '/build/test.css', array(), '1' );
+			->with( 'box-test', $this->base_url . '/build/test.css', [], '1' );
 
 		\WP_Mock::expectFilter( 'localize_test_data_object_name', 'testData' );
 		\WP_Mock::onFilter( 'localize_test_data' )
-			->with( array() )
-			->reply( array( 'test' => 'data' ) );
+			->with( [] )
+			->reply( [ 'test' => 'data' ] );
 
 		\WP_Mock::userFunction( 'wp_localize_script' )
 			->once()
-			->with( 'box-test', 'testData', array( 'test' => 'data' ) );
+			->with( 'box-test', 'testData', [ 'test' => 'data' ] );
 
 		$asset_loader = new AssetLoader();
 		$asset_loader->load( 'test' );

@@ -20,7 +20,7 @@ class SessionTimeoutModifier {
 	 * Initialise the filter.
 	 */
 	public function init(): void {
-		add_filter( 'auth_cookie_expiration', array( $this, 'auth_cookie_expiration_filter' ), 99, 3 );
+		add_filter( 'auth_cookie_expiration', [ $this, 'auth_cookie_expiration_filter' ], 99, 3 );
 	}
 
 	/**
