@@ -33,6 +33,9 @@
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
 	</rule>
 	<rule ref="WordPress-Docs" />
+	<rule ref="WordPress-Extra">
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax.Found" />
+	</rule>
 	<rule ref="Generic.Arrays.DisallowLongArraySyntax" />
 	<rule ref="Generic.Files.EndFileNewline" />
 </ruleset>
