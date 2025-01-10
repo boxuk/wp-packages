@@ -28,12 +28,12 @@ class TestApi extends TestCase {
 		parent::setUp();
 	
 		Mockery::getConfiguration()->setConstantsMap(
-			array(
-				'WP_REST_Server' => array(
+			[
+				'WP_REST_Server' => [
 					'READABLE' => 'GET',
 					'EDITABLE' => 'POST',
-				),
-			)
+				],
+			]
 		);
 
 		Mockery::mock( 'alias:WP_REST_Controller' );
@@ -46,7 +46,7 @@ class TestApi extends TestCase {
 	 */
 	public function test_init(): void {
 		$api = new Api();
-		\WP_Mock::expectActionAdded( 'rest_api_init', array( $api, 'register_routes' ) );
+		\WP_Mock::expectActionAdded( 'rest_api_init', [ $api, 'register_routes' ] );
 		$api->init();
 		$this->assertConditionsMet();
 	}
@@ -60,34 +60,34 @@ class TestApi extends TestCase {
 
 		\WP_Mock::userFunction(
 			'register_rest_route',
-			array(
+			[
 				'times' => 1,
-				'args'  => array(
+				'args'  => [
 					'feature-flags/v1',
 					'/flags',
-					array(
+					[
 						'methods'             => 'GET',
-						'callback'            => array( $api, 'get_items' ),
-						'permission_callback' => array( $api, 'get_items_permissions_check' ),
-					),
-				),
-			) 
+						'callback'            => [ $api, 'get_items' ],
+						'permission_callback' => [ $api, 'get_items_permissions_check' ],
+					],
+				],
+			] 
 		);
 
 		\WP_Mock::userFunction(
 			'register_rest_route',
-			array(
+			[
 				'times' => 1,
-				'args'  => array(
+				'args'  => [
 					'feature-flags/v1',
 					'/flags/(?P<flag>[a-zA-Z0-9_-]+)',
-					array(
+					[
 						'methods'             => 'POST',
-						'callback'            => array( $api, 'update_item' ),
-						'permission_callback' => array( $api, 'update_item_permissions_check' ),
-					),
-				),
-			) 
+						'callback'            => [ $api, 'update_item' ],
+						'permission_callback' => [ $api, 'update_item_permissions_check' ],
+					],
+				],
+			] 
 		);
 
 		
@@ -107,7 +107,7 @@ class TestApi extends TestCase {
 	 */
 	public function test_get_items_permissions_check( bool $current_user_can, bool $expected ): void {
 		$api = new Api();
-		\WP_Mock::userFunction( 'current_user_can', array( 'return' => $current_user_can ) );
+		\WP_Mock::userFunction( 'current_user_can', [ 'return' => $current_user_can ] );
 
 		if ( false === $expected ) { 
 			$this->assertInstanceOf( WP_Error::class, $api->get_items_permissions_check( $this->get_mock_request() ) );
@@ -128,7 +128,7 @@ class TestApi extends TestCase {
 	 */
 	public function test_update_item_permissions_check( bool $current_user_can, bool $expected ): void {
 		$api = new Api();
-		\WP_Mock::userFunction( 'current_user_can', array( 'return' => $current_user_can ) );
+		\WP_Mock::userFunction( 'current_user_can', [ 'return' => $current_user_can ] );
 
 		if ( false === $expected ) { 
 			$this->assertInstanceOf( WP_Error::class, $api->update_item_permissions_check( $this->get_mock_request() ) );
@@ -143,10 +143,10 @@ class TestApi extends TestCase {
 	 * @return array<array<mixed>>
 	 */
 	public function data_provider_test_get_items_permissions_check(): array {
-		return array(
-			array( false, false ),
-			array( true, true ),
-		);
+		return [
+			[ false, false ],
+			[ true, true ],
+		];
 	}
 
 	/**
@@ -182,10 +182,10 @@ class TestApi extends TestCase {
 		$request = $this->get_mock_request();
 		$request->shouldReceive( 'get_param' )->with( 'flag' )->andReturn( $flag_key );
 		$request->shouldReceive( 'get_json_params' )->andReturn(
-			array(
+			[
 				'is_published' => $is_published,
 				'users'        => $users,
-			) 
+			] 
 		);
 		
 		if ( false === $flag_key ) { 
@@ -214,7 +214,7 @@ class TestApi extends TestCase {
 			$mock_flag->shouldReceive( 'unpublish' )->once();
 		}
 		
-		$mock_flag->shouldReceive( 'get_users' )->andReturn( array( 3, 2, 1 ) );
+		$mock_flag->shouldReceive( 'get_users' )->andReturn( [ 3, 2, 1 ] );
 		$mock_flag->shouldReceive( 'unpublish_for_user' )->with( Mockery::anyOf( 1, 2, 3 ) )->times( 3 );
 		
 		\WP_Mock::userFunction( 'absint' )->times( count( $users ) )->andReturnArg( 0 );
@@ -234,14 +234,14 @@ class TestApi extends TestCase {
 	 * @return array<array<mixed>>
 	 */
 	public function data_provider_test_update_item(): array {
-		return array(
-			array( false, true, array() ),
-			array( 'invalid', true, array() ),
-			array( 'test', true, array( 1, 2, 3 ) ),
-			array( 'test', false, array( 1, 2, 3 ) ),
-			array( 'test', true, array() ),
-			array( 'test', false, array() ),
-		);
+		return [
+			[ false, true, [] ],
+			[ 'invalid', true, [] ],
+			[ 'test', true, [ 1, 2, 3 ] ],
+			[ 'test', false, [ 1, 2, 3 ] ],
+			[ 'test', true, [] ],
+			[ 'test', false, [] ],
+		];
 	}
 
 	/**

@@ -27,11 +27,11 @@ class TestConfigurationParser extends TestCase {
 
 		\WP_Mock::expectFilter(
 			'boxuk_iconography_files',
-			array(
+			[
 				__DIR__ . '/fixtures/icons/invalid.config.json',
 				__DIR__ . '/fixtures/icons/not-json.config.json',
 				__DIR__ . '/fixtures/icons/valid.config.json',
-			)
+			]
 		);
 
 		$class_in_test = Mockery::mock( ConfigurationParser::class )->makePartial();
@@ -86,21 +86,21 @@ class TestConfigurationParser extends TestCase {
 	 * @return array
 	 */
 	public function parseConfigDataProvider(): array {
-		return array(
-			array(
+		return [
+			[
 				__DIR__ . '/fixtures/icons/invalid.config.json',
 				true,
-				array(),
-			),
-			array(
+				[],
+			],
+			[
 				__DIR__ . '/fixtures/icons/not-json.config.json',
 				true,
-				array(),
-			),
-			array(
+				[],
+			],
+			[
 				__DIR__ . '/fixtures/icons/valid.config.json',
 				false,
-				array(
+				[
 					new Model\IconGroup(
 						'Test',
 						'test/example',
@@ -108,13 +108,13 @@ class TestConfigurationParser extends TestCase {
 						'test',
 						'http://example.com',
 						'.test { color: red; }',
-						array(
+						[
 							new Model\Icon( 'TestOne', 'TestOne' ),
 							new Model\Icon( 'TestTwo', 'TestTwo' ),
-						)
+						]
 					),
-				),
-			),
-		);
+				],
+			],
+		];
 	}
 }

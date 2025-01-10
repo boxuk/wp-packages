@@ -25,12 +25,12 @@ class TestIcononographyService extends TestCase {
 	 */
 	public function testInit(): void {
 		$class_in_test = new IconographyService( new ConfigurationParser() );
-		\WP_Mock::expectActionAdded( 'init', array( $class_in_test, 'register_block' ) );
-		\WP_Mock::expectActionAdded( 'wp_enqueue_scripts', array( $class_in_test, 'register_assets' ) );
-		\WP_Mock::expectActionAdded( 'wp_footer', array( $class_in_test, 'enqueue_assets' ), 1, 0 );
-		\WP_Mock::expectActionAdded( 'enqueue_block_assets', array( $class_in_test, 'register_assets' ), 1, 0 );
-		\WP_Mock::expectActionAdded( 'enqueue_block_editor_assets', array( $class_in_test, 'enqueue_editor_scripts' ) );
-		\WP_Mock::expectActionAdded( 'enqueue_block_assets', array( $class_in_test, 'enqueue_all_assets' ) );
+		\WP_Mock::expectActionAdded( 'init', [ $class_in_test, 'register_block' ] );
+		\WP_Mock::expectActionAdded( 'wp_enqueue_scripts', [ $class_in_test, 'register_assets' ] );
+		\WP_Mock::expectActionAdded( 'wp_footer', [ $class_in_test, 'enqueue_assets' ], 1, 0 );
+		\WP_Mock::expectActionAdded( 'enqueue_block_assets', [ $class_in_test, 'register_assets' ], 1, 0 );
+		\WP_Mock::expectActionAdded( 'enqueue_block_editor_assets', [ $class_in_test, 'enqueue_editor_scripts' ] );
+		\WP_Mock::expectActionAdded( 'enqueue_block_assets', [ $class_in_test, 'enqueue_all_assets' ] );
 
 		$class_in_test->init();
 		$this->assertConditionsMet();
@@ -66,9 +66,9 @@ class TestIcononographyService extends TestCase {
 
 		$mock_config = Mockery::mock( ConfigurationParser::class );
 		$mock_config->shouldReceive( 'get_configs' )->once()->andReturn(
-			array(
+			[
 				$mock_icon_group,
-			)
+			]
 		);
 
 		$class_in_test = new IconographyService( $mock_config );
@@ -92,9 +92,9 @@ class TestIcononographyService extends TestCase {
 
 		$mock_config = Mockery::mock( ConfigurationParser::class );
 		$mock_config->shouldReceive( 'get_configs' )->once()->andReturn(
-			array(
+			[
 				$mock_icon_group,
-			)
+			]
 		);
 
 		$mock_icon_group->shouldReceive( 'enqueue_assets' )->once()->with( 'html' );
@@ -114,9 +114,9 @@ class TestIcononographyService extends TestCase {
 
 		$mock_config = Mockery::mock( ConfigurationParser::class );
 		$mock_config->shouldReceive( 'get_configs' )->once()->andReturn(
-			array(
+			[
 				$mock_icon_group,
-			)
+			]
 		);
 
 		$mock_icon_group->shouldReceive( 'enqueue_assets' )->once();
@@ -136,13 +136,13 @@ class TestIcononographyService extends TestCase {
 
 		$mock_config = Mockery::mock( ConfigurationParser::class );
 		$mock_config->shouldReceive( 'get_configs' )->once()->andReturn(
-			array(
+			[
 				$mock_icon_group,
-			)
+			]
 		);
 
 		$class_in_test = new IconographyService( $mock_config );
-		$this->assertEquals( array( $mock_icon_group ), $class_in_test->get_icon_groups() );
+		$this->assertEquals( [ $mock_icon_group ], $class_in_test->get_icon_groups() );
 	}
 
 	/**
@@ -156,16 +156,16 @@ class TestIcononographyService extends TestCase {
 		$mock_icon_group->shouldReceive( 'to_json' )
 			->once()
 			->andReturn(
-				array( 'test' )
+				[ 'test' ]
 			);
 
 		$mock_config = Mockery::mock( ConfigurationParser::class );
 		$mock_config->shouldReceive( 'get_configs' )
 			->once()
 			->andReturn(
-				array(
+				[
 					$mock_icon_group,
-				)
+				]
 			);
 
 		$class_in_test = new IconographyService( $mock_config );
@@ -183,7 +183,7 @@ class TestIcononographyService extends TestCase {
 			->with(
 				'iconography',
 				'https://example.com/assets/build/index.js',
-				array(),
+				[],
 				'1',
 				true
 			);
@@ -193,9 +193,9 @@ class TestIcononographyService extends TestCase {
 			->with(
 				'iconography',
 				'boxIconography',
-				array(
-					'iconGroups' => array( array( 'test' ) ),
-				)
+				[
+					'iconGroups' => [ [ 'test' ] ],
+				]
 			);
 
 		$class_in_test->enqueue_editor_scripts();

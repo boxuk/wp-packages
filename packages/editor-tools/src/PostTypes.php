@@ -18,8 +18,8 @@ class PostTypes {
 	 * Init Hooks
 	 */
 	public function init(): void {
-		add_action( 'init', array( $this, 'register_post_types' ) );
-		add_filter( 'register_post_type_args', array( $this, 'modify_post_types' ), 10, 2 );
+		add_action( 'init', [ $this, 'register_post_types' ] );
+		add_filter( 'register_post_type_args', [ $this, 'modify_post_types' ], 10, 2 );
 	}
 
 	/**
@@ -42,20 +42,20 @@ class PostTypes {
 			return;
 		}
 
-		foreach ( $data['taxonomies'] ?? array() as $name => $args ) {
+		foreach ( $data['taxonomies'] ?? [] as $name => $args ) {
 			register_taxonomy( $name, $args['post_types'] ?? 'post', $args );
 		}
 
-		foreach ( $data['post_types'] ?? array() as $name => $args ) {
+		foreach ( $data['post_types'] ?? [] as $name => $args ) {
 			$args = wp_parse_args(
 				$args,
-				array(
+				[
 					'show_in_rest' => true,
 					'public'       => true,
 					'template'     => $this->blocks_to_template(
-						$this->get_blocks_from_file( $name ) ?? array()
-					) ?? array(),
-				)
+						$this->get_blocks_from_file( $name ) ?? []
+					) ?? [],
+				]
 			);
 
 			register_post_type( $name, $args ); // phpcs:ignore WordPress.NamingConventions.ValidPostTypeSlug.NotStringLiteral
@@ -97,7 +97,7 @@ class PostTypes {
 	 */
 	public function blocks_to_template( array $blocks ): ?array {
 
-		$template = array();
+		$template = [];
 
 		foreach ( $blocks as $block ) {
 			$template[] = $this->block_to_template( $block );
@@ -120,11 +120,11 @@ class PostTypes {
 			return null;
 		}
 
-		return array(
+		return [
 			$name,
-			$block['attrs'] ?? array(),
-			$this->blocks_to_template( $block['innerBlocks'] ?? array() ),
-		);
+			$block['attrs'] ?? [],
+			$this->blocks_to_template( $block['innerBlocks'] ?? [] ),
+		];
 	}
 
 	/**
@@ -141,8 +141,8 @@ class PostTypes {
 		}
 
 		$args['template'] = $this->blocks_to_template(
-			$this->get_blocks_from_file( $post_type ) ?? array()
-		) ?? array();
+			$this->get_blocks_from_file( $post_type ) ?? []
+		) ?? [];
 
 		return $args;
 	}

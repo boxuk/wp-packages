@@ -40,7 +40,7 @@ class TestTemplatePersistence extends TestCase {
 	 * @return void
 	 */
 	public function test_init(): void { 
-		\WP_Mock::expectActionAdded( 'save_post', array( $this->class_in_test, 'persist_template' ), 10, 2 );
+		\WP_Mock::expectActionAdded( 'save_post', [ $this->class_in_test, 'persist_template' ], 10, 2 );
 		$this->class_in_test->init();
 		$this->assertConditionsMet();
 	}
@@ -111,23 +111,23 @@ class TestTemplatePersistence extends TestCase {
 	 * @return array
 	 */
 	protected function persistTemplateDataProvider(): array { 
-		return array(
-			'invalid_post_type' => array(
+		return [
+			'invalid_post_type' => [
 				'post'                  => $this->getMockPost( 'post' ),
 				'expect_template_write' => false,
 				'template_path'         => false,
-			),
-			'template'          => array(
+			],
+			'template'          => [
 				'post'                  => $this->getMockPost( 'wp_template' ),
 				'expect_template_write' => true,
 				'template_path'         => '/templates/test.html',
-			),
-			'template_part'     => array(
+			],
+			'template_part'     => [
 				'post'                  => $this->getMockPost( 'wp_template_part' ),
 				'expect_template_write' => true,
 				'template_path'         => '/parts/test.html',
-			),
-		);
+			],
+		];
 	}
 
 	/**

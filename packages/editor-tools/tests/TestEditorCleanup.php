@@ -23,8 +23,8 @@ class TestEditorCleanup extends TestCase {
 	 */
 	public function testInit(): void {
 		$editor_cleanup = new EditorCleanup();
-		\WP_Mock::expectActionAdded( 'after_setup_theme', array( $editor_cleanup, 'remove_theme_support' ) );
-		\WP_Mock::expectActionAdded( 'init', array( $editor_cleanup, 'remove_actions' ), 100 );
+		\WP_Mock::expectActionAdded( 'after_setup_theme', [ $editor_cleanup, 'remove_theme_support' ] );
+		\WP_Mock::expectActionAdded( 'init', [ $editor_cleanup, 'remove_actions' ], 100 );
 		$editor_cleanup->init();
 		$this->assertConditionsMet();
 	}

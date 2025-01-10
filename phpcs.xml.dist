@@ -31,8 +31,11 @@
 		<!-- Remove this so we can use PSR-4 autoloading -->
 		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
-	</rule>	
-	<rule ref="WordPress-Extra"></rule>
+	</rule>
 	<rule ref="WordPress-Docs" />
+	<rule ref="WordPress-Extra">
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax.Found" />
+	</rule>
+	<rule ref="Generic.Arrays.DisallowLongArraySyntax" />
 	<rule ref="Generic.Files.EndFileNewline" />
 </ruleset>

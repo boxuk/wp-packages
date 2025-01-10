@@ -46,7 +46,7 @@ class TestRestrictedSessionTokenManager extends TestCase {
 		$method->setAccessible( true );
 
 		$token_manager = new RestrictedSessionTokenManager( 1 );
-		$actual        = $method->invokeArgs( $token_manager, array() );
+		$actual        = $method->invokeArgs( $token_manager, [] );
 		
 		$this->assertEquals( $expected, $actual );
 	}
@@ -57,49 +57,49 @@ class TestRestrictedSessionTokenManager extends TestCase {
 	 * @return array
 	 */
 	public function get_sessions_provider(): array {
-		return array(
-			'no session limit' => array(
+		return [
+			'no session limit' => [
 				'session_limit'     => 0,
-				'existing_sessions' => array(
-					array(
+				'existing_sessions' => [
+					[
 						'session_id'         => 'session_id_1',
 						'session_expiration' => 1,
-					),
-					array(
+					],
+					[
 						'session_id'         => 'session_id_2',
 						'session_expiration' => 2,
-					),
-				),
-				'expected'          => array(
-					array(
+					],
+				],
+				'expected'          => [
+					[
 						'session_id'         => 'session_id_1',
 						'session_expiration' => 1,
-					),
-					array(
+					],
+					[
 						'session_id'         => 'session_id_2',
 						'session_expiration' => 2,
-					),
-				),
-			),
-			'session limit'    => array(
+					],
+				],
+			],
+			'session limit'    => [
 				'session_limit'     => 1,
-				'existing_sessions' => array(
-					array(
+				'existing_sessions' => [
+					[
 						'session_id'         => 'session_id_1',
 						'session_expiration' => 1,
-					),
-					array(
+					],
+					[
 						'session_id'         => 'session_id_2',
 						'session_expiration' => 2,
-					),
-				),
-				'expected'          => array(
-					array(
+					],
+				],
+				'expected'          => [
+					[
 						'session_id'         => 'session_id_2',
 						'session_expiration' => 2,
-					),
-				),
-			),
-		);
+					],
+				],
+			],
+		];
 	}
 }

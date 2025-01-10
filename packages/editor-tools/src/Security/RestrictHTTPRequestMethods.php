@@ -27,7 +27,7 @@ class RestrictHTTPRequestMethods {
 	 *
 	 * @var string[]
 	 */
-	public const ALLOWED_METHODS = array( 'POST', 'GET', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS' );
+	public const ALLOWED_METHODS = [ 'POST', 'GET', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS' ];
 
 	/**
 	 * Init
@@ -35,7 +35,7 @@ class RestrictHTTPRequestMethods {
 	 * @return void
 	 */
 	public function init() {
-		add_action( 'init', array( $this, 'block_request_if_not_using_allowed_method' ) );
+		add_action( 'init', [ $this, 'block_request_if_not_using_allowed_method' ] );
 	}
 
 	/**

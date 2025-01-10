@@ -24,15 +24,15 @@ class RSS {
 			return;
 		}
 
-		add_action( 'do_feed', array( $this, 'send_404' ), 1 );
-		add_action( 'do_feed_rdf', array( $this, 'send_404' ), 1 );
-		add_action( 'do_feed_rss', array( $this, 'send_404' ), 1 );
-		add_action( 'do_feed_rss2', array( $this, 'send_404' ), 1 );
-		add_action( 'do_feed_atom', array( $this, 'send_404' ), 1 );
-		add_action( 'do_feed_rss2_comments', array( $this, 'send_404' ), 1 );
-		add_action( 'do_feed_atom_comments', array( $this, 'send_404' ), 1 );
+		add_action( 'do_feed', [ $this, 'send_404' ], 1 );
+		add_action( 'do_feed_rdf', [ $this, 'send_404' ], 1 );
+		add_action( 'do_feed_rss', [ $this, 'send_404' ], 1 );
+		add_action( 'do_feed_rss2', [ $this, 'send_404' ], 1 );
+		add_action( 'do_feed_atom', [ $this, 'send_404' ], 1 );
+		add_action( 'do_feed_rss2_comments', [ $this, 'send_404' ], 1 );
+		add_action( 'do_feed_atom_comments', [ $this, 'send_404' ], 1 );
 
-		add_filter( 'feed_content_type', array( $this, 'feed_content_type' ), 10, 0 );
+		add_filter( 'feed_content_type', [ $this, 'feed_content_type' ], 10, 0 );
 
 		remove_action( 'wp_head', 'feed_links_extra', 3 );
 		remove_action( 'wp_head', 'feed_links', 2 );

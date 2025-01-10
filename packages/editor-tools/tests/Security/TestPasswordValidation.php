@@ -23,10 +23,10 @@ class TestPasswordValidation extends TestCase {
 
 		$password_validation = new PasswordValidation();
 
-		\WP_Mock::expectActionAdded( 'user_profile_update_errors', array( $password_validation, 'user_profile_update_errors' ) );
-		\WP_Mock::expectActionAdded( 'validate_password_reset', array( $password_validation, 'user_profile_update_errors' ) );
-		\WP_Mock::expectActionAdded( 'registration_errors', array( $password_validation, 'user_profile_update_errors' ) );
-		\WP_Mock::expectFilterAdded( 'password_hint', array( $password_validation, 'password_hint' ) );
+		\WP_Mock::expectActionAdded( 'user_profile_update_errors', [ $password_validation, 'user_profile_update_errors' ] );
+		\WP_Mock::expectActionAdded( 'validate_password_reset', [ $password_validation, 'user_profile_update_errors' ] );
+		\WP_Mock::expectActionAdded( 'registration_errors', [ $password_validation, 'user_profile_update_errors' ] );
+		\WP_Mock::expectFilterAdded( 'password_hint', [ $password_validation, 'password_hint' ] );
 
 		$password_validation->init();
 
@@ -81,77 +81,77 @@ class TestPasswordValidation extends TestCase {
 	 * @return array
 	 */
 	public function user_profile_update_errors_provider(): array {
-		return array(
-			'password too short'                    => array(
+		return [
+			'password too short'                    => [
 				'password'      => 'test',
 				'enabled'       => true,
 				'hook_name'     => 'validate_password_reset',
-				'expect_errors' => array(
+				'expect_errors' => [
 					'This value is too short. It should have 10 characters or more.',
 					'Password must contain at least one number.',
 					'Password must contain at least one uppercase letter.',
-				),
-			),
-			'password too long'                     => array(
+				],
+			],
+			'password too long'                     => [
 				'password'      => 'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest',
 				'enabled'       => true,
 				'hook_name'     => 'validate_password_reset',
-				'expect_errors' => array(
+				'expect_errors' => [
 					'This value is too long. It should have 72 characters or less.',
 					'Password must contain at least one uppercase letter.',
 					'Password must contain at least one number.',
-				),
-			),
-			'no number'                             => array(
+				],
+			],
+			'no number'                             => [
 				'password'      => 'testtesttest',
 				'enabled'       => true,
 				'hook_name'     => 'validate_password_reset',
-				'expect_errors' => array(
+				'expect_errors' => [
 					'Password must contain at least one number.',
 					'Password must contain at least one uppercase letter.',
-				),
-			),
-			'no uppercase'                          => array(
+				],
+			],
+			'no uppercase'                          => [
 				'password'      => 'testtesttest1',
 				'enabled'       => true,
 				'hook_name'     => 'validate_password_reset',
-				'expect_errors' => array(
+				'expect_errors' => [
 					'Password must contain at least one uppercase letter.',
-				),
-			),
-			'no lowercase'                          => array(
+				],
+			],
+			'no lowercase'                          => [
 				'password'      => 'TESTTESTTEST1',
 				'enabled'       => true,
 				'hook_name'     => 'validate_password_reset',
-				'expect_errors' => array(
+				'expect_errors' => [
 					'Password must contain at least one lowercase letter.',
-				),
-			),
-			'valid password'                        => array(
+				],
+			],
+			'valid password'                        => [
 				'password'      => 'Testtesttest1',
 				'enabled'       => true,
 				'hook_name'     => 'validate_password_reset',
-				'expect_errors' => array(),
-			),
-			'disabled feature, valid password'      => array(
+				'expect_errors' => [],
+			],
+			'disabled feature, valid password'      => [
 				'password'      => 'Testtesttest1',
 				'enabled'       => false,
 				'hook_name'     => 'validate_password_reset',
-				'expect_errors' => array(),
-			),
-			'disabled feature, invalid password'    => array(
+				'expect_errors' => [],
+			],
+			'disabled feature, invalid password'    => [
 				'password'      => 'test',
 				'enabled'       => false,
 				'hook_name'     => 'validate_password_reset',
-				'expect_errors' => array(),
-			),
-			'on profile-update with empty password' => array(
+				'expect_errors' => [],
+			],
+			'on profile-update with empty password' => [
 				'password'      => '',
 				'enabled'       => true,
 				'hook_name'     => 'user_profile_update_errors',
-				'expect_errors' => array(),
-			),
-		);
+				'expect_errors' => [],
+			],
+		];
 	}
 
 	/**
@@ -179,15 +179,15 @@ class TestPasswordValidation extends TestCase {
 	 * @return array
 	 */
 	public function password_hint_provider(): array {
-		return array(
-			'enabled'  => array(
+		return [
+			'enabled'  => [
 				'enabled'  => true,
 				'expected' => 'Hint: The password should be at least ten characters long, and include at least one upper case letter and one number. To make it stronger, use more upper and lower case letters, more numbers, and symbols like ! " ? $ % ^ & ).',
-			),
-			'disabled' => array(
+			],
+			'disabled' => [
 				'enabled'  => false,
 				'expected' => 'test',
-			),
-		);
+			],
+		];
 	}
 }

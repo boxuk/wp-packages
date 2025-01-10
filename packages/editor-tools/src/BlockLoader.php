@@ -20,8 +20,8 @@ class BlockLoader {
 	 * @return void
 	 */
 	public function init(): void {
-		add_action( 'init', array( $this, 'register_blocks' ) );
-		add_filter( 'block_type_metadata', array( $this, 'enforce_versioning' ) );
+		add_action( 'init', [ $this, 'register_blocks' ] );
+		add_filter( 'block_type_metadata', [ $this, 'enforce_versioning' ] );
 	}
 
 	/**
@@ -40,7 +40,7 @@ class BlockLoader {
 		}
 
 		foreach ( $block_json_file_paths as $block_json_file ) {
-			register_block_type( dirname( $block_json_file ), array() );
+			register_block_type( dirname( $block_json_file ), [] );
 		}
 	}
 

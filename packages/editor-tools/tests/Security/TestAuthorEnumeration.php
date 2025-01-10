@@ -23,8 +23,8 @@ class TestAuthorEnumeration extends TestCase {
 
 		$author_enumeration = new AuthorEnumeration();
 
-		\WP_Mock::expectFilterAdded( 'redirect_canonical', array( $author_enumeration, 'prevent_author_enum' ) );
-		\WP_Mock::expectFilterAdded( 'rest_endpoints', array( $author_enumeration, 'handle_rest_endpoints' ) );
+		\WP_Mock::expectFilterAdded( 'redirect_canonical', [ $author_enumeration, 'prevent_author_enum' ] );
+		\WP_Mock::expectFilterAdded( 'rest_endpoints', [ $author_enumeration, 'handle_rest_endpoints' ] );
 
 		$author_enumeration->init();
 
@@ -53,13 +53,13 @@ class TestAuthorEnumeration extends TestCase {
 		$author_enumeration = new AuthorEnumeration();
 
 		if ( ! $expected ) {
-			\WP_Mock::expectFilterNotAdded( 'wp_title', array( $author_enumeration, 'get_404_title' ), PHP_INT_MAX );
+			\WP_Mock::expectFilterNotAdded( 'wp_title', [ $author_enumeration, 'get_404_title' ], PHP_INT_MAX );
 			$this->assertEquals( 'test', $author_enumeration->prevent_author_enum( 'test' ) );
 		} else {
 			global $wp_query;
 			$wp_query = Mockery::mock( 'WP_Query' ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Mocking WP_Query
 			$wp_query->expects( 'set_404' )->once();
-			\WP_Mock::expectFilterAdded( 'wp_title', array( $author_enumeration, 'get_404_title' ), PHP_INT_MAX );
+			\WP_Mock::expectFilterAdded( 'wp_title', [ $author_enumeration, 'get_404_title' ], PHP_INT_MAX );
 
 			\WP_Mock::userFunction( 'status_header' )
 				->with( 404 )
@@ -77,28 +77,28 @@ class TestAuthorEnumeration extends TestCase {
 	 * @return array
 	 */
 	public function disable_author_enumeration_provider(): array {
-		return array(
-			array(
+		return [
+			[
 				'author',
 				true,
 				true,
-			),
-			array(
+			],
+			[
 				false,
 				false,
 				true,
-			),
-			array(
+			],
+			[
 				'author',
 				false,
 				false,
-			),
-			array(
+			],
+			[
 				false,
 				false,
 				false,
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -128,10 +128,10 @@ class TestAuthorEnumeration extends TestCase {
 			->with( true )
 			->reply( $filter_enabled );
 
-		$endpoints = array(
+		$endpoints = [
 			'/wp/v2/users'               => true,
 			'/wp/v2/users/(?P<id>[\d]+)' => true,
-		);
+		];
 
 		\WP_Mock::userFunction( 'current_user_can' )
 			->times( (int) $filter_enabled )
@@ -140,7 +140,7 @@ class TestAuthorEnumeration extends TestCase {
 
 		$author_enumeration = new AuthorEnumeration();
 
-		$expected = $is_authorised_user ? $endpoints : array();
+		$expected = $is_authorised_user ? $endpoints : [];
 
 		$this->assertEquals( $expected, $author_enumeration->handle_rest_endpoints( $endpoints ) );
 	}
@@ -151,10 +151,10 @@ class TestAuthorEnumeration extends TestCase {
 	 * @return array
 	 */
 	public function rest_endpoint_data_provider(): array {
-		return array(
-			array( true, true ),
-			array( false, true ),
-			array( true, false ),
-		);
+		return [
+			[ true, true ],
+			[ false, true ],
+			[ true, false ],
+		];
 	}
 }

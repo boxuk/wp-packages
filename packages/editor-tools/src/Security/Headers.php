@@ -18,8 +18,8 @@ class Headers {
 	 * Init hooks.
 	 */
 	public function init(): void {
-		add_filter( 'wp_headers', array( $this, 'remove_vip_headers' ) );
-		add_action( 'init', array( $this, 'send_headers' ) );
+		add_filter( 'wp_headers', [ $this, 'remove_vip_headers' ] );
+		add_action( 'init', [ $this, 'send_headers' ] );
 	}
 
 	/**

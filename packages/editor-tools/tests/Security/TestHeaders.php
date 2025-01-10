@@ -24,8 +24,8 @@ class TestHeaders extends TestCase {
 
 		$headers = new Headers();
 
-		\WP_Mock::expectFilterAdded( 'wp_headers', array( $headers, 'remove_vip_headers' ) );
-		\WP_Mock::expectActionAdded( 'init', array( $headers, 'send_headers' ) );
+		\WP_Mock::expectFilterAdded( 'wp_headers', [ $headers, 'remove_vip_headers' ] );
+		\WP_Mock::expectActionAdded( 'init', [ $headers, 'send_headers' ] );
 	
 		$headers->init();
 
@@ -60,12 +60,12 @@ class TestHeaders extends TestCase {
 
 		$headers_class = new Headers();
 		$this->assertEquals(
-			array(),
+			[],
 			$headers_class->remove_vip_headers(
-				array(
+				[
 					'X-hacker'     => 'test-value',
 					'X-Powered-By' => 'test-value',
-				) 
+				] 
 			) 
 		);
 	}

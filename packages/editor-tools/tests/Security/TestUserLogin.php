@@ -23,9 +23,9 @@ class TestUserLogin extends TestCase {
 
 		$user_login = new UserLogin();
 
-		\WP_Mock::expectFilterAdded( 'map_meta_cap', array( $user_login, 'restrict_user_creation' ), 10, 2 );
-		\WP_Mock::expectActionAdded( 'login_init', array( $user_login, 'restrict_login_by_username' ) );
-		\WP_Mock::expectFilterAdded( 'show_password_fields', array( $user_login, 'show_password_fields' ), 10, 2 );
+		\WP_Mock::expectFilterAdded( 'map_meta_cap', [ $user_login, 'restrict_user_creation' ], 10, 2 );
+		\WP_Mock::expectActionAdded( 'login_init', [ $user_login, 'restrict_login_by_username' ] );
+		\WP_Mock::expectFilterAdded( 'show_password_fields', [ $user_login, 'show_password_fields' ], 10, 2 );
 
 		$user_login->init();
 
@@ -49,7 +49,7 @@ class TestUserLogin extends TestCase {
 
 		$user_login = new UserLogin();
 
-		$this->assertEquals( $expected, $user_login->restrict_user_creation( array(), $cap ) );
+		$this->assertEquals( $expected, $user_login->restrict_user_creation( [], $cap ) );
 	}
 
 	/**
@@ -58,12 +58,12 @@ class TestUserLogin extends TestCase {
 	 * @return array
 	 */
 	public function restrict_super_admins_provider(): array {
-		return array(
-			'should_restrict'     => array( 'create_users', array( 'do_not_allow' ), true ),
-			'should_not_restrict' => array( 'edit_posts', array(), true ),
-			'disabled feature'    => array( 'create_users', array(), false ),
-			'other cap disabled'  => array( 'edit_posts', array(), false ),
-		);
+		return [
+			'should_restrict'     => [ 'create_users', [ 'do_not_allow' ], true ],
+			'should_not_restrict' => [ 'edit_posts', [], true ],
+			'disabled feature'    => [ 'create_users', [], false ],
+			'other cap disabled'  => [ 'edit_posts', [], false ],
+		];
 	}
 
 	/**
@@ -112,13 +112,13 @@ class TestUserLogin extends TestCase {
 	 * @return array
 	 */
 	public function show_password_fields_provider(): array {
-		return array(
-			array( true, 1, 1, true, true ),
-			array( true, 1, 2, false, true ),
-			array( false, 1, 1, false, true ),
-			array( false, 1, 2, false, true ),
-			array( false, 1, 1, false, false ),
-			array( true, 1, 1, true, false ),
-		);
+		return [
+			[ true, 1, 1, true, true ],
+			[ true, 1, 2, false, true ],
+			[ false, 1, 1, false, true ],
+			[ false, 1, 2, false, true ],
+			[ false, 1, 1, false, false ],
+			[ true, 1, 1, true, false ],
+		];
 	}
 }

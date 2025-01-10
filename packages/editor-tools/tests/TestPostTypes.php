@@ -21,8 +21,8 @@ class TestPostTypes extends TestCase {
 	 */
 	public function testInit(): void {
 		$post_types = new \Boxuk\BoxWpEditorTools\PostTypes();
-		\WP_Mock::expectActionAdded( 'init', array( $post_types, 'register_post_types' ) );
-		\WP_Mock::expectFilterAdded( 'register_post_type_args', array( $post_types, 'modify_post_types' ), 10, 2 );
+		\WP_Mock::expectActionAdded( 'init', [ $post_types, 'register_post_types' ] );
+		\WP_Mock::expectFilterAdded( 'register_post_type_args', [ $post_types, 'modify_post_types' ], 10, 2 );
 		$post_types->init();
 		$this->assertConditionsMet();
 	}
@@ -34,20 +34,20 @@ class TestPostTypes extends TestCase {
 	 */
 	public function testRegisterPostTypes(): void {
 
-		$expected_parsed_json = array(
-			'labels'     => array(
+		$expected_parsed_json = [
+			'labels'     => [
 				'name'          => 'TestName',
 				'singular_name' => 'TestName',
-			),
+			],
 			'menu_icon'  => 'dashicons-admin-post',
-			'taxonomies' => array( 'category', 'post_tag' ),
-		);
+			'taxonomies' => [ 'category', 'post_tag' ],
+		];
 
-		$expected_defaults = array(
+		$expected_defaults = [
 			'show_in_rest' => true,
 			'public'       => true,
-			'template'     => array(),
-		);
+			'template'     => [],
+		];
 
 		$expected_parsed_json_with_defaults = array_merge(
 			$expected_parsed_json,
@@ -75,14 +75,14 @@ class TestPostTypes extends TestCase {
 			->with( 
 				'example_category', 
 				'post', 
-				array(
-					'labels'  => array(
+				[
+					'labels'  => [
 						'name'          => 'TestName',
 						'singular_name' => 'TestName',
-					),
+					],
 					'public'  => true,
-					'rewrite' => array( 'slug' => 'example-category' ),
-				) 
+					'rewrite' => [ 'slug' => 'example-category' ],
+				] 
 			);
 
 		// Short-circuit the test here as we'll test the blocks-to-template methods separately.
@@ -140,7 +140,7 @@ class TestPostTypes extends TestCase {
 		\WP_Mock::userFunction( 'parse_blocks' )
 			->once()
 			->with( file_get_contents( __DIR__ . '/fixtures/PostTypes/post-type-templates/bar.html' ) )
-			->andReturn( array() );
+			->andReturn( [] );
 
 		$post_types = new \Boxuk\BoxWpEditorTools\PostTypes();
 		$post_types->get_blocks_from_file( 'bar' );
@@ -194,47 +194,47 @@ class TestPostTypes extends TestCase {
 	 * phpcs:ignore NeutronStandard.Functions.LongFunction.LongFunction -- This is a data provider
 	 */
 	public function blocks_to_template_provider(): array { 
-		return array(
-			'empty'                       => array(
-				'blocks'   => array(),
-				'expected' => array(),
-			),
-			'invalid'                     => array(
-				'blocks'   => array( array( 'foo' => 'bar' ) ),
-				'expected' => array(),
-			),
-			'valid'                       => array(
-				'blocks'   => array( array( 'blockName' => 'core/paragraph' ) ),
-				'expected' => array( array( 'core/paragraph', array(), array() ) ),
-			),
-			'valid-with-attrs'            => array(
-				'blocks'   => array(
-					array(
+		return [
+			'empty'                       => [
+				'blocks'   => [],
+				'expected' => [],
+			],
+			'invalid'                     => [
+				'blocks'   => [ [ 'foo' => 'bar' ] ],
+				'expected' => [],
+			],
+			'valid'                       => [
+				'blocks'   => [ [ 'blockName' => 'core/paragraph' ] ],
+				'expected' => [ [ 'core/paragraph', [], [] ] ],
+			],
+			'valid-with-attrs'            => [
+				'blocks'   => [
+					[
 						'blockName' => 'core/paragraph',
-						'attrs'     => array( 'align' => 'left' ),
-					),
-				),
-				'expected' => array( array( 'core/paragraph', array( 'align' => 'left' ), array() ) ),
-			),
-			'valid-with-children'         => array(
-				'blocks'   => array(
-					array(
+						'attrs'     => [ 'align' => 'left' ],
+					],
+				],
+				'expected' => [ [ 'core/paragraph', [ 'align' => 'left' ], [] ] ],
+			],
+			'valid-with-children'         => [
+				'blocks'   => [
+					[
 						'blockName'   => 'core/paragraph',
-						'innerBlocks' => array( array( 'blockName' => 'core/heading' ) ),
-					),
-				),
-				'expected' => array( array( 'core/paragraph', array(), array( array( 'core/heading', array(), array() ) ) ) ),
-			),
-			'valid-with-invalid-children' => array(
-				'blocks'   => array( 
-					array(
+						'innerBlocks' => [ [ 'blockName' => 'core/heading' ] ],
+					],
+				],
+				'expected' => [ [ 'core/paragraph', [], [ [ 'core/heading', [], [] ] ] ] ],
+			],
+			'valid-with-invalid-children' => [
+				'blocks'   => [ 
+					[
 						'blockName'   => 'core/paragraph',
-						'innerBlocks' => array( array( 'foo' => 'bar' ) ),
-					),
-				),
-				'expected' => array( array( 'core/paragraph', array(), array() ) ),
-			),
-		);
+						'innerBlocks' => [ [ 'foo' => 'bar' ] ],
+					],
+				],
+				'expected' => [ [ 'core/paragraph', [], [] ] ],
+			],
+		];
 	}
 
 	/**
@@ -261,22 +261,22 @@ class TestPostTypes extends TestCase {
 	 * phpcs:ignore NeutronStandard.Functions.LongFunction.LongFunction -- This is a data provider
 	 */
 	public function modify_post_types_provider(): array {
-		return array(
-			'not-post-or-page' => array(
+		return [
+			'not-post-or-page' => [
 				'post_type' => 'foo',
-				'args'      => array( 'foo' => 'bar' ),
-				'expected'  => array( 'foo' => 'bar' ),
-			),
-			'post'             => array(
+				'args'      => [ 'foo' => 'bar' ],
+				'expected'  => [ 'foo' => 'bar' ],
+			],
+			'post'             => [
 				'post_type' => 'post',
-				'args'      => array(),
-				'expected'  => array( 'template' => array() ),
-			),
-			'page'             => array(
+				'args'      => [],
+				'expected'  => [ 'template' => [] ],
+			],
+			'page'             => [
 				'post_type' => 'page',
-				'args'      => array(),
-				'expected'  => array( 'template' => array() ),
-			),
-		);
+				'args'      => [],
+				'expected'  => [ 'template' => [] ],
+			],
+		];
 	}
 }

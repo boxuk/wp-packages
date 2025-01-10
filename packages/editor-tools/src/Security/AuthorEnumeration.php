@@ -18,8 +18,8 @@ class AuthorEnumeration {
 	 * Init Hooks
 	 */
 	public function init(): void {
-		add_filter( 'redirect_canonical', array( $this, 'prevent_author_enum' ) );
-		add_filter( 'rest_endpoints', array( $this, 'handle_rest_endpoints' ) );
+		add_filter( 'redirect_canonical', [ $this, 'prevent_author_enum' ] );
+		add_filter( 'rest_endpoints', [ $this, 'handle_rest_endpoints' ] );
 	}
 
 	/**
@@ -38,7 +38,7 @@ class AuthorEnumeration {
 			global $wp_query;
 			$wp_query->set_404();
 
-			add_filter( 'wp_title', array( $this, 'get_404_title' ), PHP_INT_MAX );
+			add_filter( 'wp_title', [ $this, 'get_404_title' ], PHP_INT_MAX );
 
 			status_header( 404 );
 			nocache_headers();

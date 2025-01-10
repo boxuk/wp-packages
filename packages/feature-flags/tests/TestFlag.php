@@ -101,7 +101,7 @@ class TestFlag extends TestCase {
 		FlagRegister::instance()->register_flag( $flag );
 		\WP_Mock::userFunction( 'get_option' )
 			->with( Flag::FLAG_PUBLISH_OPTION )
-			->andReturn( array( $flag->get_key() ) );
+			->andReturn( [ $flag->get_key() ] );
 
 		$this->assertTrue( $flag->is_published() );
 		FlagRegister::instance()->unregister_flag( $flag );
@@ -113,8 +113,8 @@ class TestFlag extends TestCase {
 	public function test_get_users(): void {
 		\WP_Mock::userFunction( 'get_users' )
 			->once()
-			->with( array( 'fields' => 'ID' ) )
-			->andReturn( array( 0, 1, 2, 3 ) );
+			->with( [ 'fields' => 'ID' ] )
+			->andReturn( [ 0, 1, 2, 3 ] );
 
 		\WP_Mock::userFunction( 'did_action' )->once()->with( 'init' )->andReturn( true );
 		\WP_Mock::userFunction( 'get_current_user_id' )->once()->andReturn( 1 );
@@ -123,12 +123,12 @@ class TestFlag extends TestCase {
 
 		\WP_Mock::userFunction( 'get_user_meta' )
 			->with( \Mockery::anyOf( 1, 2, 3 ), 'wp_feature_flags_user_flags', true )
-			->andReturn( array( $this->get_flag()->get_key() ) );
+			->andReturn( [ $this->get_flag()->get_key() ] );
 
 		$flag = $this->get_flag();
 		FlagRegister::instance()->register_flag( $flag );
 
-		$this->assertEquals( array( 0, 1, 2, 3 ), $flag->get_users() );
+		$this->assertEquals( [ 0, 1, 2, 3 ], $flag->get_users() );
 
 		FlagRegister::instance()->unregister_flag( $flag );
 	}
@@ -139,8 +139,8 @@ class TestFlag extends TestCase {
 	public function test_get_users_invalid_meta(): void {
 		\WP_Mock::userFunction( 'get_users' )
 			->once()
-			->with( array( 'fields' => 'ID' ) )
-			->andReturn( array( 0, 1, 2, 3 ) );
+			->with( [ 'fields' => 'ID' ] )
+			->andReturn( [ 0, 1, 2, 3 ] );
 
 		\WP_Mock::userFunction( 'did_action' )->once()->with( 'init' )->andReturn( true );
 		\WP_Mock::userFunction( 'get_current_user_id' )->once()->andReturn( 1 );
@@ -151,13 +151,13 @@ class TestFlag extends TestCase {
 			->with( \Mockery::anyOf( 1, 2, 3 ), 'wp_feature_flags_user_flags', true )
 			->andReturn( 'invalid' );
 		\WP_Mock::userFunction( 'add_user_meta' )
-			->with( \Mockery::anyOf( 1, 2, 3 ), 'wp_feature_flags_user_flags', array(), true )
+			->with( \Mockery::anyOf( 1, 2, 3 ), 'wp_feature_flags_user_flags', [], true )
 			->andReturn( true );
 
 		$flag = $this->get_flag();
 		FlagRegister::instance()->register_flag( $flag );
 
-		$this->assertEquals( array(), $flag->get_users() );
+		$this->assertEquals( [], $flag->get_users() );
 
 		FlagRegister::instance()->unregister_flag( $flag );
 	}
@@ -168,7 +168,7 @@ class TestFlag extends TestCase {
 	public function test_is_enabled_for_user(): void {
 		\WP_Mock::userFunction( 'get_user_meta' )->once()
 			->with( 1, 'wp_feature_flags_user_flags', true )
-			->andReturn( array( $this->get_flag()->get_key() ) );
+			->andReturn( [ $this->get_flag()->get_key() ] );
 		
 		$flag = $this->get_flag();
 		FlagRegister::instance()->register_flag( $flag );
@@ -188,7 +188,7 @@ class TestFlag extends TestCase {
 	 * @param array $users    Users.
 	 * @param bool  $expected Expected.
 	 */
-	public function test_is_enabled( Flag $flag, array $option = array(), array $users = array(), bool $expected = false ): void {
+	public function test_is_enabled( Flag $flag, array $option = [], array $users = [], bool $expected = false ): void {
 		FlagRegister::instance()->register_flag( $flag );
 		\WP_Mock::userFunction( 'get_option' )
 			->with( Flag::FLAG_PUBLISH_OPTION )
@@ -208,38 +208,38 @@ class TestFlag extends TestCase {
 	 * @return array
 	 */
 	public function is_enabled_provider(): array {
-		return array(
-			'enforced'  => array(
+		return [
+			'enforced'  => [
 				new Flag( 'enforced', 'Test', 'Test', null, 'default', true, false ),
-				array(),
-				array(),
+				[],
+				[],
 				true,
-			),
-			'published' => array(
+			],
+			'published' => [
 				new Flag( 'published', 'Test', 'Test', null, 'default', false, false ),
-				array( 'published' ),
-				array(),
+				[ 'published' ],
+				[],
 				true,
-			),
-			'user'      => array(
+			],
+			'user'      => [
 				new Flag( 'user', 'Test', 'Test', null, 'default', false, false ),
-				array(),
-				array( 'user' ),
+				[],
+				[ 'user' ],
 				true,
-			),
-			'none'      => array(
+			],
+			'none'      => [
 				new Flag( 'none', 'Test', 'Test', null, 'default', false, false ),
-				array(),
-				array(),
+				[],
+				[],
 				false,
-			),
-			'disabled'  => array(
+			],
+			'disabled'  => [
 				new Flag( 'disbaled', 'Test', 'Test', null, 'default', false, true ),
-				array( 'disbaled' ),
-				array(),
+				[ 'disbaled' ],
+				[],
 				false,
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -247,11 +247,11 @@ class TestFlag extends TestCase {
 	 */
 	public function test_jsonSerialize(): void {
 		\WP_Mock::userFunction( 'update_option' );
-		\WP_Mock::userFunction( 'get_users' )->andReturn( array() );
+		\WP_Mock::userFunction( 'get_users' )->andReturn( [] );
 
 		$flag = $this->get_flag();
 		$this->assertEquals(
-			array(
+			[
 				'key'            => 'test',
 				'name'           => 'Test Flag',
 				'description'    => 'This is a test flag',
@@ -260,8 +260,8 @@ class TestFlag extends TestCase {
 				'force_enabled'  => false,
 				'force_disabled' => false,
 				'is_published'   => false,
-				'users'          => array(),
-			),
+				'users'          => [],
+			],
 			$flag->jsonSerialize()
 		);
 	}
@@ -272,10 +272,10 @@ class TestFlag extends TestCase {
 	public function test_publish(): void {
 		$flag = $this->get_flag();
 		\WP_Mock::userFunction( 'update_option' )->once()
-			->with( Flag::FLAG_PUBLISH_OPTION, array(), true )
+			->with( Flag::FLAG_PUBLISH_OPTION, [], true )
 			->andReturn( true );
 		\WP_Mock::userFunction( 'update_option' )->once()
-			->with( Flag::FLAG_PUBLISH_OPTION, array( 0 => $flag->get_key() ) )
+			->with( Flag::FLAG_PUBLISH_OPTION, [ 0 => $flag->get_key() ] )
 			->andReturn( true );
 
 		$this->assertTrue( $flag->publish() );
@@ -288,9 +288,9 @@ class TestFlag extends TestCase {
 		$flag = $this->get_flag();
 		\WP_Mock::userFunction( 'get_option' )->once()
 			->with( Flag::FLAG_PUBLISH_OPTION )
-			->andReturn( array( $flag->get_key() ) );
+			->andReturn( [ $flag->get_key() ] );
 		\WP_Mock::userFunction( 'update_option' )->once()
-			->with( Flag::FLAG_PUBLISH_OPTION, array() )
+			->with( Flag::FLAG_PUBLISH_OPTION, [] )
 			->andReturn( true );
 
 		$this->assertTrue( $flag->unpublish() );
@@ -303,9 +303,9 @@ class TestFlag extends TestCase {
 		$flag = $this->get_flag();
 		\WP_Mock::userFunction( 'get_user_meta' )->once()
 			->with( 1, 'wp_feature_flags_user_flags', true )
-			->andReturn( array() );
+			->andReturn( [] );
 		\WP_Mock::userFunction( 'update_user_meta' )->once()
-			->with( 1, 'wp_feature_flags_user_flags', array( $flag->get_key() ) )
+			->with( 1, 'wp_feature_flags_user_flags', [ $flag->get_key() ] )
 			->andReturn( true );
 
 		\WP_Mock::userFunction( 'did_action' )->with( 'init' )->andReturn( true );
@@ -321,9 +321,9 @@ class TestFlag extends TestCase {
 		$flag = $this->get_flag();
 		\WP_Mock::userFunction( 'get_user_meta' )->once()
 			->with( 1, 'wp_feature_flags_user_flags', true )
-			->andReturn( array( $flag->get_key() ) );
+			->andReturn( [ $flag->get_key() ] );
 		\WP_Mock::userFunction( 'update_user_meta' )->once()
-			->with( 1, 'wp_feature_flags_user_flags', array() )
+			->with( 1, 'wp_feature_flags_user_flags', [] )
 			->andReturn( true );
 
 		$this->assertTrue( $flag->unpublish_for_user( 1 ) );
@@ -355,9 +355,9 @@ class TestFlag extends TestCase {
 	 * @return array
 	 */
 	public function get_current_user_id_provider(): array {
-		return array(
-			array( false ),
-			array( true ),
-		);
+		return [
+			[ false ],
+			[ true ],
+		];
 	}
 }

@@ -20,8 +20,8 @@ class UserSessions {
 	 * @return void
 	 */
 	public function init(): void {
-		add_action( 'admin_init', array( $this, 'register_settings' ) );
-		add_filter( 'session_token_manager', array( $this, 'get_session_token_manager' ), 10, 1 );
+		add_action( 'admin_init', [ $this, 'register_settings' ] );
+		add_filter( 'session_token_manager', [ $this, 'get_session_token_manager' ], 10, 1 );
 	}
 
 	/**
@@ -33,24 +33,24 @@ class UserSessions {
 		register_setting(
 			'general', 
 			'user_session_limit', 
-			array(
+			[
 				'type'              => 'integer',
 				'show_in_rest'      => true,
 				'default'           => 0,
 				'sanitize_callback' => 'absint',
-			)
+			]
 		);
 
 		add_settings_field(
 			'user_session_limit',
 			__( 'User Session Limit', 'boxuk' ),
-			array( $this, 'render_user_session_limit_field' ),
+			[ $this, 'render_user_session_limit_field' ],
 			'general',
 			'default',
-			array(
+			[
 				'label_for' => 'user_session_limit',
 				'class'     => 'user-session-limit',
-			)
+			]
 		);
 	}
 

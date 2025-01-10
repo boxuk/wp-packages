@@ -63,7 +63,7 @@ class AssetLoader {
 			}
 			return;
 		}
-		$deps    = isset( $asset['dependencies'] ) && is_array( $asset['dependencies'] ) ? $asset['dependencies'] : array();
+		$deps    = isset( $asset['dependencies'] ) && is_array( $asset['dependencies'] ) ? $asset['dependencies'] : [];
 		$deps    = array_filter( $deps, 'is_string' );
 		$version = isset( $asset['version'] ) && is_string( $asset['version'] ) ? $asset['version'] : false;
 
@@ -91,7 +91,7 @@ class AssetLoader {
 		 *
 		 * @return array
 		 */
-		$js_object_data = apply_filters( 'localize_' . $handle . '_data', array() );
+		$js_object_data = apply_filters( 'localize_' . $handle . '_data', [] );
 
 		if ( ! empty( $js_object_data ) ) {
 			wp_localize_script( $this->prefix . $handle, $js_object_name, $js_object_data );
@@ -101,7 +101,7 @@ class AssetLoader {
 			wp_enqueue_style(
 				$this->prefix . $handle,
 				$this->get_base_url() . $handle . '.css',
-				array(),
+				[],
 				$version,
 			);
 		}

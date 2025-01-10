@@ -87,7 +87,7 @@ class IconGroup {
 	 * Regiser Assets in WP
 	 */
 	public function register_assets(): void {
-		wp_register_style( $this->name, $this->url, array(), null, 'all' ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- The version isn't required for external stylesheets.
+		wp_register_style( $this->name, $this->url, [], null, 'all' ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- The version isn't required for external stylesheets.
 		wp_add_inline_style( $this->name, $this->additional_css );
 	}
 
@@ -121,12 +121,12 @@ class IconGroup {
 	 * @return array{title:string,name:string,tagName:string,className:string,icons:array<Icon>}
 	 */
 	public function to_json(): array {
-		return array(
+		return [
 			'title'     => $this->get_title(),
 			'name'      => $this->get_name(),
 			'tagName'   => $this->get_tag_name(),
 			'className' => $this->get_class_name(),
 			'icons'     => $this->get_icons(),
-		);
+		];
 	}
 }

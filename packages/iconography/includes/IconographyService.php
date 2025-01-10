@@ -29,12 +29,12 @@ class IconographyService {
 	 * Init Hooks
 	 */
 	public function init(): void {
-		add_action( 'init', array( $this, 'register_block' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ) );
-		add_action( 'wp_footer', array( $this, 'enqueue_assets' ), 1, 0 );
-		add_action( 'enqueue_block_assets', array( $this, 'register_assets' ), 1, 0 );
-		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_scripts' ) );
-		add_action( 'enqueue_block_assets', array( $this, 'enqueue_all_assets' ) );
+		add_action( 'init', [ $this, 'register_block' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'register_assets' ] );
+		add_action( 'wp_footer', [ $this, 'enqueue_assets' ], 1, 0 );
+		add_action( 'enqueue_block_assets', [ $this, 'register_assets' ], 1, 0 );
+		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_editor_scripts' ] );
+		add_action( 'enqueue_block_assets', [ $this, 'enqueue_all_assets' ] );
 	}
 
 	/**
@@ -111,12 +111,12 @@ class IconographyService {
 		wp_localize_script(
 			'iconography',
 			'boxIconography',
-			array(
+			[
 				'iconGroups' => array_map(
 					fn( IconGroup $group ) => $group->to_json(),
 					$this->get_icon_groups()
 				),
-			)
+			]
 		);
 	}
 }

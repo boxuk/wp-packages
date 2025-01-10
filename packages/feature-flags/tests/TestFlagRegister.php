@@ -65,11 +65,11 @@ class TestFlagRegister extends TestCase {
 		$flag          = new Flag( 'test', 'Test flag', 'Test flag description' );
 		$flag_register->register_flag( $flag );
 
-		return array(
-			array( 'test', $flag ),
-			array( $flag, $flag ),
-			array( 'non-existent', null ),
-		);
+		return [
+			[ 'test', $flag ],
+			[ $flag, $flag ],
+			[ 'non-existent', null ],
+		];
 	}
 
 	/**
@@ -80,7 +80,7 @@ class TestFlagRegister extends TestCase {
 		$flag          = new Flag( 'test', 'Test flag', 'Test flag description' );
 		$flag_register->register_flag( $flag );
 
-		$this->assertEquals( array( 'test' => $flag ), $flag_register->get_flags() );
+		$this->assertEquals( [ 'test' => $flag ], $flag_register->get_flags() );
 	}
 
 	/**
@@ -91,13 +91,13 @@ class TestFlagRegister extends TestCase {
 		$flag          = new Flag( 'test', 'Test flag', 'Test flag description' );
 		$flag_2        = new Flag( 'test_2', 'Test flag 2', 'Test flag description 2' );
 
-		$flag_register->register_flags( array( $flag, $flag_2 ) );
+		$flag_register->register_flags( [ $flag, $flag_2 ] );
 
 		$this->assertEquals(
-			array(
+			[
 				'test'   => $flag,
 				'test_2' => $flag_2,
-			),
+			],
 			$flag_register->get_flags() 
 		);
 	}
@@ -106,7 +106,7 @@ class TestFlagRegister extends TestCase {
 	 * Test `sanitize_flags` method
 	 */
 	public function test_sanitize_flags(): void {
-		$this->assertEquals( array(), Sanitizer::sanitize_flags( 'invalid input' ) );
-		$this->assertEquals( array(), Sanitizer::sanitize_flags( array( new stdClass() ) ) );
+		$this->assertEquals( [], Sanitizer::sanitize_flags( 'invalid input' ) );
+		$this->assertEquals( [], Sanitizer::sanitize_flags( [ new stdClass() ] ) );
 	}
 }   
