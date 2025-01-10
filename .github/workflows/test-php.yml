@@ -34,12 +34,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.ref }}
+          ref: ${{ github.event.pull_request.head.sha }}
         if: github.event_name == 'pull_request'
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.workflow_run.head_branch }}
+          ref: ${{ github.event.workflow_run.head_sha }}
         if: github.event_name == 'workflow_run'
       - name: Set up PHP
         uses: setup-php/setup-php@v2
