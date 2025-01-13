@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="turbo-root" content="/wp-packages">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.790093440777">
+
+    <!-- See retype.com -->
+    <meta name="generator" content="Retype 3.6.0">
+
+    <!-- Primary Meta Tags -->
+    <title>WP Feature Flags</title>
+    <meta name="title" content="WP Feature Flags">
+    <meta name="description" content="A plugin used to manage the publishing of features.">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://boxuk.github.io/wp-packages/packages/feature-flags/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://boxuk.github.io/wp-packages/packages/feature-flags/">
+    <meta property="og:title" content="WP Feature Flags">
+    <meta property="og:description" content="A plugin used to manage the publishing of features.">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://boxuk.github.io/wp-packages/packages/feature-flags/">
+    <meta property="twitter:title" content="WP Feature Flags">
+    <meta property="twitter:description" content="A plugin used to manage the publishing of features.">
+
+    <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
+
+    <link href="../../resources/css/retype.css?v=3.6.0.790093440777" rel="stylesheet">
+
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.6.0.790093440777" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=3.6.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.6.0.790093440777" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.6.0.790093440777" defer></script>
+</head>
+<body>
+    <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
+        <div class="absolute bottom-0 left-0 bg-gray-100 dark:bg-dark-800" style="top: 5rem; right: 50%"></div>
+    
+        <header id="docs-site-header" class="sticky top-0 z-30 flex w-full h-16 bg-white border-b border-gray-200 md:h-20 dark:bg-dark-850 dark:border-dark-650">
+            <div class="container relative flex items-center justify-between pr-6 grow md:justify-start">
+                <!-- Mobile menu button skeleton -->
+                <button v-cloak class="skeleton docs-mobile-menu-button flex items-center justify-center shrink-0 overflow-hidden dark:text-white focus:outline-none rounded-full w-10 h-10 ml-3.5 md:hidden"><svg xmlns="http://www.w3.org/2000/svg" class="mb-px shrink-0" width="24" height="24" viewBox="0 0 24 24" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor"><path d="M2 4h20v2H2zM2 11h20v2H2zM2 18h20v2H2z"></path></g></svg></button>
+                <div v-cloak id="docs-sidebar-toggle"></div>
+        
+                <!-- Logo -->
+                <div class="flex items-center justify-between h-full py-2 md:w-75">
+                    <div class="flex items-center px-2 md:px-6">
+                        <a id="docs-site-logo" href="../../" class="flex items-center leading-snug text-xl">
+                            <span class="dark:text-white font-semibold line-clamp-1 md:line-clamp-2">BoxUK Wordpress Packages</span>
+                        </a><span class="hidden px-2 py-1 ml-4 text-sm font-semibold leading-none text-root-logo-label-text bg-root-logo-label-bg rounded-sm md:inline-block">Docs</span>
+                    </div>
+        
+                    <span class="hidden h-8 border-r md:inline-block dark:border-dark-650"></span>
+                </div>
+        
+                <div class="flex justify-between md:grow">
+                    <!-- Top Nav -->
+                    <nav class="hidden md:flex">
+                        <ul class="flex flex-col mb-4 md:pl-16 md:mb-0 md:flex-row md:items-center">
+                            
+                        </ul>
+                    </nav>
+        
+                    <!-- Header Right Skeleton -->
+                    <div v-cloak class="flex justify-end grow skeleton">
+        
+                        <!-- Search input mock -->
+                        <div class="relative hidden w-40 lg:block lg:max-w-sm lg:ml-auto">
+                            <div class="absolute flex items-center justify-center h-full pl-3 dark:text-dark-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-base" width="16" height="16" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 1px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
+                            </div>
+                            <input class="w-full h-10 placeholder-gray-400 transition-colors duration-200 ease-in bg-gray-200 border border-transparent rounded md:text-sm hover:bg-white hover:border-gray-300 focus:outline-none focus:bg-white focus:border-gray-500 dark:bg-dark-600 dark:border-dark-600 dark:placeholder-dark-400" style="padding: 0.625rem 0.75rem 0.625rem 2rem" type="text" placeholder="Search">
+                        </div>
+        
+                        <!-- Mobile search button -->
+                        <div class="flex items-center justify-center w-10 h-10 lg:hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="20" height="20" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
+                        </div>
+        
+                        <!-- Dark mode switch placeholder -->
+                        <div class="w-10 h-10 lg:ml-2"></div>
+        
+                        <!-- History button -->
+                        <div class="flex items-center justify-center w-10 h-10" style="margin-right: -0.625rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="22" height="22" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><g ><path d="M12.01 6.01c-.55 0-1 .45-1 1V12a1 1 0 00.4.8l3 2.22a.985.985 0 001.39-.2.996.996 0 00-.21-1.4l-2.6-1.92V7.01c.02-.55-.43-1-.98-1z"></path><path d="M12.01 1.91c-5.33 0-9.69 4.16-10.05 9.4l-.29-.26a.997.997 0 10-1.34 1.48l1.97 1.79c.19.17.43.26.67.26s.48-.09.67-.26l1.97-1.79a.997.997 0 10-1.34-1.48l-.31.28c.34-4.14 3.82-7.41 8.05-7.41 4.46 0 8.08 3.63 8.08 8.09s-3.63 8.08-8.08 8.08c-2.18 0-4.22-.85-5.75-2.4a.996.996 0 10-1.42 1.4 10.02 10.02 0 007.17 2.99c5.56 0 10.08-4.52 10.08-10.08.01-5.56-4.52-10.09-10.08-10.09z"></path></g></g></svg>
+                        </div>
+                    </div>
+        
+                    <div v-cloak class="flex justify-end grow">
+                        <div id="docs-mobile-search-button"></div>
+                        <doc-search-desktop></doc-search-desktop>
+        
+                        <doc-theme-switch class="lg:ml-2"></doc-theme-switch>
+                        <doc-history></doc-history>
+                    </div>
+                </div>
+            </div>
+        </header>
+    
+        <div class="container relative flex bg-white">
+            <!-- Sidebar Skeleton -->
+            <div v-cloak class="fixed flex flex-col shrink-0 duration-300 ease-in-out bg-gray-100 border-gray-200 sidebar top-20 w-75 border-r h-screen md:sticky transition-transform skeleton dark:bg-dark-800 dark:border-dark-650">
+            
+                <!-- Render this div, if config.showSidebarFilter is `true` -->
+                <div class="flex items-center h-16 px-6">
+                    <input class="w-full h-8 px-3 py-2 transition-colors duration-200 ease-linear bg-white border border-gray-200 rounded shadow-none text-sm focus:outline-none focus:border-gray-600 dark:bg-dark-600 dark:border-dark-600" type="text" placeholder="Filter">
+                </div>
+            
+                <div class="pl-6 mt-1 mb-4">
+                    <div class="w-32 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-48 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-40 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-32 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-48 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                    <div class="w-40 h-3 mb-4 bg-gray-200 rounded-full loading dark:bg-dark-600"></div>
+                </div>
+            
+                <div class="shrink-0 mt-auto bg-transparent dark:border-dark-650">
+                    <a class="flex items-center justify-center flex-nowrap h-16 text-gray-400 dark:text-dark-400 hover:text-gray-700 dark:hover:text-dark-300 transition-colors duration-150 ease-in docs-powered-by" target="_blank" href="https://retype.com/" rel="noopener">
+                        <span class="text-xs whitespace-nowrap">Powered by</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ml-2" fill="currentColor" width="96" height="20" overflow="visible"><path d="M0 0v20h13.59V0H0zm11.15 17.54H2.44V2.46h8.71v15.08zM15.8 20h2.44V4.67L15.8 2.22zM20.45 6.89V20h2.44V9.34z"/><g><path d="M40.16 8.44c0 1.49-.59 2.45-1.75 2.88l2.34 3.32h-2.53l-2.04-2.96h-1.43v2.96h-2.06V5.36h3.5c1.43 0 2.46.24 3.07.73s.9 1.27.9 2.35zm-2.48 1.1c.26-.23.38-.59.38-1.09 0-.5-.13-.84-.4-1.03s-.73-.28-1.39-.28h-1.54v2.75h1.5c.72 0 1.2-.12 1.45-.35zM51.56 5.36V7.2h-4.59v1.91h4.13v1.76h-4.13v1.92h4.74v1.83h-6.79V5.36h6.64zM60.09 7.15v7.48h-2.06V7.15h-2.61V5.36h7.28v1.79h-2.61zM70.81 14.64h-2.06v-3.66l-3.19-5.61h2.23l1.99 3.45 1.99-3.45H74l-3.19 5.61v3.66zM83.99 6.19c.65.55.97 1.4.97 2.55s-.33 1.98-1 2.51-1.68.8-3.04.8h-1.23v2.59h-2.06V5.36h3.26c1.42 0 2.45.28 3.1.83zm-1.51 3.65c.25-.28.37-.69.37-1.22s-.16-.92-.48-1.14c-.32-.23-.82-.34-1.5-.34H79.7v3.12h1.38c.68 0 1.15-.14 1.4-.42zM95.85 5.36V7.2h-4.59v1.91h4.13v1.76h-4.13v1.92H96v1.83h-6.79V5.36h6.64z"/></g></svg>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Sidebar component -->
+            <doc-sidebar v-cloak>
+                <template #sidebar-footer>
+                    <div class="shrink-0 mt-auto border-t md:bg-transparent md:border-none dark:border-dark-650">
+            
+                        <a class="flex items-center justify-center flex-nowrap h-16 text-gray-400 dark:text-dark-400 hover:text-gray-700 dark:hover:text-dark-300 transition-colors duration-150 ease-in docs-powered-by" target="_blank" href="https://retype.com/" rel="noopener">
+                            <span class="text-xs whitespace-nowrap">Powered by</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-2" fill="currentColor" width="96" height="20" overflow="visible"><path d="M0 0v20h13.59V0H0zm11.15 17.54H2.44V2.46h8.71v15.08zM15.8 20h2.44V4.67L15.8 2.22zM20.45 6.89V20h2.44V9.34z"/><g><path d="M40.16 8.44c0 1.49-.59 2.45-1.75 2.88l2.34 3.32h-2.53l-2.04-2.96h-1.43v2.96h-2.06V5.36h3.5c1.43 0 2.46.24 3.07.73s.9 1.27.9 2.35zm-2.48 1.1c.26-.23.38-.59.38-1.09 0-.5-.13-.84-.4-1.03s-.73-.28-1.39-.28h-1.54v2.75h1.5c.72 0 1.2-.12 1.45-.35zM51.56 5.36V7.2h-4.59v1.91h4.13v1.76h-4.13v1.92h4.74v1.83h-6.79V5.36h6.64zM60.09 7.15v7.48h-2.06V7.15h-2.61V5.36h7.28v1.79h-2.61zM70.81 14.64h-2.06v-3.66l-3.19-5.61h2.23l1.99 3.45 1.99-3.45H74l-3.19 5.61v3.66zM83.99 6.19c.65.55.97 1.4.97 2.55s-.33 1.98-1 2.51-1.68.8-3.04.8h-1.23v2.59h-2.06V5.36h3.26c1.42 0 2.45.28 3.1.83zm-1.51 3.65c.25-.28.37-.69.37-1.22s-.16-.92-.48-1.14c-.32-.23-.82-.34-1.5-.34H79.7v3.12h1.38c.68 0 1.15-.14 1.4-.42zM95.85 5.36V7.2h-4.59v1.91h4.13v1.76h-4.13v1.92H96v1.83h-6.79V5.36h6.64z"/></g></svg>
+                        </a>
+                    </div>
+                </template>
+            </doc-sidebar>
+    
+            <div class="grow min-w-0 dark:bg-dark-850">
+                <!-- Render "toolbar" template here on api pages --><!-- Render page content -->
+                <div class="flex">
+                    <div class="min-w-0 p-4 grow md:px-16">
+                        <main class="relative pb-12 lg:pt-2">
+                            <div class="docs-markdown" id="docs-content">
+                                <!-- Rendered if sidebar right is enabled -->
+                                <div id="docs-sidebar-right-toggle"></div>
+                                <!-- Page content  -->
+<doc-anchor-target id="wp-feature-flags" class="break-words">
+    <h1>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#wp-feature-flags">#</doc-anchor-trigger>
+        <span>WP Feature Flags</span>
+    </h1>
+</doc-anchor-target>
+<p>A plugin used to manage the publishing of features.</p>
+<p>## Use case</p>
+<p>At <a href="https://boxuk.com">BoxUK</a>, we release code behind feature flags. There are <a href="https://www.boxuk.com/insight/coding-with-feature-flags/">lots of reasons</a> for this, but it mainly allows us to release code more frequently and at lower risk.</p>
+<p>We use flags to slowly roll out functionality in increments, across environments. They also let us hide features without a code deploy if we spot bugs.</p>
+<doc-anchor-target id="registering-a-flag">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#registering-a-flag">#</doc-anchor-trigger>
+        <span>Registering a flag</span>
+    </h2>
+</doc-anchor-target>
+<p>Registering flags is handled using the <code v-pre>FlagRegister</code> singleton calling it&#x27;s <code v-pre>register_flag()</code> method. It&#x27;s recommended you load flags as early as possible in the load order, either by hooking to <code v-pre>muplugins_loaded</code>, or even calling the registration method un-hooked so that the flag registry can be populated as early as possible. We recommend that all flags are loaded before the <code v-pre>init</code> hook so that reading the flag status can be added after this.</p>
+<p>A simple flag registration looks like this:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-php"><code v-pre class="language-php">\BoxUk\WpFeatureFlags\FlagRegister::instance()
+	-&gt;register_flag(
+		new \BoxUk\WpFeatureFlags\Flag(
+			'experiment-19', // key
+			'Experiment 19', // label
+			'An experimental feature that we want to control the release of.', // description
+			new \DateTime( '2020-03-23' ), // creation-date
+			'experiments', // group-name
+			true // force-enable
+			false, // force-disable
+		)
+	)-&gt;register_flag(
+		new \BoxUk\WpFeatureFlags\Flag(
+			'example-flag-2',
+			'Example Flag 2',
+			'Another example feature flag',
+			null,
+			'All',
+			false,
+			true
+		)
+	);</code></pre>
+</doc-codeblock></div>
+<p>There&#x27;s also a <code v-pre>register_flags()</code> where you can pass an array of <code v-pre>Flag</code> objects.</p>
+<p>A new flag instance can be added with the following properties:</p>
+<ul>
+<li><strong>key (text string)</strong> - The unique key for the flag.</li>
+<li><strong>name (text string)</strong> - the briefest possible summary of what the flag does</li>
+<li><strong>description (text string)</strong> - a bit more detail about what the flag does, or why it exists</li>
+</ul>
+<p>There are extra attributes that can be set in this array that give you more control over your flags.</p>
+<ul>
+<li><strong>created (DateTime)</strong> - the date you decided to add this flag. This will help with technical debt management. Defaults to <code v-pre>null</code>.</li>
+<li><strong>group (text string)</strong> - to make related flags easier to find, you can group them together by giving them the same group name.</li>
+<li><strong>force-enable (true/false)</strong> - flags can be forced into a published state by setting this to <code v-pre>true</code>. This defaults to <code v-pre>false</code>.</li>
+<li><strong>force-disable (true/false)</strong> - flags can be forced into a disabled state by setting this to <code v-pre>true</code>. This defaults to <code v-pre>false</code>.</li>
+</ul>
+<p>You could use more complex logic to determine if a flag has an enforced state, such as by using functions like <code v-pre>wp_get_environment_type()</code>, but bare in mind these functions may not be ready until later in the loading sequence and as such you may want to hook your registration to a hook such as <code v-pre>muplugins_loaded</code>.</p>
+<doc-anchor-target id="using-flags">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#using-flags">#</doc-anchor-trigger>
+        <span>Using Flags</span>
+    </h2>
+</doc-anchor-target>
+<doc-anchor-target id="php">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#php">#</doc-anchor-trigger>
+        <span>PHP</span>
+    </h3>
+</doc-anchor-target>
+<p>Ideally reading a flags status shouldn&#x27;t be used before the <code v-pre>init</code> hook, and registration should happen before that point. This is to ensure that all flags have been registered and that the current user is logged in so we can determine if a user does have access.</p>
+<p>The simplest check would be to use the <code v-pre>is_enabled()</code> method, which takes into consideration if a flag has a forced state or enabled on a per-user basis to give a valid answer.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-php"><code v-pre class="language-php">\BoxUk\WpFeatureFlags\FlagRegister::instance()-&gt;get_flag( 'example-flag-2' )-&gt;is_enabled();</code></pre>
+</doc-codeblock></div>
+<p>Alternatively, all the other flag properties can be checked independently if you want more fine-control of the state of your flag.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-php"><code v-pre class="language-php">\BoxUk\WpFeatureFlags\FlagRegister::instance()-&gt;get_flag( 'example-flag-2' )-&gt;is_published(); // If the flag has been specifically published. This will return false for enforced-flags
+\BoxUk\WpFeatureFlags\FlagRegister::instance()-&gt;get_flag( 'example-flag-2' )-&gt;enabled_for_user( $user_id ); // if the flag is in enabled for a specific user
+\BoxUk\WpFeatureFlags\FlagRegister::instance()-&gt;get_flag( 'example-flag-2' )-&gt;is_force_enabled();
+\BoxUk\WpFeatureFlags\FlagRegister::instance()-&gt;get_flag( 'example-flag-2' )-&gt;is_force_disabled();</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="load-order">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#load-order">#</doc-anchor-trigger>
+        <span>Load Order</span>
+    </h4>
+</doc-anchor-target>
+<p>If you access flags before the <code v-pre>init</code> hook you will be able to read the state but this will very much depend on the load-order. In theory you can read a flag status as soon as you have registered the flag, since the underlying code only requires access to <code v-pre>get_option()</code> and <code v-pre>get_usermeta()</code>. However, to get the user-based value for flags requires a user-id and <code v-pre>get_current_user_id()</code> is not available until after <code v-pre>init</code>, so results will vary depending on if a user-ID is required.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-php"><code v-pre class="language-php">/** Instantiate a Flag object **/
+$flag = new \BoxUk\WpFeatureFlags\Flag(
+	'example-flag-3',
+	'Example Flag 3',
+	'Another example feature flag',
+	null,
+	'All',
+	false,
+	true
+);
+
+/** Register the Flag **/
+\BoxUk\WpFeatureFlags\FlagRegister::instance()-&gt;register_flag( $flag ); 
+
+
+$user_id = 123; // A known user ID (ie, not `get_current_user_id()`
+
+$published = $flag-&gt;is_published(); // will work immediately. 
+$published = $flag-&gt;enabled_for_user(); // will return false until `init` because current user ID is not known before `init`. 
+$published = $flag-&gt;enabled_for_user( $user_id ); // will work, since we don't need to lookup the current user. 
+$published = $flag-&gt;enabled(); // will vary - if the flag has a forced state or published, this will work as expected. If none of the other rules apply, it fallsback to checking current user, so will return false before the `init` hook because we don't know the current user ID.
+$published = $flag-&gt;enabled( $user_id ); // As above - will work as expected. </code></pre>
+</doc-codeblock></div>
+<p>As you can see, in most instances you may want to wait for the <code v-pre>init</code> hook before checking a flag&#x27;s status since any users who are opted in to the flag will not be enabled. This may also cause complexities if you&#x27;re using the flag check in multiple points in the firing sequence in a WP application and the published state might change depending on your load state.</p>
+<doc-anchor-target id="javascript">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#javascript">#</doc-anchor-trigger>
+        <span>Javascript</span>
+    </h3>
+</doc-anchor-target>
+<p>Flags are all registered and managed in the PHP application, but you may need to read the status of a flag in JavaScript. This package exports a number of functions to help. Install the <code v-pre>@boxuk/wp-feature-flags</code> package in your project and import the dependancies you&#x27;d like to use.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-typescript"><code v-pre class="language-typescript">import { useFlags, useFlag, useFlagEnabled, registerStore, getFlag, getFlagEnabled, getFlags } from '@boxuk/wp-feature-flags';
+import type { Flag } from '@boxuk/wp-feature-flags/types';</code></pre>
+</doc-codeblock></div>
+<p>The following functions are available:</p>
+<div class="table-wrapper scrollbar overflow-hidden">
+<table class="comfortable">
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code v-pre>useFlags()</code> or <code v-pre>getFlags()</code></td>
+<td>Returns an array of <code v-pre>Flag</code> objects, which you can iterate over for whatever reason.</td>
+</tr>
+<tr>
+<td><code v-pre>useFlag(key)</code> or <code v-pre>getFlag(key)</code></td>
+<td>Returns a specific Flag object for the given key, or <code v-pre>undefined</code> if not found.</td>
+</tr>
+<tr>
+<td><code v-pre>useFlagEnabled(key)</code> or <code v-pre>getFlagEnabled(key)</code></td>
+<td>Returns a boolean value of a flag, considering if the flag is forcibly enabled or disabled, and the current user&#x27;s state.</td>
+</tr>
+<tr>
+<td><code v-pre>registerStore()</code></td>
+<td>Registers the store if not already. This store is not registered on the frontend of the site by default, so you&#x27;ll need to call this at least once in your code. This is only required for the <code v-pre>use*</code> functions.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p>Retrieving flags is asynchronous, so the <code v-pre>get*</code> functions are all async. If you&#x27;re using React you can use the <code v-pre>use*</code> hooks to have your components re-render automatically based on the async value resolving.</p>
+</blockquote>
+<p>The definition of a <code v-pre>Flag</code> object is the same as the PHP declaration above, with the exception that there is an array of <code v-pre>users</code> on the flag, which consists of a numeric-<code v-pre>string</code> value of user IDs. ie. <code v-pre>[ '1', '2', '3' ]</code>.</p>
+<p>Example Code:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-tsx"><code v-pre class="language-tsx">/** non-react, so use `get` function **/
+import { getFlagEnabled } from &quot;@boxuk/wp-feature-flags&quot;;
+export const onLoadFunction = async () =&gt; { 
+	if ( await getFlagEnabled( 'flag-key' ) ) {
+		document.body.classList.add( 'flag-key-enabled' );
+	}
+	// or
+	getFlagEnabled( 'flag-key' ).then( 
+		(value: boolean) =&gt; document.body.classList.toggle( 'flag-key-enabled', value ) 
+	);
+}
+
+/** react, use hooks **/
+import { useFlagEnabled } from &quot;@boxuk/wp-feature-flags&quot;;
+export const MyComponent = () =&gt; { 
+	const enabled = useFlagEnabled( 'flag-key' );
+	return (&lt;div&gt;
+		&lt;h2&gt;Flag Status:&lt;/h2&gt;
+		{ enabled &amp; &lt;span&gt;Flag Enabled&lt;/span&gt; }
+	&lt;/div&gt;);	
+}
+
+</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="contributing">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#contributing">#</doc-anchor-trigger>
+        <span>Contributing</span>
+    </h2>
+</doc-anchor-target>
+<doc-anchor-target id="please-do-not-submit-any-pull-requests-here-they-will-be-closed">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#please-do-not-submit-any-pull-requests-here-they-will-be-closed">#</doc-anchor-trigger>
+        <span>Please do not submit any Pull Requests here. They will be closed.</span>
+    </h2>
+</doc-anchor-target>
+<p>Please submit your PR here instead: <a href="https://github.com/boxuk/wp-packages">https://github.com/boxuk/wp-packages</a></p>
+<p>This repository is what we call a &quot;subtree split&quot;: a read-only subset of that main repository.
+We&#x27;re looking forward to your PR there!</p>
+
+                                
+                                <!-- Required only on API pages -->
+                                <doc-toolbar-member-filter-no-results></doc-toolbar-member-filter-no-results>
+                            </div>
+                            <footer class="clear-both">
+                            
+                                <nav class="flex mt-14">
+                                    <div class="w-1/2">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../packages/email-tld-checker/">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
+                                            <span>
+                                                <span class="block text-xs font-normal text-gray-400 dark:text-dark-400">Previous</span>
+                                                <span class="block mt-1">Word​Press Email TLD Checker</span>
+                                            </span>
+                                        </a>
+                                    </div>
+                            
+                                    <div class="w-1/2">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../packages/query-include-exclude/">
+                                            <span>
+                                                <span class="block text-xs font-normal text-right text-gray-400 dark:text-dark-400">Next</span>
+                                                <span class="block mt-1">WP Query Include & Exclude</span>
+                                            </span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
+                                        </a>
+                                    </div>
+                                </nav>
+                            </footer>
+                        </main>
+                
+                        <div class="border-t dark:border-dark-650 pt-6 mb-8">
+                            <footer class="flex flex-wrap items-center justify-between">
+                                <div>
+                                    <ul class="flex flex-wrap items-center text-sm">
+                                    </ul>
+                                </div>
+                                <div class="docs-copyright py-2 text-gray-500 dark:text-dark-350 text-sm leading-relaxed"></div>
+                            </footer>
+                        </div>
+                    </div>
+                
+                    <!-- Rendered if sidebar right is enabled -->
+                    <!-- Sidebar right skeleton-->
+                    <div v-cloak class="fixed top-0 bottom-0 right-0 translate-x-full bg-white border-gray-200 lg:sticky lg:border-l lg:shrink-0 lg:pt-6 lg:transform-none sm:w-1/2 lg:w-64 lg:z-0 md:w-104 sidebar-right skeleton dark:bg-dark-850 dark:border-dark-650">
+                        <div class="pl-5">
+                            <div class="w-32 h-3 mb-4 bg-gray-200 dark:bg-dark-600 rounded-full loading"></div>
+                            <div class="w-48 h-3 mb-4 bg-gray-200 dark:bg-dark-600 rounded-full loading"></div>
+                            <div class="w-40 h-3 mb-4 bg-gray-200 dark:bg-dark-600 rounded-full loading"></div>
+                        </div>
+                    </div>
+                
+                    <!-- User should be able to hide sidebar right -->
+                    <doc-sidebar-right v-cloak></doc-sidebar-right>
+                </div>
+
+            </div>
+        </div>
+    
+        <doc-search-mobile></doc-search-mobile>
+        <doc-back-to-top></doc-back-to-top>
+    </div>
+
+
+    <div id="docs-overlay-target"></div>
+
+    <script data-cfasync="false">window.__DOCS__ = { "title": "WP Feature Flags", level: 2, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false, tocDepth: 23 }</script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://boxuk.github.io/wp-packages/sitemap.xml.gz
