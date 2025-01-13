@@ -58,18 +58,3 @@ bin/docker/wp user update admin --user_pass=your_password_here
 
 > You can read more about all of these features in [this post on the Box UK blog](https://www.boxuk.com/insight/how-we-develop-wordpress-sites/).
 
-## Documentation
-
-- [Docker](./skeleton/docker-setup.md)
-- [Fixtures](./skeleton/fixtures.md)
-- [HTTPS](./skeleton/https.md)
-- [Non-Docker Setup](./skeleton/non-docker-setup.md)
-- [Patched Plugins](./skeleton/patched-plugins.md)
-- [Premium Plugins](./skeleton/premium-plugins.md)
-- [PHP Versions](./skeleton/php-versions.md)
-- [Quickstart](./skeleton/quickstart.md)
-- [Setup Initial State](./skeleton/setup-initial-state.md)
-- [Testing](./skeleton/testing.md)
-- [Troubleshooting](./skeleton/troubleshooting.md)
-- [Usage](./skeleton/usage.md)
-- [WP-VIP](./skeleton/vip.md)

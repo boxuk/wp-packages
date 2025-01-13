@@ -1,0 +1,12 @@
+input: .
+output: .retype
+url: https://boxuk.github.io/wp-packages
+branding:
+  title: BoxUK Wordpress Packages
+  label: Docs
+exclude:
+  - .git
+  - packages/vendor
+  - node_modules/
+  - tests/
+  - hooks/
