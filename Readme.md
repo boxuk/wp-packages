@@ -1,8 +1,14 @@
 # BoxUK WP Packages Mono Repo
 
-This is the BoxUK mono-repo for our WordPress packages. The [WordPress Skeleton](https://github.com/boxuk/wp-project-skeleton) uses these packages to add functionality. 
+This is the BoxUK mono-repo for our WordPress packages. The [WordPress Skeleton](https://github.com/boxuk/wp-project-skeleton) uses these packages to add functionality. All packages provide their own documentation: 
 
-## How to use
+## [📚 Read the docs](https://boxuk.github.io/wp-packages/)
+
+---
+
+## Working on the packages mono-repo 
+
+### How to use
 
 This mono repo allows you to develop any of the packages. To start a WordPress development environment to test against, either:
 
@@ -14,11 +20,11 @@ and you'll be able to access WordPress at [http://localhost:8000](http://localho
 
 We use [Monorepo Builder](https://github.com/symplify/monorepo-builder) tools to manage the mono-repo dependancies. 
 
-## Structure
+### Structure
 
 Each of the packages within the `packages` directory is an individual package. These should be standalone, and any dependancies they have (with another package or external) should be loaded via composer. 
 
-## Adding Dependancies
+### Adding Dependancies
 
 Dependancies for each package should be defined in the package's `composer.json` file. Once the file has been altered, from the root of the project run the following commands: 
 
@@ -29,15 +35,15 @@ bin/composer run mono:merge
 bin/composer install <package-name>
 ```
 
-## Adding a package
+### Adding a package
 
 To create a package, you can run `bin/create-package <package-name>` and this will scaffold out all the necessary changes needed. In order for your package to be published, you'll also need to modify `/.github/workflows/packages.yml` to configure the package name and the target repository for publishing. This will automate pushing changes of the package out to the target repository, but you may need further work to ensure that repository is available via `composer` in your projects. 
 
-## Tests
+### Tests
 
 All packages need to have 100% test coverage. During CI they will be tested for this capability. 
 
-## Javascript
+### Javascript
 
 If your package requires javascript, you can also setup a `package.json` file in the root of the package. Much like `composer.json`, this will be merged automatically at the root level. 
 
