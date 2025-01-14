@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wp-packages">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.790171002403">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.790172063425">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.6.0">
@@ -31,12 +31,12 @@
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="resources/css/retype.css?v=3.6.0.790171002403" rel="stylesheet">
+    <link href="resources/css/retype.css?v=3.6.0.790172063425" rel="stylesheet">
 
-    <script data-cfasync="false" src="resources/js/config.js?v=3.6.0.790171002403" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="resources/js/config.js?v=3.6.0.790172063425" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="resources/js/retype.js?v=3.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="resources/js/lunr.js?v=3.6.0.790171002403" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="resources/js/prism.js?v=3.6.0.790171002403" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="resources/js/lunr.js?v=3.6.0.790172063425" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="resources/js/prism.js?v=3.6.0.790172063425" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -157,12 +157,25 @@
         <span>BoxUK WP Packages Mono Repo</span>
     </h1>
 </doc-anchor-target>
-<p>This is the BoxUK mono-repo for our WordPress packages. The <a href="https://github.com/boxuk/wp-project-skeleton">WordPress Skeleton</a> uses these packages to add functionality.</p>
-<doc-anchor-target id="how-to-use">
+<p>This is the BoxUK mono-repo for our WordPress packages. The <a href="https://github.com/boxuk/wp-project-skeleton">WordPress Skeleton</a> uses these packages to add functionality. All packages provide their own documentation:</p>
+<doc-anchor-target id="read-the-docs">
     <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#read-the-docs">#</doc-anchor-trigger>
+        <span><a href="https://boxuk.github.io/wp-packages/"><span class="docs-emoji">&#x1F4DA;</span> Read the docs</a></span>
+    </h2>
+</doc-anchor-target>
+<hr>
+<doc-anchor-target id="working-on-the-packages-mono-repo">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#working-on-the-packages-mono-repo">#</doc-anchor-trigger>
+        <span>Working on the packages mono-repo</span>
+    </h2>
+</doc-anchor-target>
+<doc-anchor-target id="how-to-use">
+    <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#how-to-use">#</doc-anchor-trigger>
         <span>How to use</span>
-    </h2>
+    </h3>
 </doc-anchor-target>
 <p>This mono repo allows you to develop any of the packages. To start a WordPress development environment to test against, either:</p>
 <p>run <code v-pre>docker-compose up -d wordpress</code> to start the container <br />
@@ -171,17 +184,17 @@ run <code v-pre>bin/start</code>, which runs composer &amp; npm installs, starts
 <p>and you&#x27;ll be able to access WordPress at <a href="http://localhost:8000">http://localhost:8000</a>.</p>
 <p>We use <a href="https://github.com/symplify/monorepo-builder">Monorepo Builder</a> tools to manage the mono-repo dependancies.</p>
 <doc-anchor-target id="structure">
-    <h2>
+    <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#structure">#</doc-anchor-trigger>
         <span>Structure</span>
-    </h2>
+    </h3>
 </doc-anchor-target>
 <p>Each of the packages within the <code v-pre>packages</code> directory is an individual package. These should be standalone, and any dependancies they have (with another package or external) should be loaded via composer.</p>
 <doc-anchor-target id="adding-dependancies">
-    <h2>
+    <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#adding-dependancies">#</doc-anchor-trigger>
         <span>Adding Dependancies</span>
-    </h2>
+    </h3>
 </doc-anchor-target>
 <p>Dependancies for each package should be defined in the package&#x27;s <code v-pre>composer.json</code> file. Once the file has been altered, from the root of the project run the following commands:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
@@ -191,24 +204,24 @@ bin/composer run mono:merge
 bin/composer install &lt;package-name&gt;</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="adding-a-package">
-    <h2>
+    <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#adding-a-package">#</doc-anchor-trigger>
         <span>Adding a package</span>
-    </h2>
+    </h3>
 </doc-anchor-target>
 <p>To create a package, you can run <code v-pre>bin/create-package &lt;package-name&gt;</code> and this will scaffold out all the necessary changes needed. In order for your package to be published, you&#x27;ll also need to modify <code v-pre>/.github/workflows/packages.yml</code> to configure the package name and the target repository for publishing. This will automate pushing changes of the package out to the target repository, but you may need further work to ensure that repository is available via <code v-pre>composer</code> in your projects.</p>
 <doc-anchor-target id="tests">
-    <h2>
+    <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#tests">#</doc-anchor-trigger>
         <span>Tests</span>
-    </h2>
+    </h3>
 </doc-anchor-target>
 <p>All packages need to have 100% test coverage. During CI they will be tested for this capability.</p>
 <doc-anchor-target id="javascript">
-    <h2>
+    <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#javascript">#</doc-anchor-trigger>
         <span>Javascript</span>
-    </h2>
+    </h3>
 </doc-anchor-target>
 <p>If your package requires javascript, you can also setup a <code v-pre>package.json</code> file in the root of the package. Much like <code v-pre>composer.json</code>, this will be merged automatically at the root level.</p>
 <p>To run <code v-pre>npm</code> commands directly in your package run <code v-pre>bin/npm -w packages/&lt;package-name&gt;</code> with your command. For example <code v-pre>bin/npm -w packages/iconography run test</code> would run tests specifically in the iconography package.</p>
