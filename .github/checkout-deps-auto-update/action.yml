@@ -1,0 +1,45 @@
+name: Checkout WP Deps Branch
+description: Checkout a branch for the WP Deps update action
+
+# Based on example https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#using-data-from-the-triggering-workflow
+
+runs:
+  using: composite
+  steps:
+    - name: 'Download artifact'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          let allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            run_id: context.payload.workflow_run.id,
+          });
+          let matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
+            return artifact.name == "pr_number"
+          })[0];
+          let download = await github.rest.actions.downloadArtifact({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            artifact_id: matchArtifact.id,
+            archive_format: 'zip',
+          });
+          const fs = require('fs');
+          const path = require('path');
+          const temp = '${{ runner.temp }}/artifacts';
+          if (!fs.existsSync(temp)){
+            fs.mkdirSync(temp);
+          }
+          fs.writeFileSync(path.join(temp, 'pr_number.zip'), Buffer.from(download.data));
+
+    - name: Parse PR Number
+      shell: bash
+      id: parse-pr-number
+      run: |
+        unzip pr_number.zip -d "${{ runner.temp }}/artifacts"
+        echo "PR_NUMBER=$(cat ${{ runner.temp }}/artifacts/pr/pr_number)" >> $GITHUB_ENV
+
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        ref: refs/pull/${{ steps.parse-pr-number.outputs.PR_NUMBER }}/merge

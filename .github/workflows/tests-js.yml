@@ -26,14 +26,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-        if: github.event_name == 'pull_request'
+        if: github.event_name != 'workflow_run'
+
       - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.workflow_run.head_sha }}
+        uses: ./.github/checkout-deps-auto-update
         if: github.event_name == 'workflow_run'
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -41,6 +39,7 @@ jobs:
           cache: npm
       - name: Setup dependencies
         run: npm ci
+
       - name: Lint JS
         run: npm run lint
       - name: Unit Test
