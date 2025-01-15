@@ -31,6 +31,8 @@ jobs:
       - name: Checkout
         uses: boxuk/wp-checkout-deps-auto-update@main
         if: github.event_name == 'workflow_run'
+        with:
+          workflow_run_id: ${{ github.event.workflow_run.id }}
 
       - name: Setup Node
         uses: actions/setup-node@v4

@@ -1,6 +1,11 @@
 name: Checkout WP Deps Branch
 description: Checkout a branch for the WP Deps update action
 
+inputs:
+  workflow_run_id:
+    description: 'The ID of the workflow run that triggered this action'
+    required: true
+
 # Based on example https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#using-data-from-the-triggering-workflow
 
 runs:
@@ -13,7 +18,7 @@ runs:
           let allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            run_id: context.payload.workflow_run.id,
+            run_id: ${{ inputs.workflow_run_id }},
           });
           let matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
             return artifact.name == "pr_number"
