@@ -28,8 +28,48 @@ jobs:
         uses: 'boxuk/wp-deps-auto-update@main'
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Save PR number
+        env:
+          PR_NUMBER: ${{ steps.update.outputs.pull-request-number }}
+        run: |
+            mkdir -p ./pr
+            echo $PR_NUMBER > ./pr/pr_number
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pr_number
+          path: pr/
 ```
 
+This will save the PR number created, so you can use it later for triggering tests etc. 
+
+For any other tests etc that you may need to have completed upon creation of this PR, you can then use the `boxuk/wp-checkout-deps-auto-update` action to setup your tests. 
+
+```yml
+# Other config...
+on:
+  pull_request: # For all PRs
+  workflow_run: # For WP Updates
+    workflows: ["Update WP Deps"]
+    types:
+      - completed
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        if: github.event_name != 'workflow_run'
+
+      - name: Checkout
+        uses: boxuk/wp-checkout-deps-auto-update@main
+        if: github.event_name == 'workflow_run'
+        with:
+          workflow_run_id: ${{ github.event.workflow_run.id }}
+      
+      # next steps...
+```
 
 # Setting up your Project for WP Packages
 
