@@ -54,4 +54,4 @@ runs:
     - name: Checkout
       uses: actions/checkout@v4
       with:
-        ref: refs/pull/${{ steps.parse-pr-number.outputs.PR_NUMBER }}/merge
+        ref: refs/pull/${{ env.PR_NUMBER }}/merge
