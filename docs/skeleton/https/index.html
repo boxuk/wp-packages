@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wp-packages">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.790172063425">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.790248043674">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.6.0">
@@ -31,12 +31,11 @@
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../../../resources/css/retype.css?v=3.6.0.790172063425" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=3.6.0.790248043674" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.6.0.790172063425" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.6.0.790248043674" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.6.0.790172063425" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.6.0.790172063425" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.6.0.790248043674" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -165,70 +164,8 @@
         <span>Using a local certificate authority (CA)</span>
     </h2>
 </doc-anchor-target>
-<p><a href="https://web.dev/how-to-use-local-https/">The general recommended approach for not relying on self-signed certificates is to set up a local CA</a>. There are several tools for doing this, but perhaps the easiest is <a href="https://github.com/FiloSottile/mkcert">mkcert</a>.</p>
-<p>Before some basic instructions for setting this up, here is some information/disclaimer:</p>
-<p><strong>Installing a local CA is at your own risk. Although it will only be trusted by you, a local CA will contaminate your trusted CAs. This means, if your local environment is compromised, or mkcert, then your entire HTTPS trust chain can easily be compromised too. It is for this reason we do not set this up by default and cannot recommend this approach.</strong></p>
-<p>If you&#x27;re comfortable with all that and still want to go ahead, here&#x27;s how you can do it with mkcert.</p>
-<doc-anchor-target id="install-mkcert">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#install-mkcert">#</doc-anchor-trigger>
-        <span>Install mkcert</span>
-    </h3>
-</doc-anchor-target>
-<p>On Mac:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">brew install mkcert
-brew install nss # if you use Firefox</code></pre>
-</doc-codeblock></div>
-<p>For other platforms see: <a href="https://github.com/FiloSottile/mkcert#installation">https://github.com/FiloSottile/mkcert#installation</a></p>
-<doc-anchor-target id="add-mkcert-to-your-local-root-cas">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#add-mkcert-to-your-local-root-cas">#</doc-anchor-trigger>
-        <span>Add mkcert to your local root CAs</span>
-    </h3>
-</doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">mkcert -install</code></pre>
-</doc-codeblock></div>
-<doc-anchor-target id="generate-a-certificate">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#generate-a-certificate">#</doc-anchor-trigger>
-        <span>Generate a certificate</span>
-    </h3>
-</doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-bash"><code v-pre class="language-bash">mkcert my-project.local -cert-file docker/nginx/local_https_cert.pem -key-file docker/nginx/local_https_key.pem # Change the host accordingly</code></pre>
-</doc-codeblock></div>
-<doc-anchor-target id="update-docker-config">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#update-docker-config">#</doc-anchor-trigger>
-        <span>Update docker config</span>
-    </h3>
-</doc-anchor-target>
-<p>Add the following volumes to the <code v-pre>nginx</code> container within <code v-pre>docker-compose.yml</code></p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-yaml"><code v-pre class="language-yaml">- './docker/nginx/local_https_cert.pem:/etc/pki/tls/certs/local_https_cert.pem:delegated'
-- './docker/nginx/local_https_key.key:/etc/pki/tls/private/local_https_key.key:delegated'</code></pre>
-</doc-codeblock></div>
-<p>Update <code v-pre>docker/nginx/conf/app.conf</code> to point to your certificate and key:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-ini"><code v-pre class="language-ini">ssl_certificate /etc/pki/tls/certs/local_https_cert.pem;
-ssl_certificate_key /etc/pki/tls/local_https_key.pem;</code></pre>
-</doc-codeblock></div>
-<doc-anchor-target id="rebuild-containers">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#rebuild-containers">#</doc-anchor-trigger>
-        <span>Rebuild containers</span>
-    </h3>
-</doc-anchor-target>
-<p><code v-pre>docker-compose stop; docker-compose build; docker-compose up</code></p>
-<doc-anchor-target id="any-other-options">
-    <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#any-other-options">#</doc-anchor-trigger>
-        <span>Any other options?</span>
-    </h2>
-</doc-anchor-target>
-<p>There are, this page from the chromium site lists a few other things you might want to try also: <a href="https://www.chromium.org/Home/chromium-security/deprecating-powerful-features-on-insecure-origins#TOC-Testing-Powerful-Features">https://www.chromium.org/Home/chromium-security/deprecating-powerful-features-on-insecure-origins#TOC-Testing-Powerful-Features</a></p>
+<p>You should not use a local certificate authority to have a signed certificate that is validated. A local CA will contaminate your trusted CAs. This means, if your local environment is compromised, or mkcert, then your entire HTTPS trust chain can easily be compromised too. It is for this reason we do not set this up by default and cannot recommend this approach.</p>
+<p>If you require a trusted local certificate, you should raise this with your project lead to outline the reasons for the requirements and discuss potential solutions. Setting up a local CA should be considered a last resort, though documented solutions to do this are easily found online you should carefuly consider the risks.</p>
 
                                 
                                 <!-- Required only on API pages -->
@@ -295,6 +232,6 @@ ssl_certificate_key /etc/pki/tls/local_https_key.pem;</code></pre>
 
     <div id="docs-overlay-target"></div>
 
-    <script data-cfasync="false">window.__DOCS__ = { "title": "HTTPS", level: 3, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false, tocDepth: 23 }</script>
+    <script data-cfasync="false">window.__DOCS__ = { "title": "HTTPS", level: 3, icon: "file", hasPrism: false, hasMermaid: false, hasMath: false, tocDepth: 23 }</script>
 </body>
 </html>
