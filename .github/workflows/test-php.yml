@@ -2,12 +2,14 @@ name: PHP Quality Tests
 
 on: 
   pull_request: 
-  workflow_dispatch:
-  workflow_run:
-    workflows: ["Update WP Deps"]
-    types:
-      - completed
-  
+    paths: 
+      - 'packages/**/*.php'
+      - 'phpunit.xml'
+      - 'phpstan.neon.dist'
+      - 'phpcs.xml.dist'
+      - 'composer.json'
+      - 'composer.lock'
+
 permissions:
   contents: write
   pull-requests: write
@@ -33,14 +35,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        if: github.event_name != 'workflow_run'
-
-      - name: Checkout
-        uses: boxuk/wp-checkout-deps-auto-update@main
-        if: github.event_name == 'workflow_run'
-        with:
-          workflow_run_id: ${{ github.event.workflow_run.id }}
-
       - name: Set up PHP
         uses: setup-php/setup-php@v2
         with:
