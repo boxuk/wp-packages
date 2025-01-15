@@ -36,7 +36,7 @@ jobs:
         if: github.event_name != 'workflow_run'
 
       - name: Checkout
-        uses: ./.github/checkout-deps-auto-update
+        uses: boxuk/wp- checkout-deps-auto-update@main
         if: github.event_name == 'workflow_run'
 
       - name: Set up PHP
