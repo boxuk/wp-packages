@@ -2,12 +2,10 @@
 
 ## WP install fails
 
-Sometimes the WordPress install in the `bin/install` script can fail. This is usually fixed by increasing the sleep time:
+Sometimes the WordPress install in the `bin/install` script can fail. This is usually fixed by increasing the sleep time to allow the MySQL server to start accepting connections.
 
 ```bash
 # ...
-echo 'Please hold...';
-
 sleep 10; # Increase this and retry, it may need to go as high as 30.
 # ...
 ```
@@ -16,22 +14,16 @@ sleep 10; # Increase this and retry, it may need to go as high as 30.
 
 > ERROR: readlink /var/lib/docker/overlay2: invalid argument
 
-Often this is due to a corrupted image that needs to be rebuilt sans cache.
+Often this is due to a corrupted image that needs to be rebuilt without any caches.
 
 `docker-compose build --no-cache`
 
 Or you can amend the install script to include the `--no-cache` option, e.g.
 
 ```diff
- if [ ! -z "${STYLEGUIDE_DIR}" ]; then
--    docker-compose -f docker-compose.yml -f docker-compose-styleguide.yml build;
-+    docker-compose -f docker-compose.yml -f docker-compose-styleguide.yml build --no-cache;
-     docker-compose -f docker-compose.yml -f docker-compose-styleguide.yml up -d;
- else
 -    docker-compose build;
 +    docker-compose build --no-cache;
      docker-compose up -d;
- fi
 ```
 
 ## Permission errors
@@ -44,10 +36,6 @@ If you are on a Linux machine, you will need to uncomment the following within t
 ```
 
 > Note: You will need to stop and rebuild the containers when changing env vars, e.g. `docker-compose stop; docker-compose up --build`
-
-## Certificate warnings
-
-On chrome you will need to type `thisisunsafe` to bypass the certificate warning (make sure your cursor isn't in the url bar). Othe browsers usually give you a button you can use to bypass.
 
 ## Slow local env
 

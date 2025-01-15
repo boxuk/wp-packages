@@ -11,9 +11,7 @@
 
 ## TL;DR
 
-If you just want a ready to go environment you can just use the following commands, if you're after more detail read
-the [docker setup](docker-setup.md) or [non docker setup](non-docker-setup.md) docs instead
-
+If you just want a ready to go environment you can just use the following commands. 
 
 ```
 bin/install [project_name] [docker_network_name] [php_version]
@@ -27,23 +25,4 @@ bin/install [project_name] [docker_network_name] [php_version]
 
 > Note: This will start the containers in detached mode, use `docker-compose stop` if you wish to stop them.
 
-<details>
-<summary>Install details</summary>
-
-```
-cp .env.dist .env; cp ./docker/database/.env.dist ./docker/database/.env; cp ./docker/app/.env.dist ./docker/app/.env;
-docker network create --subnet=192.168.35.0/24 boxuk-docker;
-docker-compose stop;
-docker-compose build;
-docker-compose up -d;
-bin/docker/composer install;
-cp wp-content/plugins/memcached/object-cache.php wp-content/object-cache.php;
-bin/docker/wp core install --url="https://$PROJECT_NAME.local" --title="Box UK WordPress Project" --admin_user=admin --admin_email=boxuk@example.com --skip-email;
-bin/docker/wp site empty;
-bin/docker/wp dictator impose site-state.yml;
-bin/docker/wp package install git@github.com:nlemoine/wp-cli-fixtures.git;
-bin/docker/wp fixtures load;
-bin/docker/wp cache flush;
-echo '127.0.0.1 $PROJECT_NAME.local | sudo tee -a /etc/hosts;
-```
-</details>
+If you're after more detail read the [docker setup](docker-setup.md) or [non docker setup](non-docker-setup.md) docs instead.
