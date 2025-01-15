@@ -47,6 +47,7 @@ runs:
       id: parse-pr-number
       run: |
         unzip pr_number.zip
+        cat pr_number
         echo "PR_NUMBER=$(cat pr_number)" >> $GITHUB_ENV
         rm pr_number.zip pr_number
 
