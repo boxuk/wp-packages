@@ -5,6 +5,11 @@ inputs:
   workflow_run_id:
     description: 'The ID of the workflow run that triggered this action'
     required: true
+  
+outputs:
+  pr-head-sha:
+    description: 'The SHA of the head of the PR'
+    value: ${{ steps.parse-pr-number.outputs.PR_HEAD_SHA }}
 
 # Based on example https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#using-data-from-the-triggering-workflow
 
@@ -48,10 +53,10 @@ runs:
       run: |
         unzip pr_number.zip
         cat pr_number
-        echo "PR_NUMBER=$(cat pr_number)" >> $GITHUB_ENV
+        echo "PR_HEAD_SHA=$(gh api repos/${{ github.repository }}/pulls/$(cat pr_number) | jq -r '.head.sha')" >> $GITHUB_OUTPUT
         rm pr_number.zip pr_number
 
     - name: Checkout
       uses: actions/checkout@v4
       with:
-        ref: refs/pull/${{ env.PR_NUMBER }}/merge
+        ref: ${{ env.PR_HEAD_SHA }}
