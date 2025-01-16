@@ -50,6 +50,8 @@ runs:
     - name: Parse PR Number
       shell: bash
       id: parse-pr-number
+      env:
+          GH_TOKEN: ${{ github.token }}
       run: |
         unzip pr_number.zip
         cat pr_number
