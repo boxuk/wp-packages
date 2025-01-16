@@ -45,6 +45,8 @@ jobs:
 
       - name: Mark Check as Pending
         if: github.event_name == 'workflow_run'
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh api repos/${{ github.repository }}/statuses/${{ steps.checkout-deps.outputs.pr-head-sha }} \
             -f state=pending \
@@ -70,6 +72,8 @@ jobs:
 
       - name: Mark Check as Success
         if: github.event_name == 'workflow_run' && success()
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh api repos/${{ github.repository }}/statuses/${{ steps.checkout-deps.outputs.pr-head-sha }} \
             -f state=success \
@@ -79,6 +83,8 @@ jobs:
 
       - name: Mark Check as Failure
         if: github.event_name == 'workflow_run' && failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh api repos/${{ github.repository }}/statuses/${{ steps.checkout-deps.outputs.pr-head-sha }} \
             -f state=failure \
