@@ -2,6 +2,11 @@ name: All Checks
 
 on:
   pull_request:
+  workflow_run:
+    workflows: ["Update WP Deps"]
+    types:
+      - completed
+  
 
 jobs:
   enforce-all-checks:
