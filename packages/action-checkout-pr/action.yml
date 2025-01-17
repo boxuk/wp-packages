@@ -1,10 +1,5 @@
 name: Checkout WP Deps Branch
 description: Checkout a branch for the WP Deps update action
-
-inputs:
-  workflow_run_id:
-    description: 'The ID of the workflow run that triggered this action'
-    required: true
   
 outputs:
   pr-head-sha:
@@ -23,7 +18,7 @@ runs:
           let allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            run_id: ${{ inputs.workflow_run_id }},
+            run_id: ${{ github.event.workflow_run.id }},
           });
 
           if ( allArtifacts.data.total_count == 0 || allArtifacts.data.artifacts.length == 0 ) {
@@ -61,4 +56,11 @@ runs:
     - name: Checkout
       uses: actions/checkout@v4
       with:
-        ref: ${{ env.PR_HEAD_SHA }}
+        ref: ${{ steps.parse-pr-number.outputs.PR_HEAD_SHA }}
+
+    - name: Mark Check Pending
+      uses: boxuk/mark-check-status@main
+      with: 
+        status: "pending"
+        pr-head-sha: ${{ steps.parse-pr-number.outputs.PR_HEAD_SHA }}
+
