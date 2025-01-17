@@ -8,6 +8,9 @@ inputs:
     default: 'pending'
   pr-head-sha:
     description: 'The SHA of the head of the PR'
+  github-token:
+    description: 'The GitHub token to use'
+    required: true
 
 runs:
   using: composite
@@ -15,7 +18,7 @@ runs:
     - name: Set Check Status
       shell: bash
       env:
-        GH_TOKEN: ${{ github.token }}
+        GH_TOKEN: ${{ inputs.github-token }}
       run: |
         gh api repos/${{ github.repository }}/statuses/${{ inputs.pr-head-sha }} \
           -f state=${{ inputs.status }} \
