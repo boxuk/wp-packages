@@ -1,5 +1,10 @@
 name: Checkout WP Deps Branch
 description: Checkout a branch for the WP Deps update action
+
+inputs:
+  github-token:
+    description: 'GitHub Token'
+    required: true
   
 outputs:
   pr-head-sha:
@@ -63,4 +68,5 @@ runs:
       with: 
         status: "pending"
         pr-head-sha: ${{ steps.parse-pr-number.outputs.PR_HEAD_SHA }}
+        github-token: ${{ inputs.github-token }}
 

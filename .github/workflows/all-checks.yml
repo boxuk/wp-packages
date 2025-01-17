@@ -17,6 +17,8 @@ jobs:
         uses: boxuk/wp-checkout-deps-auto-update@main
         id: checkout-deps
         if: github.event_name == 'workflow_run'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: GitHub Checks
         uses: poseidon/wait-for-status-checks@v0.6.0
@@ -29,3 +31,4 @@ jobs:
         with: 
           status: ${{ job.status }}
           pr-head-sha: ${{ steps.checkout-deps.outputs.pr-head-sha }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
