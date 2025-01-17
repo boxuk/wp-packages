@@ -37,22 +37,10 @@ jobs:
         if: github.event_name != 'workflow_run'
 
       - name: Checkout
-        uses: boxuk/wp-checkout-deps-auto-update@main
+        uses: boxuk/checkout-pr@main
         id: checkout-deps
         if: github.event_name == 'workflow_run'
-        with:
-          workflow_run_id: ${{ github.event.workflow_run.id }}
-
-      - name: Mark Check as Pending
-        if: github.event_name == 'workflow_run'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh api repos/${{ github.repository }}/statuses/${{ steps.checkout-deps.outputs.pr-head-sha }} \
-            -f state=pending \
-            -f description="JS Quality Tests are in progress" \
-            -f context="JS Quality Tests"
-
+          
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -70,24 +58,10 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Mark Check as Success
-        if: github.event_name == 'workflow_run' && success()
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh api repos/${{ github.repository }}/statuses/${{ steps.checkout-deps.outputs.pr-head-sha }} \
-            -f state=success \
-            -f target_url=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} \
-            -f description="JS Quality Tests completed successfully" \
-            -f context="JS Quality Tests"
-
-      - name: Mark Check as Failure
-        if: github.event_name == 'workflow_run' && failure()
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh api repos/${{ github.repository }}/statuses/${{ steps.checkout-deps.outputs.pr-head-sha }} \
-            -f state=failure \
-            -f target_url=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} \
-            -f description="JS Quality Tests failed" \
-            -f context="JS Quality Tests"
+      - name: Mark Check Outcome
+        if: github.event_name == 'workflow_run'
+        uses: boxuk/mark-check-status@main
+        with: 
+          status: ${{ job.status }}
+          pr-head-sha: ${{ steps.checkout-deps.outputs.pr-head-sha }}
+        

@@ -1,10 +1,10 @@
 # WordPress Deps Auto Updater - Checkout 
 
-This is a simple GitHub Worklfow to checkout the PR the `boxuk/wp-deps-auto-update` action.
+This is a simple GitHub Worklfow to mark the state of a status-check that's been triggered via the `workflow_run` trigger.
 
 ## Usage
 
-You'll need to use the `boxuk/wp-checkout-deps-auto-update` action to setup your workflow if the event is triggered by `workflow_run`. We need the `worfklow_run_id` to pull the relevant PR number. 
+You'll need to use the `boxuk/checkout-pr` action to setup your workflow if the event is triggered by `workflow_run`. We need the `worfklow_run_id` to pull the relevant PR number. 
 
 ```yml
 # Other config...
@@ -25,12 +25,18 @@ jobs:
         if: github.event_name != 'workflow_run'
 
       - name: Checkout
-        uses: boxuk/wp-checkout-deps-auto-update@main
+        uses: boxuk/checkout-pr@main
+        id: checkout-deps
         if: github.event_name == 'workflow_run'
-        with:
-          workflow_run_id: ${{ github.event.workflow_run.id }}
       
-      # next steps...
+      # Run Tests or whatever is needed...
+
+      - name: Mark Check Outcome
+        if: github.event_name == 'workflow_run'
+        uses: boxuk/mark-check-status@main
+        with: 
+          status: ${{ job.status }}
+          pr-head-sha: ${{ steps.checkout-deps.outputs.pr-head-sha }}
 ```
 
 ## Contributing
