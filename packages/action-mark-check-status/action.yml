@@ -23,5 +23,5 @@ runs:
         gh api repos/${{ github.repository }}/statuses/${{ inputs.pr-head-sha }} \
           -f state=${{ inputs.status }} \
           -f target_url=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} \
-          -f context="${{ github.workflow }}" \
-          -f description="${{ github.workflow }}"
+          -f context="${{ github.job }}" \
+          -f description="${{ github.job }}"

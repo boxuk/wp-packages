@@ -29,6 +29,7 @@
     "type-coverage": "turbo run type-coverage"
   },
   "devDependencies": {
+    "@wordpress/babel-preset-default": "^8.16.0",
     "@wordpress/jest-preset-default": "^12.16.0",
     "turbo": "^2.3.3",
     "webpack-cli": "^5.1.4"

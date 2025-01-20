@@ -5,6 +5,9 @@ inputs:
   github-token:
     description: 'GitHub Token'
     required: true
+  job-name:
+    description: 'The name of the job to mark'
+    required: true
   
 outputs:
   pr-head-sha:
@@ -63,13 +66,10 @@ runs:
       with:
         ref: ${{ steps.parse-pr-number.outputs.PR_HEAD_SHA }}
 
-    - name: Set Check Status
-      shell: bash
-      env:
-        GH_TOKEN: ${{ inputs.github-token }}
-      run: |
-        gh api repos/${{ github.repository }}/statuses/${{ steps.parse-pr-number.outputs.PR_HEAD_SHA }} \
-          -f state=pending \
-          -f target_url=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} \
-          -f context="${{ github.workflow }}" \
-          -f description="${{ github.workflow }}"
+    - name: Mark Check Pending
+      if: github.event_name == 'workflow_run'
+      uses: boxuk/mark-check-status@main
+      with: 
+        status: "pending"
+        pr-head-sha: ${{ steps.parse-pr-number.outputs.PR_HEAD_SHA }}
+        github-token: ${{ inputs.github-token }}
