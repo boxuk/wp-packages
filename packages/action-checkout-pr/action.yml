@@ -73,3 +73,4 @@ runs:
         status: "pending"
         pr-head-sha: ${{ steps.parse-pr-number.outputs.PR_HEAD_SHA }}
         github-token: ${{ inputs.github-token }}
+        job-name: Test PHP ${{ input.job-name }}

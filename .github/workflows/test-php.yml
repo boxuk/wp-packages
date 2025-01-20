@@ -41,6 +41,7 @@ jobs:
         if: github.event_name == 'workflow_run'
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          job-name: Test PHP ${{ matrix.php }}
 
       - name: Set up PHP
         uses: setup-php/setup-php@v2
@@ -64,10 +65,11 @@ jobs:
         run: composer run coverage-check
         
       - name: Mark Check Outcome
-        if: github.event_name == 'workflow_run'
+        if: github.event_name == 'workflow_run' && always()
         uses: boxuk/mark-check-status@main
         with: 
           status: ${{ job.status }}
           pr-head-sha: ${{ steps.checkout-deps.outputs.pr-head-sha }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          job-name: Test PHP ${{ matrix.php }}
         
