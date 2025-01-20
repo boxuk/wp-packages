@@ -2,6 +2,16 @@ name: PHP Quality Tests
 
 on: 
   pull_request: 
+  workflow_run:
+    workflows: ["Update WP Deps"]
+    types:
+      - completed
+  
+permissions:
+  issues: write
+  pull-requests: write
+  contents: write
+  checks: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
