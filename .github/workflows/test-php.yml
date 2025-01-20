@@ -2,19 +2,6 @@ name: PHP Quality Tests
 
 on: 
   pull_request: 
-    paths: 
-      - 'packages/**/*.php'
-      - 'phpunit.xml'
-      - 'phpstan.neon.dist'
-      - 'phpcs.xml.dist'
-      - 'composer.json'
-      - 'composer.lock'
-
-permissions:
-  contents: write
-  pull-requests: write
-  checks: write
-  issues: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
