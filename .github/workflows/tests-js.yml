@@ -12,7 +12,7 @@ permissions:
   pull-requests: write
   contents: write
   checks: write
-  
+
 env:
   fail-fast: true
 
@@ -38,6 +38,14 @@ jobs:
         id: checkout-deps
         if: github.event_name == 'workflow_run'
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Mark Check Pending
+        if: github.event_name == 'workflow_run'
+        uses: boxuk/mark-check-status@main
+        with: 
+          status: 'pending'
+          pr-head-sha: ${{ steps.checkout-deps.outputs.pr-head-sha }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Setup Node
