@@ -11,7 +11,8 @@ permissions:
   issues: write
   pull-requests: write
   contents: write
-
+  checks: write
+  
 env:
   fail-fast: true
 
