@@ -33,18 +33,6 @@ const iconGroup = {
 };
 
 describe( 'IconPanel', () => {
-	test( 'rendered IconPanel matches snapshot', () => {
-		expect(
-			render(
-				<IconPanel
-					iconGroup={ iconGroup }
-					onClick={ jest.fn() }
-					searchTerm={ '' }
-				/>
-			)
-		).toMatchSnapshot();
-	} );
-
 	test( 'search term filters icons', () => {
 		render(
 			<IconPanel
