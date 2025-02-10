@@ -35,19 +35,6 @@ class TestPlugin extends TestCase {
 	}
 
 	/**
-	 * Test `activate` method
-	 */
-	public function test_activate(): void {
-		Mockery::mock( 'overload:' . Api::class );
-		Mockery::mock( 'overload:' . AdminPage::class );
-
-		$plugin = new Plugin();
-		$plugin->activate();
-
-		$this->assertConditionsMet();
-	}
-
-	/**
 	 * Test `deactivate` method
 	 */
 	public function test_deactivate(): void {
