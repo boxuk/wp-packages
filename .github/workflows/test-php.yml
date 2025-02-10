@@ -49,6 +49,8 @@ jobs:
           php-version: ${{ matrix.php }}
           coverage: pcov
           tools: cs2pr
+          extensions: sqlsrv, pdo_sqlsrv
+
       - name: Setup Composer Auth
         run: composer config -g github-oauth.github.com $GITHUB_TOKEN
         env: 
