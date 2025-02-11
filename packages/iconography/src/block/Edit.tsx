@@ -1,15 +1,22 @@
 import React from 'react';
 
 /* WordPress Dependencies */
-import { useBlockProps } from '@wordpress/block-editor';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { store as RichTextStore } from '@wordpress/rich-text';
 import { useSelect } from '@wordpress/data';
-import { Icon, Spinner } from '@wordpress/components';
+import {
+	Icon,
+	Spinner,
+	PanelBody,
+	TextControl,
+	ToggleControl,
+} from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { replace } from '@wordpress/icons';
 
 /* Internal deps */
 import { IconToolbarButton } from '../shared';
+import { toTitleCase } from '../utils';
 import './style.scss';
 
 /* Types */
@@ -22,6 +29,7 @@ export const Edit = ( {
 	attributes,
 	setAttributes,
 }: BlockEditProps< Attributes > ) => {
+	const { ariaLabel, ariaHidden } = attributes;
 	const blockProps = useBlockProps();
 	const { getFormatType } = useSelect(
 		( select ) =>
@@ -48,9 +56,32 @@ export const Edit = ( {
 
 	const TagName =
 		( attributes.iconTag as keyof HTMLElementTagNameMap ) ?? 'span';
+	const defaultAriaLabel = attributes.iconContent
+		? toTitleCase( attributes.iconContent ) + ' icon'
+		: undefined;
 
 	return (
 		<>
+			<InspectorControls>
+				<PanelBody title={ __( 'ARIA Settings' ) }>
+					<TextControl
+						label={ __( 'ARIA Label' ) }
+						value={ ariaLabel ?? '' }
+						onChange={ ( value ) =>
+							setAttributes( { ariaLabel: value } )
+						}
+					/>
+					<ToggleControl
+						label={ __(
+							'Hide element from assistive technologies (aria-hidden)'
+						) }
+						checked={ ariaHidden }
+						onChange={ ( value ) =>
+							setAttributes( { ariaHidden: value } )
+						}
+					/>
+				</PanelBody>
+			</InspectorControls>
 			<IconToolbarButton
 				icon={ <Icon icon={ replace } /> }
 				onChange={ handleChange }
@@ -65,7 +96,11 @@ export const Edit = ( {
 			/>
 			<div { ...blockProps }>
 				{ attributes.iconContent && (
-					<TagName className={ attributes.iconClass ?? '' }>
+					<TagName
+						className={ attributes.iconClass ?? '' }
+						aria-label={ ariaLabel || defaultAriaLabel }
+						aria-hidden={ ariaHidden || undefined }
+					>
 						{ attributes.iconContent }
 					</TagName>
 				) }
