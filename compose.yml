@@ -6,7 +6,10 @@ services:
       - .:/var/www/html
 
   nodejs:
-    build: ./docker/nodejs
+    build:
+      context: ./docker/nodejs
+      args:
+        NODE_VERSION: $NODE_VERSION
     working_dir: /usr/src/app
     volumes:
       - .:/usr/src/app
@@ -22,6 +25,7 @@ services:
     volumes:
       - ./packages/:/var/www/html/wp-content/plugins/
       - wordpress:/var/www/html
+      - ./packages/base-theme:/var/www/html/wp-content/themes/boxuk
     
   wpcli: 
     image: wordpress:cli

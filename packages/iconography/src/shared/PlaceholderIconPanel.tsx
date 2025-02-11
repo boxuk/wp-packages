@@ -1,7 +1,6 @@
 import React from 'react';
 
 /* WordPress Dependencies */
-import { __ } from '@wordpress/i18n';
 import {
 	Button,
 	Disabled,

@@ -5,7 +5,6 @@ import { useBlockProps } from '@wordpress/block-editor';
 import { store as RichTextStore } from '@wordpress/rich-text';
 import { useSelect } from '@wordpress/data';
 import { Icon, Spinner } from '@wordpress/components';
-import { __ } from '@wordpress/i18n';
 import { replace } from '@wordpress/icons';
 
 /* Internal deps */
