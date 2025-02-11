@@ -20,11 +20,15 @@ export const Main = () => {
 	// Call `getData` immediately to prime the data-store for all subsequent calls.
 	// This will ensure that the data is available before the component renders, even
 	// if we don't use the data in this component.
-	const { data, dataHasLoaded } = useSelect( ( select ) => {
-		const { getData, hasFinishedResolution } = select( store );
+	const { dataHasLoaded } = useSelect( ( select ) => {
+		const { getData, hasFinishedResolution } = select(
+			store
+		) as ReturnType< typeof select< typeof store > > & {
+			hasFinishedResolution: ( selector: string ) => boolean;
+		};
+		getData(); // Prime the data-store.
 		return {
-			data: getData(),
-			dataHasLoaded: hasFinishedResolution( 'getData' ),
+			dataHasLoaded: hasFinishedResolution( 'getData' ) as boolean,
 		};
 	}, [] );
 

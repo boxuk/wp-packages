@@ -55,8 +55,8 @@ export const selectIconAtCurrentCursor = (
 	return { selection, icon };
 };
 
-export const getIconGroups = ( withEdit = true ): IconGroup[] | undefined =>
-	window.boxIconography?.iconGroups.map( ( value, index ): IconGroup => {
+export const getIconGroups = (): IconGroup[] | undefined =>
+	window.boxIconography?.iconGroups.map( ( value ): IconGroup => {
 		const { icons, ...rest } = value;
 		return {
 			...rest,

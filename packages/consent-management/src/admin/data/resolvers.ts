@@ -15,6 +15,7 @@ export function* getTranslations() {
 	yield getData();
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- this method has to match the signature of the selector.
 export function* getTranslation( key: string ) {
 	yield getData();
 }

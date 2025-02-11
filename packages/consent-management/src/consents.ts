@@ -1,4 +1,4 @@
-import { run, show } from 'vanilla-cookieconsent';
+import { run } from 'vanilla-cookieconsent';
 import { cookieConsentConfig } from './config';
 import type { ConsentParams } from './gtag.type';
 

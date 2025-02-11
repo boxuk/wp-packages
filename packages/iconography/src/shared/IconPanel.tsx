@@ -1,7 +1,6 @@
 import React from 'react';
 
 /* WordPress Dependencies */
-import { __ } from '@wordpress/i18n';
 import {
 	Button,
 	__experimentalGrid as Grid, // eslint-disable-line @wordpress/no-unsafe-wp-apis -- experimental package, but we know the risks!
