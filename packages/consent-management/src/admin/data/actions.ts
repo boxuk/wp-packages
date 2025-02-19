@@ -1,7 +1,6 @@
 /* WordPress deps */
 import { apiFetch } from '@wordpress/data-controls';
-import { resolveSelect, dispatch, select } from '@wordpress/data';
-import { store as noticesStore } from '@wordpress/notices';
+import { resolveSelect, select } from '@wordpress/data';
 
 /* Internal deps */
 import { store } from '.';
@@ -58,11 +57,6 @@ export function* save() {
 			body: JSON.stringify( payload ),
 		} );
 
-		dispatch( noticesStore ).createSuccessNotice( 'Settings saved.', {
-			isDismissible: true,
-			type: 'snackbar',
-		} );
-
 		return {
 			type: SAVE_SUCCESS,
 			data: response[ SETTINGS_KEY ],
@@ -73,14 +67,6 @@ export function* save() {
 		}
 
 		console.error( { payload, error } ); // eslint-disable-line no-console -- We want to log the error
-		dispatch( noticesStore ).createErrorNotice(
-			'Failed to save settings. ',
-			{
-				isDismissible: true,
-				type: 'snackbar',
-				explicitDismiss: true,
-			}
-		);
 
 		return {
 			type: SAVE_FAILURE,
