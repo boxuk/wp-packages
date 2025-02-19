@@ -2,7 +2,6 @@ import React from 'react';
 
 /* WordPress Deps */
 import { useState } from '@wordpress/element';
-import { EditorNotices, EditorSnackbars } from '@wordpress/editor';
 import { InterfaceSkeleton } from '@wordpress/interface';
 import { useViewportMatch } from '@wordpress/compose';
 import { useSelect } from '@wordpress/data';
@@ -80,8 +79,8 @@ export const Main = () => {
 				dataHasLoaded && <Sidebar setCurrentTab={ setCurrentTab } />
 			}
 			content={ Content }
-			notices={ <EditorSnackbars /> }
-			editorNotices={ <EditorNotices /> }
+			notices={ <></> }
+			editorNotices={ <></> }
 		/>
 	);
 };
