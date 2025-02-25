@@ -16,7 +16,7 @@ services:
     env_file: ./.env
 
   wordpress:
-    build: 
+    build:
       context: ./docker/wordpress
       args:
         WORDPRESS_VERSION: $WORDPRESS_VERSION
@@ -26,8 +26,8 @@ services:
       - ./packages/:/var/www/html/wp-content/plugins/
       - wordpress:/var/www/html
       - ./packages/base-theme:/var/www/html/wp-content/themes/boxuk
-    
-  wpcli: 
+
+  wpcli:
     image: wordpress:cli
     volumes:
       - ./packages/:/var/www/html/wp-content/plugins/
