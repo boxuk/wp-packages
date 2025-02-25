@@ -12,22 +12,22 @@
 			"link": true,
 			"palette": [
 				{
-					"color": "#26B1DC",
+					"color": "#AB47BC",
 					"name": "Brand",
 					"slug": "brand"
 				},
 				{
-					"color": "#006a8d",
+					"color": "#A4D348",
 					"name": "Brand Secondary",
 					"slug": "brand-secondary"
 				},
 				{
-					"color": "#8CDFF8",
+					"color": "#F3E5F5",
 					"name": "Brand Highlight",
 					"slug": "brand-highlight"
 				},
 				{
-					"color": "#003552",
+					"color": "#7B1FA2",
 					"name": "Brand shadow",
 					"slug": "brand-shadow"
 				},
@@ -52,7 +52,7 @@
 					"slug": "grey-300"
 				},
 				{
-					"color": "#0D0D0D",
+					"color": "#BDBDBD",
 					"name": "Grey 400",
 					"slug": "grey-400"
 				},
@@ -111,9 +111,9 @@
 			"color": {
 				"caution": "#F1C21B",
 				"error": "#CE112D",
-				"focus": "#005fcc",
+				"focus": "#215AEB",
 				"info": "#215AEB",
-				"link-enabled": "#26B1DC",
+				"link-enabled": "#215AEB",
 				"link-hover": "#006a8d",
 				"success": "#198038",
 				"warning": "#FF832B"
@@ -190,51 +190,184 @@
 			]
 		},
 		"typography": {
+			"defaultFontSizes": false,
 			"fontFamilies": [
+				{
+					"fontFace": [
+						{
+							"fontDisplay": "swap",
+							"fontFamily": "Poppins",
+							"fontStyle": "normal",
+							"fontWeight": "300",
+							"src": "file:./fonts/pxiByp8kv8JHgFVrLDz8V15vFP-KUEg.woff2"
+						},
+						{
+							"fontDisplay": "swap",
+							"fontFamily": "Poppins",
+							"fontStyle": "normal",
+							"fontWeight": "400",
+							"src": "file:./fonts/pxiEyp8kv8JHgFVrFJXUc1NECPY.woff2"
+						},
+						{
+							"fontDisplay": "swap",
+							"fontFamily": "Poppins",
+							"fontStyle": "normal",
+							"fontWeight": "600",
+							"src": "file:./fonts/pxiByp8kv8JHgFVrLEj6V15vFP-KUEg.woff2"
+						},
+						{
+							"fontDisplay": "swap",
+							"fontFamily": "Poppins",
+							"fontStyle": "normal",
+							"fontWeight": "700",
+							"src": "file:./fonts/pxiByp8kv8JHgFVrLCz7V15vFP-KUEg.woff2"
+						},
+						{
+							"fontDisplay": "swap",
+							"fontFamily": "Poppins",
+							"fontStyle": "italic",
+							"fontWeight": "300",
+							"src": "file:./fonts/pxiDyp8kv8JHgFVrJJLm21llFd2PQEhcqw.woff2"
+						},
+						{
+							"fontDisplay": "swap",
+							"fontFamily": "Poppins",
+							"fontStyle": "italic",
+							"fontWeight": "400",
+							"src": "file:./fonts/pxiGyp8kv8JHgFVrJJLecnFBGPaTSQ.woff2"
+						},
+						{
+							"fontDisplay": "swap",
+							"fontFamily": "Poppins",
+							"fontStyle": "italic",
+							"fontWeight": "600",
+							"src": "file:./fonts/pxiDyp8kv8JHgFVrJJLmr19lFd2PQEhcqw.woff2"
+						},
+						{
+							"fontDisplay": "swap",
+							"fontFamily": "Poppins",
+							"fontStyle": "italic",
+							"fontWeight": "700",
+							"src": "file:./fonts/pxiDyp8kv8JHgFVrJJLmy15lFd2PQEhcqw.woff2"
+						}
+					],
+					"fontFamily": "Poppins, Verdana, sans-serif",
+					"name": "Poppins",
+					"slug": "header"
+				},
 				{
 					"fontFace": [
 						{
 							"fontFamily": "\"Open Sans\"",
 							"fontStyle": "normal",
+							"fontWeight": "600",
+							"src": "file:./fonts/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsgH1y4iY1M2xLER.woff2"
+						},
+						{
+							"fontFamily": "\"Open Sans\"",
+							"fontStyle": "italic",
+							"fontWeight": "600",
+							"src": "file:./fonts/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0RkxhjaVIUwaERZjA.woff2"
+						},
+						{
+							"fontFamily": "\"Open Sans\"",
+							"fontStyle": "normal",
 							"fontWeight": "400",
-							"src": "http://localhost:8000/wp-content/uploads/fonts/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0C4iY1M2xLER.woff2"
+							"src": "file:./fonts/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0C4iY1M2xLER.woff2"
 						},
 						{
 							"fontFamily": "\"Open Sans\"",
 							"fontStyle": "normal",
 							"fontWeight": "700",
-							"src": "http://localhost:8000/wp-content/uploads/fonts/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsg-1y4iY1M2xLER.woff2"
+							"src": "file:./fonts/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsg-1y4iY1M2xLER.woff2"
 						},
 						{
 							"fontFamily": "\"Open Sans\"",
 							"fontStyle": "italic",
 							"fontWeight": "400",
-							"src": "http://localhost:8000/wp-content/uploads/fonts/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0Rk8ZkaVIUwaERZjA.woff2"
+							"src": "file:./fonts/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0Rk8ZkaVIUwaERZjA.woff2"
 						},
 						{
 							"fontFamily": "\"Open Sans\"",
 							"fontStyle": "italic",
 							"fontWeight": "700",
-							"src": "http://localhost:8000/wp-content/uploads/fonts/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0RkyFjaVIUwaERZjA.woff2"
+							"src": "file:./fonts/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0RkyFjaVIUwaERZjA.woff2"
 						}
 					],
 					"fontFamily": "\"Open Sans\", sans-serif",
 					"name": "Open Sans",
-					"slug": "open-sans"
+					"slug": "body"
+				}
+			],
+			"fontSizes": [
+				{
+					"name": "Small (12px)",
+					"size": "12px",
+					"slug": "small"
+				},
+				{
+					"name": "Medium (16px)",
+					"size": "16px",
+					"slug": "medium"
+				},
+				{
+					"name": "Large (24px)",
+					"size": "24px",
+					"slug": "large"
+				},
+				{
+					"name": "xlarge (40px)",
+					"size": "40px",
+					"slug": "xlarge"
 				}
 			]
 		},
 		"useRootPaddingAwareAlignments": true
 	},
 	"styles": {
+		"blocks": {
+			"core/columns": {
+				"spacing": {
+					"blockGap": {
+						"left": "var(--wp--preset--spacing--medium)",
+						"top": "var(--wp--preset--spacing--medium)"
+					}
+				}
+			},
+			"core/group": {
+				"spacing": {
+					"blockGap": "var(--wp--preset--spacing--medium)"
+				}
+			}
+		},
 		"color": {
 			"background": "var(--wp--preset--color--white)",
 			"text": "var(--wp--preset--color--black)"
 		},
 		"elements": {
+			"button": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--header)",
+					"fontSize": "var(--wp--preset--font-size--medium)"
+				}
+			},
+			"caption": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--body)",
+					"fontSize": "var(--wp--preset--font-size--small)"
+				}
+			},
+			"heading": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--header)"
+				}
+			},
 			"link": {
 				"color": {
 					"text": "var(--wp--preset--color--brand-secondary)"
+				},
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--body)"
 				}
 			}
 		},
@@ -248,7 +381,8 @@
 			}
 		},
 		"typography": {
-			"fontFamily": "var(--wp--preset--font-family--open-sans)"
+			"fontFamily": "var(--wp--preset--font-family--body)",
+			"fontSize": "var(--wp--preset--font-size--medium)"
 		}
 	},
 	"templateParts": [
