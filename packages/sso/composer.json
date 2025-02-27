@@ -1,0 +1,19 @@
+{
+
+    "name": "boxuk/sso",
+    "type": "wordpress-muplugin",
+    "autoload": {
+        "psr-4": {
+            "Boxuk\\Sso\\": "src"
+        }
+    },
+    "authors": [
+        {
+            "name": "BoxUK",
+            "email": "developers@boxuk.com"
+        }
+    ],
+    "require": {
+        "humanmade/wp-simple-saml": "^0.5.1"
+    }
+}
