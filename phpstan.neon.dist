@@ -5,10 +5,12 @@ parameters:
   bootstrapFiles: [ tests/bootstrap-phpstan.php ]
   paths:
     - packages
+    - docker/wordpress/mu-plugins
   excludePaths:
     analyse:
       - packages/vendor
       - /**/tests/*
       - /**/node_modules/*
+      - docker/wordpress/mu-plugins
     analyseAndScan:
       - packages/vendor/10up/wp_mock # WP_Mock functions override the signatures from php-stubs/wordpress
