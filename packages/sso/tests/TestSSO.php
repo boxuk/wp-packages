@@ -115,6 +115,11 @@ class TestSSO extends TestCase {
 		);
 	}
 
+	/**
+	 * Test Attribute Mapping
+	 * 
+	 * @return void
+	 */
 	public function test_attribute_mapping() {
 		$class_in_test = new SSO();
 
@@ -124,6 +129,35 @@ class TestSSO extends TestCase {
 				'last_name'  => 'lastName',
 			],
 			$class_in_test->attribute_mapping( [] )
+		);
+	}
+
+	/**
+	 * Test Maybe Update User
+	 * 
+	 * @return void
+	 */
+	public function test_maybe_update_role() {
+		$class_in_test = new SSO();
+		// @todo - write this test.
+	}
+
+	/**
+	 * Test Mapping user Roles
+	 *
+	 * @return void
+	 */
+	public function test_map_user_group_to_wp_role() {
+		$class_in_test = new SSO();
+
+		$this->assertEquals(
+			'test',
+			$class_in_test->map_user_group_to_wp_role( 'test', [] )
+		);
+
+		$this->assertEquals(
+			'administrator',
+			$class_in_test->map_user_group_to_wp_role( 'test', [ 'user_role' => [ 0 => 'BoxUKWP_Admin' ] ] )
 		);
 	}
 
@@ -153,10 +187,15 @@ class TestSSO extends TestCase {
 		}
 	}
 
+	/**
+	 * Test Hide SSO Settings
+	 * 
+	 * @return void
+	 */
 	public function test_hide_sso_settings() { 
 		global $wp_settings_sections;
-		$wp_settings_sections['general'] = [
-			'sso_settings' => true
+		$wp_settings_sections['general'] = [ // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- override during test
+			'sso_settings' => true,
 		];
 
 		$class_in_test = new SSO();

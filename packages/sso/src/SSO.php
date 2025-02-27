@@ -146,20 +146,14 @@ class SSO {
 			return $default_role;
 		}
 
-		switch ( $attributes[ $role_key ][0] ) {
-			case 'BoxUK-WP_Admin':
-				return 'administrator';
-			case 'BoxUK-WP_Editor':
-				return 'editor';
-			case 'BoxUK-WP_Author':
-				return 'author';
-			case 'BoxUK-WP_Contributor':
-				return 'contributor';
-			case 'BoxUK-WP_Subscriber':
-				return 'subscriber';
-			default:
-				return $default_role;
-		}
+		return match ( $attributes[ $role_key ][0] ) {
+			'BoxUKWP_Admin' => 'administrator',
+			'BoxUKWP_Editor' => 'editor',
+			'BoxUKWP_Author' => 'author',
+			'BoxUKWP_Contributor' => 'contributor',
+			'BoxUKWP_Subscriber' => 'subscriber',
+			default => $default_role
+		};
 	}
 
 	/**
