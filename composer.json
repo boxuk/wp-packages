@@ -10,7 +10,7 @@
     "require": {
         "arubacao/tld-checker": "^1.2",
         "composer/installers": "^2.0",
-        "php": "^7|^8",
+        "php": "^8",
         "swaggest/json-schema": "^0.12",
         "symfony/polyfill-intl-idn": "^1.12",
         "symfony/validator": "^7.0 || ^6.0"
