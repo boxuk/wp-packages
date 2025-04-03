@@ -21,7 +21,7 @@
 	"license": "ISC",
 	"devDependencies": {
 		"@jest/globals": "^29.7.0",
-		"@testing-library/react": "^16.2.0",
+		"@testing-library/react": "^16.3.0",
 		"@wordpress/block-editor": "^13.0.7",
 		"@wordpress/blocks": "^13.0.3",
 		"@wordpress/compose": "^7.0.1",
