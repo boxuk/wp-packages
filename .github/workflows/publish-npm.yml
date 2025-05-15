@@ -1,0 +1,35 @@
+name: "Publish to NPM"
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "*"
+
+jobs:
+  packages_split:
+    runs-on: ubuntu-latest
+    name: "Publish changes to ${{ matrix.packages.target_repo }}"
+    strategy:
+      fail-fast: false
+      matrix:
+        packages:
+          - local_path: "feature-flags"
+            target: "@boxuk/wp-feature-flags"
+    steps:
+      - uses: actions/checkout@v4
+        with: 
+          fetch-depth: 0
+          token: ${{ secrets.BOXUK_WP_ROBOT_ACCESS_TOKEN }}
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          registry-url: "https://registry.npmjs.org/"
+      - name: Publish to NPM
+        working-directory: packages/${{ matrix.packages.local_path }}
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.SYSENG_NPMJS_PUBLISHING_TOKEN }}
+
+
