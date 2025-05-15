@@ -12,3 +12,4 @@ parameters:
       - /**/node_modules/*
     analyseAndScan:
       - packages/vendor/10up/wp_mock # WP_Mock functions override the signatures from php-stubs/wordpress
+      - packages/vendor/**/tests/**/*.php # Theres functions that overrule
