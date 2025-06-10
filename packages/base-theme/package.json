@@ -25,7 +25,7 @@
 	"author": "Box UK",
 	"license": "proprietary",
 	"devDependencies": {
-		"@jest/globals": "^29.7.0",
+		"@jest/globals": "^30.0.0",
 		"@playwright/test": "^1.52.0",
 		"@wordpress/block-editor": "^13.0.7",
 		"@wordpress/blocks": "^13.0.3",
