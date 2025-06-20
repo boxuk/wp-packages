@@ -20,7 +20,7 @@
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
-		"@jest/globals": "^29.7.0",
+		"@jest/globals": "^30.0.2",
 		"@testing-library/react": "^16.3.0",
 		"@wordpress/block-editor": "^13.0.7",
 		"@wordpress/blocks": "^13.0.3",
