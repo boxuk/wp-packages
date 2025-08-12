@@ -18,7 +18,7 @@ jobs:
           - local_path: "feature-flags"
             target: "@boxuk/wp-feature-flags"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: 
           fetch-depth: 0
           token: ${{ secrets.BOXUK_WP_ROBOT_ACCESS_TOKEN }}
