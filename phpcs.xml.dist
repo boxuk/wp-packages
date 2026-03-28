@@ -1,19 +1,17 @@
 <?xml version="1.0"?>
-<ruleset name="BoxUK">
-	<description>BoxUK Coding Standards</description>
+<ruleset name="BoxUK WordPress Packages"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/squizlabs/PHP_CodeSniffer/master/phpcs.xsd">
 
-	<arg name="colors" />
-	<arg name="severity" value="1" />
-	<arg name="parallel" value="80" />
-	<arg value="sp" />
-	<arg name="cache" value=".phpcs-cache" />
-	<arg name="extensions" value="php"/> <!-- Limit to PHP -->
-
-
-	<config name="minimum_supported_wp_version" value="6.4" />
-	<config name="prefixes" value="" />
 	<config name="text_domain" value="boxuk" />
-	
+	<config name="testVersion" value="8.2-" /> <!-- Set the PHP version to test against --><config name="minimum_supported_wp_version" value="6.4" />
+	<config name="minimum_supported_wp_version" value="6.4" /> <!-- Set the minimum supported WordPress version -->
+
+    <!-- Output Progress and Colors -->
+    <arg value="sp"/>
+    <arg name="colors"/>
+
+    <!-- Scan Packages -->
 	<file>./packages/</file>
 
 	<exclude-pattern>/vendor</exclude-pattern>
@@ -27,15 +25,21 @@
 	<exclude-pattern>/packages/akismet</exclude-pattern>
 	<exclude-pattern>/packages/hello.php</exclude-pattern>
 
-	<rule ref="WordPress-VIP-Go">
-		<!-- Remove this so we can use PSR-4 autoloading -->
-		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
-		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+    <!-- Exclude dependencies -->
+    <exclude-pattern>*/mu-plugins/wp-feature-flags*</exclude-pattern>
+    <exclude-pattern>*/mu-plugins/wp-editor-tools*</exclude-pattern>
+    <exclude-pattern>wp-content/plugins*</exclude-pattern>
+
+    <!-- Let PHPCS know our custom capabilities. -->
+	<rule ref="WordPress.WP.Capabilities">
+		<properties>
+			<property name="custom_capabilities" type="array">
+				<!-- <element value="custom_capability" /> -->
+			</property>
+		</properties>
 	</rule>
-	<rule ref="WordPress-Docs" />
-	<rule ref="WordPress-Extra">
-		<exclude name="Universal.Arrays.DisallowShortArraySyntax.Found" />
-	</rule>
-	<rule ref="Generic.Arrays.DisallowLongArraySyntax" />
-	<rule ref="Generic.Files.EndFileNewline" />
+
+    <!-- Follow BoxUK Coding Standards -->
+    <rule ref="WordPress-Box" />
+
 </ruleset>
