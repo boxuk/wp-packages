@@ -1,5 +1,5 @@
 FROM php:8.5
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.10.3 /usr/bin/composer /usr/bin/composer
 
 # PECL for code coverage
 RUN pecl install pcov && docker-php-ext-enable pcov

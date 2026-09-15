@@ -42,11 +42,23 @@ class PostTypes {
 			return;
 		}
 
-		foreach ( $data['taxonomies'] ?? [] as $name => $args ) {
+		/**
+		 * Parsed taxonomy configuration.
+		 *
+		 * @var array<non-empty-string, array{post_types?: string|array<string>, ...}> $taxonomies
+		 */
+		$taxonomies = $data['taxonomies'] ?? [];
+		foreach ( $taxonomies as $name => $args ) {
 			register_taxonomy( $name, $args['post_types'] ?? 'post', $args );
 		}
 
-		foreach ( $data['post_types'] ?? [] as $name => $args ) {
+		/**
+		 * Parsed post type configuration.
+		 *
+		 * @var array<lowercase-string&non-empty-string, array<string, mixed>> $configured_post_types
+		 */
+		$configured_post_types = $data['post_types'] ?? [];
+		foreach ( $configured_post_types as $name => $args ) {
 			$args = wp_parse_args(
 				$args,
 				[

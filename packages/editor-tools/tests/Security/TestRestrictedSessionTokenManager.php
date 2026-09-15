@@ -43,7 +43,6 @@ class TestRestrictedSessionTokenManager extends TestCase {
 		// Reflect the class in test so we can access the protected method.
 		$reflected_class = new \ReflectionClass( RestrictedSessionTokenManager::class );
 		$method          = $reflected_class->getMethod( 'get_sessions' );
-		$method->setAccessible( true );
 
 		$token_manager = new RestrictedSessionTokenManager( 1 );
 		$actual        = $method->invokeArgs( $token_manager, [] );

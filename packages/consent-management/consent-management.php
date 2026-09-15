@@ -61,10 +61,17 @@ class ConsentManagement {
 			false
 		);
 
+		/**
+		 * Settings exposed to the frontend script.
+		 *
+		 * @var array<string, mixed> $settings
+		 */
+		$settings = (array) get_option( self::OPTION_NAME, [] );
+
 		wp_localize_script(
 			self::HOOK_NAME,
 			'consentManagement',
-			(array) get_option( self::OPTION_NAME, [] ),
+			$settings,
 		);
 
 		wp_enqueue_style(
@@ -108,7 +115,7 @@ class ConsentManagement {
 		);
 
 		wp_enqueue_style( 'wp-edit-post' );
-		do_action( 'enqueue_block_editor_assets' );
+		do_action( 'enqueue_block_editor_assets' ); // @phpstan-ignore arguments.count
 	}
 
 	/**

@@ -56,8 +56,15 @@ class Api extends WP_REST_Controller {
 	 * Register the API routes.
 	 */
 	public function register_routes(): void {
+		/**
+		 * Registered REST namespace.
+		 *
+		 * @var non-falsy-string $namespace
+		 */
+		$namespace = $this->namespace;
+
 		register_rest_route(
-			$this->namespace,
+			$namespace,
 			'/flags',
 			[
 				'methods'             => \WP_REST_Server::READABLE,
@@ -67,7 +74,7 @@ class Api extends WP_REST_Controller {
 		);
 
 		register_rest_route(
-			$this->namespace,
+			$namespace,
 			$this->rest_base . '/' . $this->id_lookup,
 			[
 				'methods'             => \WP_REST_Server::EDITABLE,

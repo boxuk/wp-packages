@@ -37,7 +37,7 @@ class AssetLoader {
 	/**
 	 * Load the asset.
 	 *
-	 * @param string $handle The handle of the asset to load.
+	 * @param non-empty-string $handle The handle of the asset to load.
 	 *
 	 * @return void
 	 */
@@ -63,8 +63,16 @@ class AssetLoader {
 			}
 			return;
 		}
-		$deps    = isset( $asset['dependencies'] ) && is_array( $asset['dependencies'] ) ? $asset['dependencies'] : [];
-		$deps    = array_filter( $deps, 'is_string' );
+		$deps = isset( $asset['dependencies'] ) && is_array( $asset['dependencies'] ) ? $asset['dependencies'] : [];
+		$deps = array_filter(
+			$deps,
+			static fn( $dependency ): bool => is_string( $dependency ) && '' !== $dependency
+		);
+		/**
+		 * Valid script dependency handles.
+		 *
+		 * @var array<non-empty-string> $deps
+		 */
 		$version = isset( $asset['version'] ) && is_string( $asset['version'] ) ? $asset['version'] : false;
 
 		wp_enqueue_script(
