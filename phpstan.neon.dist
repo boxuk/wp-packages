@@ -8,8 +8,12 @@ parameters:
   excludePaths:
     analyse:
       - packages/vendor
+      - packages/akismet
+      - packages/hello.php
+      - packages/index.php
       - /**/tests/*
       - /**/node_modules/*
     analyseAndScan:
       - packages/vendor/10up/wp_mock # WP_Mock functions override the signatures from php-stubs/wordpress
-      - packages/vendor/**/tests/**/*.php # Theres functions that overrule
+      - packages/vendor/**/tests/*.php
+      - packages/vendor/**/tests/**/*.php # Test stubs can override WordPress function signatures

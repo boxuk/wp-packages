@@ -115,7 +115,7 @@ class ConsentManagement {
 		);
 
 		wp_enqueue_style( 'wp-edit-post' );
-		do_action( 'enqueue_block_editor_assets' ); // @phpstan-ignore arguments.count
+		do_action( 'enqueue_block_editor_assets' );
 	}
 
 	/**
