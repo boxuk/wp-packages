@@ -44,7 +44,7 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - name: Setup dependencies
-        run: npm i -g npm@latest && npm ci
+        run: npm i -g npm@11.19.1 && npm ci
 
       - name: Lint JS
         run: npm run lint
@@ -58,9 +58,8 @@ jobs:
       - name: Mark Check Outcome
         if: github.event_name == 'workflow_run' && always()
         uses: boxuk/mark-check-status@main
-        with: 
+        with:
           status: ${{ job.status }}
           pr-head-sha: ${{ steps.checkout-deps.outputs.pr-head-sha }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           job-name: Test JS
-        

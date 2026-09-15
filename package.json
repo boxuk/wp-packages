@@ -29,10 +29,10 @@
     "type-coverage": "turbo run type-coverage"
   },
   "devDependencies": {
-    "@wordpress/babel-preset-default": "^8.16.0",
-    "@wordpress/jest-preset-default": "^12.16.0",
-    "turbo": "^2.7.5",
+    "@wordpress/babel-preset-default": "8.51.0",
+    "@wordpress/jest-preset-default": "12.51.0",
+    "turbo": "^2.10.10",
     "webpack-cli": "^5.1.4"
   },
-  "packageManager": "npm@11.0.0"
+  "packageManager": "npm@11.19.1"
 }

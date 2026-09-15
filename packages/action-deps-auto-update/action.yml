@@ -42,7 +42,7 @@ runs:
         cache: npm
     - name: Install Deps
       shell: bash
-      run: npm ci
+      run: npm i -g npm@11.19.1 && npm ci
 
     # Run the update script
     - name: Update WP Packages

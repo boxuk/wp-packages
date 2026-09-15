@@ -46,7 +46,7 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - name: Install Dependencies
-        run: npm install
+        run: npm i -g npm@11.19.1 && npm ci
       - name: Build Packages
         run: npm run build
       - name: Rename all `.deployignore` files to `.gitignore` in package
