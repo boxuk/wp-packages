@@ -275,6 +275,42 @@ class TestComments extends TestCase {
 	}
 
 	/**
+	 * Enqueue the editor script with its build metadata.
+	 *
+	 * @return void
+	 */
+	public function testEnqueueEditorScript(): void {
+		$comments = $this->createPartialMock( Comments::class, [ 'get_asset_path' ] );
+		$comments->method( 'get_asset_path' )->willReturn( __DIR__ . '/fixtures/Comments/build/index.asset.php' );
+
+		\WP_Mock::userFunction( 'plugins_url' )
+			->once()
+			->with( 'build/index.js', dirname( __DIR__ ) . '/src' )
+			->andReturn( 'https://example.com/build/index.js' );
+		\WP_Mock::userFunction( 'wp_enqueue_script' )
+			->once()
+			->with( 'boxuk-editor-tools', 'https://example.com/build/index.js', [ 'wp-hooks' ], '1', true );
+
+		$comments->enqueue_editor_script();
+		$this->assertConditionsMet();
+	}
+
+	/**
+	 * Do not enqueue the editor script when its build metadata is invalid.
+	 *
+	 * @return void
+	 */
+	public function testInvalidEditorAsset(): void {
+		$comments = $this->createPartialMock( Comments::class, [ 'get_asset_path' ] );
+		$comments->method( 'get_asset_path' )->willReturn( __DIR__ . '/fixtures/Comments/build/invalid.asset.php' );
+
+		\WP_Mock::userFunction( 'wp_enqueue_script' )->never();
+
+		$comments->enqueue_editor_script();
+		$this->assertConditionsMet();
+	}
+
+	/**
 	 * Preserve only authenticated Notes on comment routes.
 	 *
 	 * @param string      $route Route to guard.

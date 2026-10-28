@@ -238,11 +238,11 @@ class Comments {
 	 * @return void
 	 */
 	public function enqueue_editor_script(): void {
-		if ( ! file_exists( dirname( __DIR__ ) . '/build/index.asset.php' ) ) {
+		if ( ! file_exists( $this->get_asset_path() ) ) {
 			return;
 		}
 
-		$asset = require dirname( __DIR__ ) . '/build/index.asset.php';
+		$asset = require $this->get_asset_path(); // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
 
 		if ( ! is_array( $asset ) || ! isset( $asset['dependencies'], $asset['version'] ) ) {
 			return;
@@ -255,5 +255,14 @@ class Comments {
 			$asset['version'],
 			true
 		);
+	}
+
+	/**
+	 * Get the editor script build metadata path.
+	 *
+	 * @return string
+	 */
+	public function get_asset_path(): string {
+		return dirname( __DIR__ ) . '/build/index.asset.php';
 	}
 }
