@@ -2,6 +2,7 @@ includes:
     - packages/vendor/szepeviktor/phpstan-wordpress/extension.neon
 parameters:
   level: 9
+  phpVersion: 80100
   bootstrapFiles: [ tests/bootstrap-phpstan.php ]
   paths:
     - packages
@@ -12,4 +13,5 @@ parameters:
       - /**/node_modules/*
     analyseAndScan:
       - packages/vendor/10up/wp_mock # WP_Mock functions override the signatures from php-stubs/wordpress
+      - packages/vendor/**/tests/*.php
       - packages/vendor/**/tests/**/*.php # Theres functions that overrule
