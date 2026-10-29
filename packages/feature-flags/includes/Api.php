@@ -20,6 +20,13 @@ use WP_Error;
 class Api extends WP_REST_Controller {
 
 	/**
+	 * Namespace for the API routes.
+	 *
+	 * @var non-falsy-string
+	 */
+	protected $namespace = 'feature-flags/v1';
+
+	/**
 	 * ID lookup for the API.
 	 *
 	 * @var string

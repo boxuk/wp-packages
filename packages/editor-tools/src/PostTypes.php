@@ -42,11 +42,17 @@ class PostTypes {
 			return;
 		}
 
-		foreach ( $data['taxonomies'] ?? [] as $name => $args ) {
-			register_taxonomy( $name, $args['post_types'] ?? 'post', $args );
+		foreach ( $this->get_definitions( $data, 'taxonomies' ) as $name => $args ) {
+			/**
+			 * Taxonomy arguments, as documented for `register_taxonomy()`.
+			 *
+			 * @var array{labels?: array<string>, description?: string, public?: bool, ...} $args
+			 */
+			$object_type = $args['post_types'] ?? 'post';
+			register_taxonomy( $name, is_string( $object_type ) || is_array( $object_type ) ? $object_type : 'post', $args );
 		}
 
-		foreach ( $data['post_types'] ?? [] as $name => $args ) {
+		foreach ( $this->get_definitions( $data, 'post_types' ) as $name => $args ) {
 			$args = wp_parse_args(
 				$args,
 				[
@@ -58,8 +64,29 @@ class PostTypes {
 				]
 			);
 
-			register_post_type( $name, $args ); // phpcs:ignore WordPress.NamingConventions.ValidPostTypeSlug.NotStringLiteral
+			register_post_type( strtolower( $name ), $args ); // phpcs:ignore WordPress.NamingConventions.ValidPostTypeSlug.NotStringLiteral
 		}   
+	}
+
+	/**
+	 * Get the valid definitions of one section of the decoded config.
+	 *
+	 * @param array<mixed> $data Decoded config.
+	 * @param string       $key  Section of the config.
+	 *
+	 * @return array<non-empty-string, array<mixed>>
+	 */
+	private function get_definitions( array $data, string $key ): array {
+		$section     = $data[ $key ] ?? [];
+		$definitions = [];
+
+		foreach ( is_array( $section ) ? $section : [] as $name => $args ) {
+			if ( is_string( $name ) && '' !== $name && is_array( $args ) ) {
+				$definitions[ $name ] = $args;
+			}
+		}
+
+		return $definitions;
 	}
 
 	/**
