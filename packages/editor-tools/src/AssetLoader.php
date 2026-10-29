@@ -24,9 +24,9 @@ class AssetLoader {
 	/**
 	 * A new instance of an asset loader with the given handle and type.
 	 *
-	 * @param string $base_path The base path to the assets.
-	 * @param string $base_url The base URL to the assets.
-	 * @param string $prefix The prefix to use for the asset.
+	 * @param string           $base_path The base path to the assets.
+	 * @param string           $base_url The base URL to the assets.
+	 * @param non-empty-string $prefix The prefix to use for the asset.
 	 */
 	public function __construct( 
 		private string $base_path = '', 
@@ -64,7 +64,7 @@ class AssetLoader {
 			return;
 		}
 		$deps    = isset( $asset['dependencies'] ) && is_array( $asset['dependencies'] ) ? $asset['dependencies'] : [];
-		$deps    = array_filter( $deps, 'is_string' );
+		$deps    = array_filter( $deps, static fn( $dep ): bool => is_string( $dep ) && '' !== $dep );
 		$version = isset( $asset['version'] ) && is_string( $asset['version'] ) ? $asset['version'] : false;
 
 		wp_enqueue_script(

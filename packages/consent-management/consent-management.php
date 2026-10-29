@@ -64,7 +64,7 @@ class ConsentManagement {
 		wp_localize_script(
 			self::HOOK_NAME,
 			'consentManagement',
-			(array) get_option( self::OPTION_NAME, [] ),
+			array_filter( (array) get_option( self::OPTION_NAME, [] ), 'is_string', ARRAY_FILTER_USE_KEY ),
 		);
 
 		wp_enqueue_style(

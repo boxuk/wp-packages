@@ -124,6 +124,23 @@ class TestPostTypes extends TestCase {
 	}
 
 	/**
+	 * Test testRegisterPostTypes ignores malformed definitions
+	 * 
+	 * @return void
+	 */
+	public function testRegisterPostTypesWithMalformedDefinitions(): void {
+		\WP_Mock::userFunction( 'get_template_directory' )
+			->once()->andReturn( __DIR__ . '/fixtures/PostTypes/malformed' );
+
+		\WP_Mock::userFunction( 'register_taxonomy' )->never();
+		\WP_Mock::userFunction( 'register_post_type' )->never();
+
+		$post_types = new \Boxuk\BoxWpEditorTools\PostTypes();
+		$post_types->register_post_types();
+		$this->assertConditionsMet();
+	}
+
+	/**
 	 * Test Get Blocks From File
 	 * 
 	 * @return void

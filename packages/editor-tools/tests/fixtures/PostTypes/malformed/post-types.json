@@ -1,0 +1,4 @@
+{
+	"taxonomies": "not-a-map",
+	"post_types": [ { "labels": { "name": "Listed" } } ]
+}
