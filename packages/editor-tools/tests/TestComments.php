@@ -45,6 +45,7 @@ class TestComments extends TestCase {
 		\WP_Mock::expectActionAdded( 'admin_init', [ $comments, 'prevent_access_to_edit_page' ] );
 		\WP_Mock::expectActionAdded( 'admin_menu', [ $comments, 'remove_menu_options' ] );
 		\WP_Mock::expectActionAdded( 'init', [ $comments, 'remove_menu_bar_options' ] );
+		\WP_Mock::expectFilterAdded( 'rest_pre_dispatch', [ $comments, 'guard_options_requests' ], 9, 3 );
 		
 		$comments->init();
 
@@ -186,6 +187,7 @@ class TestComments extends TestCase {
 		\WP_Mock::expectActionNotAdded( 'admin_init', [ $comments, 'prevent_access_to_edit_page' ] );
 		\WP_Mock::expectActionNotAdded( 'admin_menu', [ $comments, 'remove_menu_options' ] );
 		\WP_Mock::expectActionNotAdded( 'init', [ $comments, 'remove_menu_bar_options' ] );
+		\WP_Mock::expectFilterNotAdded( 'rest_pre_dispatch', [ $comments, 'guard_options_requests' ], 9, 3 );
 		
 		$comments->init();
 
@@ -313,19 +315,20 @@ class TestComments extends TestCase {
 	/**
 	 * Preserve only authenticated Notes on comment routes.
 	 *
-	 * @param string      $route Route to guard.
-	 * @param bool        $logged_in Whether the user is logged in.
-	 * @param string|null $type Requested comment type.
-	 * @param mixed       $id Requested comment ID.
-	 * @param string|null $stored_type Stored comment type, or missing comment.
-	 * @param bool        $allowed Whether the response passes through.
-	 * @param bool        $incoming_error Whether an earlier error exists.
+	 * @param string               $route Route to guard.
+	 * @param bool                 $logged_in Whether the user is logged in.
+	 * @param string|null          $type Requested comment type.
+	 * @param array<string, mixed> $url_params Parameters the router captured from the path.
+	 * @param mixed                $id Merged id parameter the controller loads.
+	 * @param string|null          $stored_type Stored comment type, or missing comment.
+	 * @param bool                 $allowed Whether the response passes through.
+	 * @param bool                 $incoming_error Whether an earlier error exists.
 	 * @dataProvider commentRouteProvider
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 * @return void
 	 */
-	public function testCommentRoutes( string $route, bool $logged_in, ?string $type, $id, ?string $stored_type, bool $allowed, bool $incoming_error ): void {
+	public function testCommentRoutes( string $route, bool $logged_in, ?string $type, array $url_params, $id, ?string $stored_type, bool $allowed, bool $incoming_error ): void {
 		$error = \Mockery::mock( 'overload:WP_Error' );
 		if ( ! $allowed ) {
 			$error->shouldReceive( '__construct' )->once()->with( 'rest_no_route', 'No route was found matching the URL and request method.', [ 'status' => 404 ] );
@@ -333,6 +336,7 @@ class TestComments extends TestCase {
 		$response = $incoming_error ? $error : new \stdClass();
 		$request  = \Mockery::mock( 'WP_REST_Request' );
 		$request->shouldReceive( 'get_route' )->once()->andReturn( $route );
+		$request->shouldReceive( 'get_url_params' )->andReturn( $url_params );
 		$request->shouldReceive( 'get_param' )->with( 'type' )->andReturn( $type );
 		$request->shouldReceive( 'get_param' )->with( 'id' )->andReturn( $id );
 		\WP_Mock::userFunction( 'is_user_logged_in' )->andReturn( $logged_in );
@@ -342,7 +346,7 @@ class TestComments extends TestCase {
 		} else {
 			$comment = null;
 		}
-		\WP_Mock::userFunction( 'get_comment' )->with( 5 )->andReturn( $comment );
+		\WP_Mock::userFunction( 'get_comment' )->with( is_scalar( $id ) ? (int) $id : 0 )->andReturn( $comment );
 		$result = ( new Comments() )->guard_comment_routes( $response, [], $request );
 		if ( $allowed ) {
 			self::assertSame( $response, $result );
@@ -358,26 +362,84 @@ class TestComments extends TestCase {
 	 * @return array
 	 */
 	public function commentRouteProvider(): array {
+		$item = [ 'id' => '5' ];
+
 		return [
-			'other route'                => [ '/wp/v2/posts', false, null, null, null, true, false ],
-			'other route error'          => [ '/wp/v2/posts', false, null, null, null, true, true ],
-			'similar route'              => [ '/wp/v2/comments-feed', false, null, null, null, true, false ],
-			'anonymous collection'       => [ '/wp/v2/comments', false, 'note', null, null, false, false ],
-			'anonymous single'           => [ '/wp/v2/comments/5', false, null, 5, 'note', false, false ],
-			'anonymous uppercase'        => [ '/WP/V2/Comments', false, null, null, null, false, false ],
-			'anonymous collection error' => [ '/wp/v2/comments', false, null, null, null, false, true ],
-			'anonymous single error'     => [ '/wp/v2/comments/5', false, null, 5, null, false, true ],
-			'anonymous uppercase error'  => [ '/WP/V2/Comments', false, null, null, null, false, true ],
-			'notes collection'           => [ '/wp/v2/comments', true, 'note', null, null, true, false ],
-			'notes collection error'     => [ '/wp/v2/comments', true, 'note', null, null, true, true ],
-			'notes uppercase'            => [ '/WP/V2/Comments', true, 'note', null, null, true, false ],
-			'regular collection'         => [ '/wp/v2/comments', true, 'comment', null, null, false, false ],
-			'untyped collection'         => [ '/wp/v2/comments', true, null, null, null, false, false ],
-			'single note'                => [ '/wp/v2/comments/5', true, null, '5', 'note', true, false ],
-			'single note error'          => [ '/wp/v2/comments/5', true, null, 5, 'note', true, true ],
-			'single regular comment'     => [ '/wp/v2/Comments/5', true, 'note', 5, 'comment', false, false ],
-			'missing comment'            => [ '/wp/v2/comments/5', true, null, 5, null, false, false ],
-			'invalid id'                 => [ '/wp/v2/comments/5', true, null, [], null, false, false ],
+			'other route'                => [ '/wp/v2/posts', false, null, [], null, null, true, false ],
+			'other route error'          => [ '/wp/v2/posts', false, null, [], null, null, true, true ],
+			'anonymous collection'       => [ '/wp/v2/comments', false, 'note', [], null, null, false, false ],
+			'anonymous single'           => [ '/wp/v2/comments/5', false, null, $item, 5, 'note', false, false ],
+			'anonymous uppercase'        => [ '/WP/V2/Comments', false, null, [], null, null, false, false ],
+			'anonymous trailing newline' => [ "/wp/v2/comments\n", false, 'note', [], null, null, false, false ],
+			'anonymous item newline'     => [ "/wp/v2/comments/5\n", false, null, $item, 5, 'note', false, false ],
+			'anonymous prefix route'     => [ '/wp/v2/comments-feed', false, null, [], null, null, false, false ],
+			'anonymous collection error' => [ '/wp/v2/comments', false, null, [], null, null, false, true ],
+			'anonymous single error'     => [ '/wp/v2/comments/5', false, null, $item, 5, null, false, true ],
+			'anonymous uppercase error'  => [ '/WP/V2/Comments', false, null, [], null, null, false, true ],
+			'notes collection'           => [ '/wp/v2/comments', true, 'note', [], null, null, true, false ],
+			'notes collection error'     => [ '/wp/v2/comments', true, 'note', [], null, null, true, true ],
+			'notes uppercase'            => [ '/WP/V2/Comments', true, 'note', [], null, null, true, false ],
+			'notes collection newline'   => [ "/wp/v2/comments\n", true, 'note', [], null, null, true, false ],
+			'regular collection'         => [ '/wp/v2/comments', true, 'comment', [], null, null, false, false ],
+			'regular collection newline' => [ "/wp/v2/comments\n", true, 'comment', [], null, null, false, false ],
+			'untyped collection'         => [ '/wp/v2/comments', true, null, [], null, null, false, false ],
+			'single note'                => [ '/wp/v2/comments/5', true, null, $item, '5', 'note', true, false ],
+			'single note error'          => [ '/wp/v2/comments/5', true, null, $item, 5, 'note', true, true ],
+			'single note newline'        => [ "/wp/v2/comments/5\n", true, null, $item, '5', 'note', true, false ],
+			'single regular newline'     => [ "/wp/v2/comments/5\n", true, 'note', $item, '5', 'comment', false, false ],
+			'single regular comment'     => [ '/wp/v2/Comments/5', true, 'note', $item, 5, 'comment', false, false ],
+			'regular id param over note' => [ '/wp/v2/comments/5', true, null, $item, '6', 'comment', false, false ],
+			'missing comment'            => [ '/wp/v2/comments/5', true, null, $item, 5, null, false, false ],
+			'invalid id'                 => [ '/wp/v2/comments/5', true, null, $item, [], null, false, false ],
+		];
+	}
+
+	/**
+	 * Hide comment route schemas from anonymous OPTIONS requests only.
+	 *
+	 * @param string $method HTTP method.
+	 * @param string $route Route requested.
+	 * @param bool   $logged_in Whether the user is logged in.
+	 * @param bool   $hidden Whether the route is hidden.
+	 * @dataProvider optionsRequestProvider
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 * @return void
+	 */
+	public function testGuardOptionsRequests( string $method, string $route, bool $logged_in, bool $hidden ): void {
+		$error = \Mockery::mock( 'overload:WP_Error' );
+		if ( $hidden ) {
+			$error->shouldReceive( '__construct' )->once()->with( 'rest_no_route', 'No route was found matching the URL and request method.', [ 'status' => 404 ] );
+		}
+		$request = \Mockery::mock( 'WP_REST_Request' );
+		$request->shouldReceive( 'get_method' )->andReturn( $method );
+		$request->shouldReceive( 'get_route' )->andReturn( $route );
+		\WP_Mock::userFunction( 'is_user_logged_in' )->andReturn( $logged_in );
+
+		$previous = new \stdClass();
+		$result   = ( new Comments() )->guard_options_requests( $previous, new \stdClass(), $request );
+
+		if ( $hidden ) {
+			self::assertInstanceOf( \WP_Error::class, $result );
+		} else {
+			self::assertSame( $previous, $result );
+		}
+	}
+
+	/**
+	 * OPTIONS request cases.
+	 *
+	 * @return array
+	 */
+	public function optionsRequestProvider(): array {
+		return [
+			'anonymous collection'       => [ 'OPTIONS', '/wp/v2/comments', false, true ],
+			'anonymous item'             => [ 'OPTIONS', '/wp/v2/comments/5', false, true ],
+			'anonymous uppercase'        => [ 'OPTIONS', '/WP/V2/COMMENTS', false, true ],
+			'anonymous trailing newline' => [ 'OPTIONS', "/wp/v2/comments\n", false, true ],
+			'logged in'                  => [ 'OPTIONS', '/wp/v2/comments', true, false ],
+			'anonymous GET'              => [ 'GET', '/wp/v2/comments', false, false ],
+			'anonymous other route'      => [ 'OPTIONS', '/wp/v2/posts', false, false ],
 		];
 	}
 }

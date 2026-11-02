@@ -15,6 +15,13 @@ namespace Boxuk\BoxWpEditorTools;
 class Comments {
 
 	/**
+	 * Lower-case prefix shared by the comment collection and item routes.
+	 *
+	 * @var string
+	 */
+	private const ROUTE_PREFIX = '/wp/v2/comments';
+
+	/**
 	 * Core comment block name prefixes.
 	 *
 	 * @var list<string>
@@ -40,6 +47,7 @@ class Comments {
 		add_filter( 'get_comments_number', '__return_zero', 20 );
 		add_filter( 'pre_option_default_comment_status', [ $this, 'closed_status' ] );
 		add_filter( 'pre_option_default_ping_status', [ $this, 'closed_status' ] );
+		add_filter( 'rest_pre_dispatch', [ $this, 'guard_options_requests' ], 9, 3 );
 		add_filter( 'rest_request_before_callbacks', [ $this, 'guard_comment_routes' ], 10, 3 );
 		// Run after post types register their supports.
 		add_action( 'init', [ $this, 'disable_comments_post_types_support' ], 100 );
@@ -172,7 +180,7 @@ class Comments {
 		// The REST router matches routes case-insensitively, so compare in lower case.
 		$route = strtolower( $request->get_route() );
 
-		if ( '/wp/v2/comments' !== $route && 0 !== strpos( $route, '/wp/v2/comments/' ) ) {
+		if ( 0 !== strpos( $route, self::ROUTE_PREFIX ) ) {
 			return $response;
 		}
 
@@ -180,10 +188,12 @@ class Comments {
 			return $this->no_route_error();
 		}
 
-		if ( '/wp/v2/comments' === $route ) {
+		// Tell an item route by the id the router captured, not the path: core matches "/wp/v2/comments\n" and "/wp/v2/comments/1\n" too.
+		if ( ! isset( $request->get_url_params()['id'] ) ) {
 			return 'note' === $request->get_param( 'type' ) ? $response : $this->no_route_error();
 		}
 
+		// The controller loads $request['id'], where a query or body id wins over the URL one, so check that comment.
 		$id = $request->get_param( 'id' );
 		if ( ! is_int( $id ) && ! is_string( $id ) ) {
 			return $this->no_route_error();
@@ -192,6 +202,23 @@ class Comments {
 		$comment = get_comment( (int) $id );
 
 		return $comment instanceof \WP_Comment && 'note' === $comment->comment_type ? $response : $this->no_route_error();
+	}
+
+	/**
+	 * Hide comment route schemas from anonymous OPTIONS requests.
+	 *
+	 * @param mixed            $result  Response before dispatch.
+	 * @param mixed            $server  REST server instance.
+	 * @param \WP_REST_Request $request Current REST request.
+	 * @return mixed
+	 */
+	public function guard_options_requests( $result, $server, \WP_REST_Request $request ) {
+		// Run before core's priority 10 OPTIONS handler returns the route schema.
+		if ( 'OPTIONS' === $request->get_method() && 0 === strpos( strtolower( $request->get_route() ), self::ROUTE_PREFIX ) && ! is_user_logged_in() ) {
+			return $this->no_route_error();
+		}
+
+		return $result;
 	}
 
 	/**

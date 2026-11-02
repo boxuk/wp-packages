@@ -6,7 +6,7 @@ Comments and pings default to closed and remain closed when posts are saved. Com
 
 Editor JavaScript hides core comment blocks from the inserter. Explicit block allow-lists are also filtered to exclude comment blocks. Comment blocks already present in content, patterns or templates are not removed.
 
-Comment REST routes return HTTP 404 except for authenticated editor Notes requests. The routes remain registered so Notes continue to work.
+Comment REST routes return HTTP 404 except for authenticated editor Notes requests. The routes remain registered so Notes continue to work. Anonymous OPTIONS requests to these routes also return HTTP 404, so the route schema is not exposed. Item routes are told apart by the id the router captured, so paths with a trailing newline are guarded too.
 
 ## Usage
 
