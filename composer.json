@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "arubacao/tld-checker": "^1.2",
+        "arubacao/tld-checker": "^2.0",
         "composer/installers": "^2.0",
         "php": "^7|^8",
         "swaggest/json-schema": "^0.12",
