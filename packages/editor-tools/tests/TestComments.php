@@ -45,6 +45,8 @@ class TestComments extends TestCase {
 		\WP_Mock::expectActionAdded( 'admin_init', [ $comments, 'prevent_access_to_edit_page' ] );
 		\WP_Mock::expectActionAdded( 'admin_menu', [ $comments, 'remove_menu_options' ] );
 		\WP_Mock::expectActionAdded( 'init', [ $comments, 'remove_menu_bar_options' ] );
+		\WP_Mock::expectActionAdded( 'add_admin_bar_menus', [ $comments, 'remove_admin_bar_comments_menu' ] );
+		\WP_Mock::expectActionAdded( 'wp_dashboard_setup', [ $comments, 'hide_activity_comments' ] );
 		\WP_Mock::expectFilterAdded( 'rest_pre_dispatch', [ $comments, 'guard_options_requests' ], 9, 3 );
 		
 		$comments->init();
@@ -187,6 +189,8 @@ class TestComments extends TestCase {
 		\WP_Mock::expectActionNotAdded( 'admin_init', [ $comments, 'prevent_access_to_edit_page' ] );
 		\WP_Mock::expectActionNotAdded( 'admin_menu', [ $comments, 'remove_menu_options' ] );
 		\WP_Mock::expectActionNotAdded( 'init', [ $comments, 'remove_menu_bar_options' ] );
+		\WP_Mock::expectActionNotAdded( 'add_admin_bar_menus', [ $comments, 'remove_admin_bar_comments_menu' ] );
+		\WP_Mock::expectActionNotAdded( 'wp_dashboard_setup', [ $comments, 'hide_activity_comments' ] );
 		\WP_Mock::expectFilterNotAdded( 'rest_pre_dispatch', [ $comments, 'guard_options_requests' ], 9, 3 );
 		
 		$comments->init();
@@ -441,5 +445,51 @@ class TestComments extends TestCase {
 			'anonymous GET'              => [ 'GET', '/wp/v2/comments', false, false ],
 			'anonymous other route'      => [ 'OPTIONS', '/wp/v2/posts', false, false ],
 		];
+	}
+
+	/**
+	 * Remove the admin bar comments node on the hook that runs after core adds it.
+	 *
+	 * @return void
+	 */
+	public function testRemoveAdminBarCommentsMenu(): void {
+		\WP_Mock::userFunction( 'remove_action' )
+			->once()
+			->with( 'admin_bar_menu', 'wp_admin_bar_comments_menu', 60 );
+
+		( new Comments() )->remove_admin_bar_comments_menu();
+		$this->assertConditionsMet();
+	}
+
+	/**
+	 * Empty comment queries on the dashboard.
+	 *
+	 * @return void
+	 */
+	public function testHideActivityComments(): void {
+		$comments = new Comments();
+		\WP_Mock::expectFilterAdded( 'comments_pre_query', [ $comments, 'empty_comment_rows' ], 10, 2 );
+
+		$comments->hide_activity_comments();
+		$this->assertHooksAdded();
+	}
+
+	/**
+	 * Return no rows for list queries and leave count queries to core.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 * @return void
+	 */
+	public function testEmptyCommentRows(): void {
+		$comments    = new Comments();
+		$list_query  = \Mockery::mock( 'WP_Comment_Query' );
+		$count_query = \Mockery::mock( 'WP_Comment_Query' );
+
+		$list_query->query_vars  = [];
+		$count_query->query_vars = [ 'count' => true ];
+
+		self::assertSame( [], $comments->empty_comment_rows( null, $list_query ) );
+		self::assertNull( $comments->empty_comment_rows( null, $count_query ) );
 	}
 }

@@ -8,6 +8,8 @@ Editor JavaScript hides core comment blocks from the inserter. Explicit block al
 
 Comment REST routes return HTTP 404 except for authenticated editor Notes requests. The routes remain registered so Notes continue to work. Anonymous OPTIONS requests to these routes also return HTTP 404, so the route schema is not exposed. Item routes are told apart by the id the router captured, so paths with a trailing newline are guarded too.
 
+The admin bar comments node is removed on `add_admin_bar_menus` and comment list queries return no rows on the dashboard, so the Activity widget lists no comments.
+
 ## Usage
 
 Comments are disbaled by default, but can be enabled by modifing the `boxuk_disable_comments` filter:

@@ -62,9 +62,11 @@ class Comments {
 
 		add_action( 'admin_init', [ $this, 'disable_comments_post_types_support' ] );
 		add_action( 'admin_init', [ $this, 'remove_dashboard_meta' ] );
+		add_action( 'wp_dashboard_setup', [ $this, 'hide_activity_comments' ] );
 		add_action( 'admin_init', [ $this, 'prevent_access_to_edit_page' ] );
 		add_action( 'admin_menu', [ $this, 'remove_menu_options' ] );
 		add_action( 'init', [ $this, 'remove_menu_bar_options' ] );
+		add_action( 'add_admin_bar_menus', [ $this, 'remove_admin_bar_comments_menu' ] );
 	}
 
 	/**
@@ -89,6 +91,29 @@ class Comments {
 	 */
 	public function remove_dashboard_meta(): void {
 		remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );
+	}
+
+	/**
+	 * Empty comment queries for the rest of the dashboard request.
+	 *
+	 * The Activity widget lists recent comments through wp_dashboard_recent_comments(), which has no filter of its own,
+	 * and the dashboard_recent_comments meta box removed above is no longer registered by core.
+	 *
+	 * @return void
+	 */
+	public function hide_activity_comments(): void {
+		add_filter( 'comments_pre_query', [ $this, 'empty_comment_rows' ], 10, 2 );
+	}
+
+	/**
+	 * Return no comment rows, leaving count queries to core.
+	 *
+	 * @param array<int, mixed>|int|null $comment_data Short-circuited result, or null to query normally.
+	 * @param \WP_Comment_Query          $query        Current comment query.
+	 * @return array<int, mixed>|int|null
+	 */
+	public function empty_comment_rows( $comment_data, \WP_Comment_Query $query ) {
+		return empty( $query->query_vars['count'] ) ? [] : $comment_data;
 	}
 
 	/**
@@ -126,6 +151,18 @@ class Comments {
 		if ( is_admin_bar_showing() ) {
 			remove_action( 'admin_bar_menu', 'wp_admin_bar_comments_menu', 60 );
 		}
+	}
+
+	/**
+	 * Remove the admin bar comments node.
+	 *
+	 * Runs on add_admin_bar_menus, which WP_Admin_Bar::add_menus() fires after it adds wp_admin_bar_comments_menu,
+	 * so the removal on init above never takes effect.
+	 *
+	 * @return void
+	 */
+	public function remove_admin_bar_comments_menu(): void {
+		remove_action( 'admin_bar_menu', 'wp_admin_bar_comments_menu', 60 );
 	}
 
 	/**
