@@ -35,7 +35,7 @@
 		"@wordpress/rich-text": "^7.0.2",
 		"@wordpress/scripts": "^28.6.0",
 		"react": "^18.2.0",
-		"type-coverage": "^2.31.0",
+		"type-coverage": "^2.31.1",
 		"vanilla-cookieconsent": "^3.2.1"
 	}
 }
