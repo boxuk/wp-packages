@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+# Rebuild the local Docker environment on the latest versions of everything.
+#
+# Pulls the latest images, rebuilds every buildable service from fresh base
+# images (no cache) and starts WordPress again.
+#
+# WARNING: This is a destructive command. This will delete your local DB. 
+# Save any changes before proceeding.
+#
+# Plugins and the theme are bind-mounted from ./packages and are not affected.
+#
+# Usage:
+#   bin/rebuild
+
+set -e
+
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+cd "$(dirname "$0")/.."
+
+echo -e "${GREEN}Removing containers and the wordpress volume...${NC}"
+docker compose down --volumes --remove-orphans
+
+echo -e "${GREEN}Pulling latest images...${NC}"
+docker compose pull --ignore-buildable
+
+echo -e "${GREEN}Rebuilding images from latest base images (no cache)...${NC}"
+docker compose build --pull --no-cache
+
+echo -e "${GREEN}Starting WordPress...${NC}"
+docker compose up -d wordpress
+
+# On a fresh volume the WordPress entrypoint copies core into place on start.
+echo -e "${GREEN}Waiting for WordPress core to be installed into the volume...${NC}"
+for _ in $(seq 1 30); do
+    if docker compose exec -T wordpress test -f wp-includes/version.php 2>/dev/null; then
+        break
+    fi
+    sleep 1
+done
+
+# Remove WP's bundled plugins.
+echo -e "${GREEN}Removing bundled WordPress plugins from packages/...${NC}"
+rm -rf packages/akismet packages/hello.php packages/index.php
+
+echo -e "${GREEN}Rebuild complete. Versions:${NC}"
+echo "PHP:       $(bin/php php -r 'echo PHP_VERSION;')"
+echo "Composer:  $(bin/php composer --version --no-ansi 2>/dev/null | head -1)"
+echo "Node:      $(bin/nodejs node -v)"
+echo "npm:       $(bin/nodejs npm -v)"
+echo "WordPress: $(docker compose run --rm -T wpcli wp core version)"
+
+echo -e "${GREEN}Run bin/start to install dependencies and start the dev server.${NC}"
