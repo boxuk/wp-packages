@@ -12,6 +12,10 @@ parameters:
       - /**/tests/*
       - /**/node_modules/*
     analyseAndScan:
+      # Bundled plugins the Docker WP image copies
+      - packages/akismet (?)
+      - packages/hello.php (?)
+      - packages/index.php (?)
       - packages/vendor/10up/wp_mock # WP_Mock functions override the signatures from php-stubs/wordpress
       - packages/vendor/**/tests/*.php
       - packages/vendor/**/tests/**/*.php # Theres functions that overrule
