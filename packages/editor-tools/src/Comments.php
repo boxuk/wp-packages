@@ -15,6 +15,25 @@ namespace Boxuk\BoxWpEditorTools;
 class Comments {
 
 	/**
+	 * Lower-case prefix shared by the comment collection and item routes.
+	 *
+	 * @var string
+	 */
+	private const ROUTE_PREFIX = '/wp/v2/comments';
+
+	/**
+	 * Core comment block name prefixes.
+	 *
+	 * @var list<string>
+	 */
+	private const COMMENT_BLOCK_PREFIXES = [
+		'core/comment-',
+		'core/comments',
+		'core/post-comments',
+		'core/latest-comments',
+	];
+
+	/**
 	 * Init Hooks
 	 *
 	 * @return void
@@ -25,15 +44,29 @@ class Comments {
 			return;
 		}
 
+		add_filter( 'get_comments_number', '__return_zero', 20 );
+		add_filter( 'pre_option_default_comment_status', [ $this, 'closed_status' ] );
+		add_filter( 'pre_option_default_ping_status', [ $this, 'closed_status' ] );
+		add_filter( 'rest_pre_dispatch', [ $this, 'guard_options_requests' ], 9, 3 );
+		add_filter( 'rest_request_before_callbacks', [ $this, 'guard_comment_routes' ], 10, 3 );
+		// Run after post types register their supports.
+		add_action( 'init', [ $this, 'disable_comments_post_types_support' ], 100 );
+		add_filter( 'allowed_block_types_all', [ $this, 'remove_comment_blocks' ], 20 );
+		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_editor_script' ] );
+		add_filter( 'wp_insert_post_data', [ $this, 'close_post_statuses' ], 20 );
+		add_action( 'admin_init', [ $this, 'prevent_discussion_settings_access' ] );
+
 		add_filter( 'comments_open', '__return_false', 20 );
 		add_filter( 'pings_open', '__return_false', 20 );
 		add_filter( 'comments_array', '__return_empty_array', 10 );
 
 		add_action( 'admin_init', [ $this, 'disable_comments_post_types_support' ] );
 		add_action( 'admin_init', [ $this, 'remove_dashboard_meta' ] );
+		add_action( 'wp_dashboard_setup', [ $this, 'hide_activity_comments' ] );
 		add_action( 'admin_init', [ $this, 'prevent_access_to_edit_page' ] );
 		add_action( 'admin_menu', [ $this, 'remove_menu_options' ] );
 		add_action( 'init', [ $this, 'remove_menu_bar_options' ] );
+		add_action( 'add_admin_bar_menus', [ $this, 'remove_admin_bar_comments_menu' ] );
 	}
 
 	/**
@@ -58,6 +91,29 @@ class Comments {
 	 */
 	public function remove_dashboard_meta(): void {
 		remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );
+	}
+
+	/**
+	 * Empty comment queries for the rest of the dashboard request.
+	 *
+	 * The Activity widget lists recent comments through wp_dashboard_recent_comments(), which has no filter of its own,
+	 * and the dashboard_recent_comments meta box removed above is no longer registered by core.
+	 *
+	 * @return void
+	 */
+	public function hide_activity_comments(): void {
+		add_filter( 'comments_pre_query', [ $this, 'empty_comment_rows' ], 10, 2 );
+	}
+
+	/**
+	 * Return no comment rows, leaving count queries to core.
+	 *
+	 * @param array<int, mixed>|int|null $comment_data Short-circuited result, or null to query normally.
+	 * @param \WP_Comment_Query          $query        Current comment query.
+	 * @return array<int, mixed>|int|null
+	 */
+	public function empty_comment_rows( $comment_data, \WP_Comment_Query $query ) {
+		return empty( $query->query_vars['count'] ) ? [] : $comment_data;
 	}
 
 	/**
@@ -95,5 +151,182 @@ class Comments {
 		if ( is_admin_bar_showing() ) {
 			remove_action( 'admin_bar_menu', 'wp_admin_bar_comments_menu', 60 );
 		}
+	}
+
+	/**
+	 * Remove the admin bar comments node.
+	 *
+	 * Runs on add_admin_bar_menus, which WP_Admin_Bar::add_menus() fires after it adds wp_admin_bar_comments_menu,
+	 * so the removal on init above never takes effect.
+	 *
+	 * @return void
+	 */
+	public function remove_admin_bar_comments_menu(): void {
+		remove_action( 'admin_bar_menu', 'wp_admin_bar_comments_menu', 60 );
+	}
+
+	/**
+	 * Prevent access to discussion settings.
+	 *
+	 * @return void
+	 */
+	public function prevent_discussion_settings_access(): void {
+		global $pagenow;
+
+		if ( 'options-discussion.php' === $pagenow ) {
+			wp_die( esc_html__( 'Comments are closed.', 'boxuk' ), '', [ 'response' => 403 ] );
+		}
+	}
+
+	/**
+	 * Return the default status for comments and pings.
+	 *
+	 * @return string
+	 */
+	public function closed_status(): string {
+		return 'closed';
+	}
+
+	/**
+	 * Close comments and pings on every post write.
+	 *
+	 * Defence in depth: pre_option_default_* only sets the default, so direct wp_insert_post() calls could still store open statuses.
+	 *
+	 * @param array<string, mixed> $data Post data to store.
+	 * @return array<string, mixed>
+	 */
+	public function close_post_statuses( array $data ): array {
+		$data['comment_status'] = 'closed';
+		$data['ping_status']    = 'closed';
+
+		return $data;
+	}
+
+	/**
+	 * Restrict comment REST requests to authenticated editor Notes.
+	 *
+	 * Guard routes instead of unregistering them because WordPress 7.1 editor Notes are comments of type note read through /wp/v2/comments.
+	 * Errors raised earlier, such as core parameter validation, are replaced too, so anonymous requests always receive the 404.
+	 *
+	 * @param mixed            $response Response before the callback runs.
+	 * @param mixed            $handler  Registered route handler.
+	 * @param \WP_REST_Request $request  Current REST request.
+	 * @return mixed
+	 */
+	public function guard_comment_routes( $response, $handler, \WP_REST_Request $request ) {
+		// The REST router matches routes case-insensitively, so compare in lower case.
+		$route = strtolower( $request->get_route() );
+
+		if ( 0 !== strpos( $route, self::ROUTE_PREFIX ) ) {
+			return $response;
+		}
+
+		if ( ! is_user_logged_in() ) {
+			return $this->no_route_error();
+		}
+
+		// Tell an item route by the id the router captured, not the path: core matches "/wp/v2/comments\n" and "/wp/v2/comments/1\n" too.
+		if ( ! isset( $request->get_url_params()['id'] ) ) {
+			return 'note' === $request->get_param( 'type' ) ? $response : $this->no_route_error();
+		}
+
+		// The controller loads $request['id'], where a query or body id wins over the URL one, so check that comment.
+		$id = $request->get_param( 'id' );
+		if ( ! is_int( $id ) && ! is_string( $id ) ) {
+			return $this->no_route_error();
+		}
+
+		$comment = get_comment( (int) $id );
+
+		return $comment instanceof \WP_Comment && 'note' === $comment->comment_type ? $response : $this->no_route_error();
+	}
+
+	/**
+	 * Hide comment route schemas from anonymous OPTIONS requests.
+	 *
+	 * @param mixed            $result  Response before dispatch.
+	 * @param mixed            $server  REST server instance.
+	 * @param \WP_REST_Request $request Current REST request.
+	 * @return mixed
+	 */
+	public function guard_options_requests( $result, $server, \WP_REST_Request $request ) {
+		// Run before core's priority 10 OPTIONS handler returns the route schema.
+		if ( 'OPTIONS' === $request->get_method() && 0 === strpos( strtolower( $request->get_route() ), self::ROUTE_PREFIX ) && ! is_user_logged_in() ) {
+			return $this->no_route_error();
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Hide unavailable comment routes using the core REST error.
+	 *
+	 * @return \WP_Error
+	 */
+	public function no_route_error(): \WP_Error {
+		return new \WP_Error( 'rest_no_route', __( 'No route was found matching the URL and request method.', 'boxuk' ), [ 'status' => 404 ] );
+	}
+
+	/**
+	 * Exclude comment blocks from explicit allow-lists.
+	 *
+	 * Preserve boolean flags so blocks registered only in JavaScript remain available.
+	 *
+	 * @param bool|list<mixed> $allowed_blocks Allowed block names or availability flag.
+	 * @return bool|list<string>
+	 */
+	public function remove_comment_blocks( $allowed_blocks ) {
+		if ( is_bool( $allowed_blocks ) ) {
+			return $allowed_blocks;
+		}
+
+		return array_values(
+			array_filter(
+				array_filter( $allowed_blocks, 'is_string' ),
+				static function ( string $block_name ): bool {
+					foreach ( self::COMMENT_BLOCK_PREFIXES as $prefix ) {
+						if ( 0 === strpos( $block_name, $prefix ) ) {
+							return false;
+						}
+					}
+
+					return true;
+				}
+			)
+		);
+	}
+
+	/**
+	 * Enqueue the editor filter that hides comment blocks from the inserter.
+	 *
+	 * @return void
+	 */
+	public function enqueue_editor_script(): void {
+		if ( ! file_exists( $this->get_asset_path() ) ) {
+			return;
+		}
+
+		$asset = require $this->get_asset_path(); // phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
+
+		if ( ! is_array( $asset ) || ! isset( $asset['dependencies'], $asset['version'] ) ) {
+			return;
+		}
+
+		wp_enqueue_script(
+			'boxuk-editor-tools',
+			plugins_url( 'build/index.js', __DIR__ ),
+			$asset['dependencies'],
+			$asset['version'],
+			true
+		);
+	}
+
+	/**
+	 * Get the editor script build metadata path.
+	 *
+	 * @return string
+	 */
+	public function get_asset_path(): string {
+		return dirname( __DIR__ ) . '/build/index.asset.php';
 	}
 }
