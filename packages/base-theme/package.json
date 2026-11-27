@@ -30,7 +30,7 @@
 		"@wordpress/block-editor": "^13.0.7",
 		"@wordpress/blocks": "^13.0.3",
 		"@wordpress/dom-ready": "^4.0.1",
-		"@wordpress/editor": "^14.0.8",
+		"@wordpress/editor": "^14.0.9",
 		"@wordpress/icons": "^10.0.2",
 		"@wordpress/scripts": "^28.0.2",
 		"jest-junit": "^16.0.0",
